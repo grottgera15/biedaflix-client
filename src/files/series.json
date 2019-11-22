@@ -33,6 +33,17 @@
                     "video": "MandalorianS01E02.mp4",
                     "subs": "MandalorianS01E02.json"
                 }
+            },
+            {
+                "id": 2,
+                "episode": "S1:O3",
+                "name": "Chapter III",
+                "duration": "37 min",
+                "available": true,
+                "sources": {
+                    "video": "MandalorianS01E03.mp4",
+                    "subs": "MandalorianS01E03.json"
+                }
             }
         ]
     },
@@ -355,10 +366,11 @@
                 "id": 0,
                 "episode": "S1:O1",
                 "name": "Godflame",
-                "duration": "22 min",
+                "duration": "57 min 30 sek",
+                "available": true,
                 "sources": {
-                    "video": "SiliconValleyS01E01.mkv",
-                    "subs": "./SiliconValleyS01E01.json"
+                    "video": "SeeS01E01.mp4",
+                    "subs": "SeeS01E01.json"
                 }
             }
         ]

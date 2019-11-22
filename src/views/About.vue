@@ -167,7 +167,7 @@ export default {
         position: absolute
         bottom: 64px
         text-align: center
-        text-shadow: 0px 0px 12px #000000DD
+        text-shadow: 0px 2px 18px black
         font-size: 30pt
         font-weight: 700
         transition-duration: 0.2s

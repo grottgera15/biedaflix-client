@@ -39,7 +39,6 @@ export default {
 	methods: {
         MinimalizeLabel(event) {
             this.labelsClicked[event.target.id] = true;
-            console.log(this.labelsClicked);
         }
     }
 };

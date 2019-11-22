@@ -1,6 +1,11 @@
 <template>
 	<div id="app">
 		<!-- <router-view/> -->
+        <div id="menu">
+            <div class = "logo">
+                <img src = "../files/images/BiedaFlix500px.png"/>
+            </div>
+        </div>
 		<div id="wrapper">
 			<div class="series">
 				<div class="serie" v-for="serie in series" :key="serie.id">
@@ -27,16 +32,14 @@
 								<div class="description">{{serie.info.description}}</div>
 							</div>
 							<div class="episodes">
-								<div
+								<router-link :to="{name: 'about', params: {sources: episode.sources.video, pathSubs: episode.sources.subs}}"
 									class="episode"
 									v-for="episode in serie.episodes"
 									:key="episode.id"
 									:class="{'episode-not-available': !episode.available}"
 								>
-									<router-link :to="{name: 'about', params: {sources: episode.sources.video, pathSubs: episode.sources.subs}}">
-										<span class="number">{{episode.episode}}</span>
-										<span class="title">{{episode.name}}</span>
-									</router-link>
+									<span class="number">{{episode.episode}}</span>
+									<span class="title">{{episode.name}}</span>
 									<span class="addons">
 										<span
 											class="release-date"
@@ -46,7 +49,7 @@
 									<div class="progress-bar" v-if="episode.available">
 										<div class="progress-bar-fill" style="width: 5%" />
 									</div>
-								</div>
+								</router-link>
 							</div>
 						</div>
 					</transition>
@@ -96,6 +99,14 @@ $episodes-column-padding: 4px
 a
     color: unset
     text-decoration: unset
+
+#menu
+    grid-column-start: main
+    display: grid
+    margin: 8px 0
+    .logo
+        img
+            max-height: 24px
 
 #wrapper
     grid-column-start: main
