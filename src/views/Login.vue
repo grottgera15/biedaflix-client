@@ -1,7 +1,12 @@
 <template>
 	<div id="app">
 		<div id="wrapper">
-			<div class="header">Zaloguj się</div>
+            <div class = "logo">
+                <img src = "../files/images/BiedaFlix500px.png"/>
+            </div>
+			<div class="header">
+                <span>Zaloguj się</span>
+            </div>
             <form autocomplete="off">
 			<div class="inputs">
 				<div class="input">
@@ -57,14 +62,21 @@ export default {
 
 #wrapper
     grid-column-start: main
-    margin-top: 128px
+    margin-top: 64px
     padding: 0 24px
+    .logo
+        display: grid
+        margin-bottom: 64px
+        img
+            max-width: 256px
+            justify-self: center
     .header
         grid-column-start: name
-        font-size: 18pt
+        font-size: 14pt
         font-weight: 700
         padding: 16px 48px
         border-bottom: 1px solid #ffffff17  
+        align-items: center
     .inputs
         margin-top: 16px
         button
