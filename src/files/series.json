@@ -1,0 +1,366 @@
+{
+    "TheMandalorian": {
+        "id": 0,
+        "name": "The Mandalorian",
+        "onGoing": true,
+        "info": {
+            "description": "The travails of a lone gunfighter in the outer reaches of the galaxy, far from the authority of the New Republic.",
+            "cover": "images/theMandalorian.mp4",
+            "logo": "images/logos/theMandalorian.png",
+            "source": "Disney+"
+        },
+        "episodes": [
+            {
+                "id": 0,
+                "episode": "S1:O1",
+                "name": "Chapter I",
+                "thumbnail": "TheMandalorian/s01e01.jpg",
+                "duration": "39 min",
+                "available": true,
+                "sources": {
+                    "video": "MandalorianS01E01.mp4",
+                    "subs": "MandalorianS01E01.json"
+                }
+            },
+            {
+                "id": 1,
+                "episode": "S1:O2",
+                "name": "Chapter II",
+                "thumbnail": "TheMandalorian/s01e02.jpg",
+                "duration": "32 min",
+                "available": true,
+                "sources": {
+                    "video": "MandalorianS01E02.mp4",
+                    "subs": "MandalorianS01E02.json"
+                }
+            }
+        ]
+    },
+    "HisDarkMaterials": {
+        "id": 1,
+        "name": "His Dark Materials",
+        "onGoing": true,
+        "info": {
+            "description": "The travails of a lone gunfighter in the outer reaches of the galaxy, far from the authority of the New Republic.",
+            "cover": "images/hisDarkMaterials.mp4",
+            "logo": "images/logos/hisDarkMaterials.png",
+            "source": "HBO GO"
+        },
+        "episodes": [
+            {
+                "id": 0,
+                "episode": "S1:O1",
+                "name": "Lyra's Jordan",
+                "duration": "57 min",
+                "available": true,
+                "releaseDate": "2019-11-04",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            },
+            {
+                "id": 1,
+                "episode": "S1:O2",
+                "name": "The Idea of North",
+                "duration": "56 min",
+                "available": true,
+                "releaseDate": "2019-11-11",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            },
+            {
+                "id": 2,
+                "episode": "S1:O3",
+                "name": "The Spies",
+                "duration": "56 min",
+                "available": true,
+                "releaseDate": "2019-11-18",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            },
+            {
+                "id": 3,
+                "episode": "S1:O4",
+                "name": "Armour",
+                "duration": "56 min",
+                "releaseDate": "2019-11-25",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            },
+            {
+                "id": 4,
+                "episode": "S1:O5",
+                "name": "The Lost Boy",
+                "duration": "56 min",
+                "releaseDate": "2019-12-02",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            },
+            {
+                "id": 5,
+                "episode": "S1:O6",
+                "name": "The Daemon-Cages",
+                "duration": "56 min",
+                "releaseDate": "2019-12-09",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            }
+        ]
+    },
+    "SiliconValley": {
+        "id": 2,
+        "name": "Silicon Valley",
+        "info": {
+            "description": "Temporary",
+            "cover": "images/theMandalorian.mp4",
+            "logo": "images/logos/siliconValley.png",
+            "source": "HBO GO"
+        },
+        "episodes": [
+            {
+                "id": 0,
+                "episode": "S1:O1",
+                "name": "Minimum Viable Product",
+                "duration": "30 min",
+                "available": true,
+                "releaseDate": "2014-04-06",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "SiliconValleyS01E01.json"
+                }
+            },
+            {
+                "id": 1,
+                "episode": "S1:O2",
+                "name": "The Cap Table",
+                "duration": "30 min",
+                "available": true,
+                "releaseDate": "2014-04-13",
+                "sources": {
+                    "video": "SiliconValleyS01E02.mkv",
+                    "subs": "SiliconValleyS01E02.json"
+                }
+            },
+            {
+                "id": 2,
+                "episode": "S1:O3",
+                "name": "Articles of Incorporation",
+                "duration": "30 min",
+                "available": true,
+                "releaseDate": "2014-04-20",
+                "sources": {
+                    "video": "SiliconValleyS01E03.mkv",
+                    "subs": "SiliconValleyS01E03.json"
+                }
+            },
+            {
+                "id": 3,
+                "episode": "S1:O4",
+                "name": "Fiduciary Duties",
+                "duration": "30 min",
+                "available": true,
+                "releaseDate": "2014-04-27",
+                "sources": {
+                    "video": "SiliconValleyS01E04.mkv",
+                    "subs": "SiliconValleyS01E04.json"
+                }
+            }
+        ]
+    },
+    "RickAndMorty": {
+        "id": 3,
+        "name": "Rick and Morty",
+        "onGoing": true,
+        "info": {
+            "description": "The travails of a lone gunfighter in the outer reaches of the galaxy, far from the authority of the New Republic.",
+            "cover": "images/rickAndMorty.mp4",
+            "logo": "images/logos/rickAndMorty.png",
+            "source": "Adult Swim"
+        },
+        "episodes": [
+            {
+                "id": 0,
+                "episode": "S4:O1",
+                "name": "Edge of Tomorty: Rick Die Rickpeat",
+                "duration": "22 min",
+                "available": true,
+                "releaseDate": "2019-11-11",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            },
+            {
+                "id": 1,
+                "episode": "S4:O2",
+                "name": "The Old Man and the Seat",
+                "duration": "23 min",
+                "available": true,
+                "releaseDate": "2019-11-18",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            },
+            {
+                "id": 2,
+                "episode": "S4:O3",
+                "name": "One Crew over the Crewcoo's Morty",
+                "duration": "23 min",
+                "available": false,
+                "releaseDate": "2019-11-24",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            },
+            {
+                "id": 3,
+                "episode": "S4:O4",
+                "name": "Claw and Hoarder: Special Ricktim's Morty",
+                "duration": "23 min",
+                "available": false,
+                "releaseDate": "2019-12-02",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            },
+            {
+                "id": 4,
+                "episode": "S4:O5",
+                "name": "Rattlestar Ricklactica",
+                "duration": "23 min",
+                "available": false,
+                "releaseDate": "2019-12-09",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            }
+        ]
+    },
+    "SpiceAndWolf": {
+        "id": 4,
+        "name": "Spice and Wolf",
+        "info": {
+            "description": "The travails of a lone gunfighter in the outer reaches of the galaxy, far from the authority of the New Republic.",
+            "cover": "images/spiceAndWolf.mp4",
+            "logo": "images/logos/spiceAndWolf.png",
+            "source": "Funimation"
+        },
+        "episodes": [
+            {
+                "id": 0,
+                "episode": "S1:O1",
+                "name": "Wolf and Best Clothes",
+                "thumbnail": "SpiceAndWolf/s01e01.jpg",
+                "duration": "22 min",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            },
+            {
+                "id": 1,
+                "episode": "S1:O2",
+                "name": "Wolf and Distant Past",
+                "thumbnail": "SpiceAndWolf/s01e02.jpg",
+                "duration": "22 min",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            },
+            {
+                "id": 2,
+                "episode": "S1:O3",
+                "name": "Wolf and Business Talent",
+                "thumbnail": "SpiceAndWolf/s01e03.jpg",
+                "duration": "22 min",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            },
+            {
+                "id": 3,
+                "episode": "S1:O4",
+                "name": "Wolf and Her Helpless Partner",
+                "thumbnail": "SpiceAndWolf/s01e04.jpg",
+                "duration": "22 min",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            },
+            {
+                "id": 4,
+                "episode": "S1:O5",
+                "name": "Wolf and Lovers' Quarrel",
+                "thumbnail": "SpiceAndWolf/s01e05.jpg",
+                "duration": "22 min",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            },
+            {
+                "id": 5,
+                "episode": "S1:O6",
+                "name": "Wolf and Silent Farewell",
+                "thumbnail": "SpiceAndWolf/s01e06.jpg",
+                "duration": "22 min",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            },
+            {
+                "id": 6,
+                "episode": "S1:O7",
+                "name": "Wolf and a Tail of Happiness",
+                "thumbnail": "SpiceAndWolf/s01e01.jpg",
+                "duration": "22 min",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            }
+        ]
+    },
+    "See": {
+        "id": 5,
+        "name": "See",
+        "onGoing": true,
+        "info": {
+            "description": "The travails of a lone gunfighter in the outer reaches of the galaxy, far from the authority of the New Republic.",
+            "logo": "images/logos/see.png",
+            "cover": "images/see.mp4",
+            "source": "Apple TV"
+        },
+        "episodes": [
+            {
+                "id": 0,
+                "episode": "S1:O1",
+                "name": "Godflame",
+                "duration": "22 min",
+                "sources": {
+                    "video": "SiliconValleyS01E01.mkv",
+                    "subs": "./SiliconValleyS01E01.json"
+                }
+            }
+        ]
+    }
+}
