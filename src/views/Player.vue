@@ -1,5 +1,5 @@
 <template>
-	<div class="video-wrapper" ref="wrapper" @mousemove="OnMouseMoved">
+	<div class="video-wrapper" ref="wrapper" @mousemove="OnMouseMoved" :class="{'hide-cursor': !visualElements.visibility}">
 		<video
 			autoplay
 			preload="auto"
@@ -110,7 +110,7 @@ export default {
 		},
 		CheckInactivity: function() {
 			this.visualElements.visibility =
-				Date.now() < this.mouse.lastMovementTime + 30 * 1000;
+				Date.now() < this.mouse.lastMovementTime + 3 * 1000;
 		},
 		CheckBuffered: function(event) {
 			let buffered = event.srcElement.buffered;
@@ -134,6 +134,9 @@ export default {
 </script>
 
 <style scoped lang="sass">
+
+.hide-cursor
+    cursor: none
 
 .video-wrapper
     position: relative
@@ -221,6 +224,7 @@ export default {
         text-align: center
         cursor: unset
         transition-duration: 0.5s
+        letter-spacing: 1px
         p
             font-family: 'Roboto Slab', serif
             font-size: 28pt
