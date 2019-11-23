@@ -9,10 +9,19 @@
 			muted
 			@timeupdate="OnTimeUpdated"
 			@durationchange="OnDurationChanged"
-            :currentTime="info.currentTime"
+			:currentTime="info.currentTime"
 		>
 			<source src="http://maksymilianlakomy.pl/SeeS01E01.mp4#t=200" type="video/mp4" />Your browser does not support the video tag.
 		</video>
+		<div
+			class="subtitles-wrapper"
+			:class="{'subtitles-wrapper-menu-visible': visualElements.visibility}"
+		>
+			<p>
+				Test test lorem ipsum
+				<br />test test.
+			</p>
+		</div>
 		<div class="menu-wrapper">
 			<transition name="slide-bottom">
 				<div class="menu" v-show="visualElements.visibility">
@@ -21,10 +30,10 @@
 							class="progress-bar"
 							@mouseenter="visualElements.onBar = true"
 							@mouseleave="visualElements.onBar = false"
-                            @mousemove="OnMouseOverBar"
-                            @click="ChangeTime"
+							@mousemove="OnMouseOverBar"
+							@click="ChangeTime"
 						>
-							<div class="bar" :class="{'bar-full-size': visualElements.onBar}">  
+							<div class="bar" :class="{'bar-full-size': visualElements.onBar}">
 								<div
 									class="bar-buffered"
 									v-for="(buffer, i) in info.buffered"
@@ -32,7 +41,22 @@
 									:style="{left: TimeToPercentage(buffer.start) + '%',
                                         right: (100-TimeToPercentage(buffer.end)) + '%'}"
 								/>
-                                <div class = "bar-current-time" :style="{width: TimeToPercentage(info.currentTime) + '%'}"/>
+								<div class="bar-current-time" :style="{width: TimeToPercentage(info.currentTime) + '%'}" />
+							</div>
+						</div>
+						<div class="buttons">
+							<div class="left">
+								<div class="button">
+									<img src="../files/menu/Start Button.svg" />
+								</div>
+							</div>
+							<div class="right">
+								<div class="button">
+									<img src="../files/menu/Subtitles Button.svg" />
+								</div>
+                                <div class="button">
+									<img src="../files/menu/Full Screen Button.svg" />
+								</div>
 							</div>
 						</div>
 					</div>
@@ -47,9 +71,9 @@ export default {
 	data: function() {
 		return {
 			info: {
-                duration: null,
-                currentTime: null,
-                newTime: null,
+				duration: null,
+				currentTime: null,
+				newTime: null,
 				buffered: []
 			},
 			visualElements: {
@@ -58,7 +82,8 @@ export default {
 			},
 			mouse: {
 				lastMovementTime: Date.now()
-			}
+			},
+			subtitles: []
 		};
 	},
 	methods: {
@@ -69,21 +94,23 @@ export default {
 			this.mouse.lastMovementTime = Date.now();
 		},
 		OnTimeUpdated: function(event) {
-            this.info.currentTime = event.srcElement.currentTime;
+			this.info.currentTime = event.srcElement.currentTime;
 			this.CheckInactivity(event), this.CheckBuffered(event);
-        },
-        OnMouseOverBar: function(event) {
-            let boundingClientRect = event.srcElement.getBoundingClientRect();
-            let mousePositionPercentage = (event.clientX - boundingClientRect.left) / boundingClientRect.width;
-            console.log(mousePositionPercentage);
-            this.info.newTime = this.PercentageToTime(mousePositionPercentage);
-        },
-        ChangeTime: function() {
-            this.$refs.video.currentTime = this.info.newTime;
-        },
+		},
+		OnMouseOverBar: function(event) {
+			let boundingClientRect = event.srcElement.getBoundingClientRect();
+			let mousePositionPercentage =
+				(event.clientX - boundingClientRect.left) /
+				boundingClientRect.width;
+			console.log(mousePositionPercentage);
+			this.info.newTime = this.PercentageToTime(mousePositionPercentage);
+		},
+		ChangeTime: function() {
+			this.$refs.video.currentTime = this.info.newTime;
+		},
 		CheckInactivity: function() {
 			this.visualElements.visibility =
-				Date.now() < this.mouse.lastMovementTime + 3 * 1000;
+				Date.now() < this.mouse.lastMovementTime + 30 * 1000;
 		},
 		CheckBuffered: function(event) {
 			let buffered = event.srcElement.buffered;
@@ -98,10 +125,10 @@ export default {
 		},
 		TimeToPercentage: function(time) {
 			return (time / this.info.duration) * 100;
-        },
-        PercentageToTime: function(percentage) {
-            return percentage * this.info.duration;
-        }
+		},
+		PercentageToTime: function(percentage) {
+			return percentage * this.info.duration;
+		}
 	}
 };
 </script>
@@ -133,7 +160,7 @@ export default {
             width: calc(100% - 2*64px)
             height: 64px
             padding: 48px 64px
-            background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)
+            background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0) 100%)
             .wrapper
                 .progress-bar
                     height: calc(4px + 2*12px)
@@ -144,23 +171,64 @@ export default {
                         height: 4px
                         width: 100%
                         margin: 12px 0
-                        background-color: white
+                        background-color: #ffffff40
                         position: absolute
                         transition-duration: 0.15s
                         pointer-events: none
+                        box-shadow: 0px 0px 8px black
                         .bar-buffered
                             height: inherit
                             position: absolute
-                            background-color: darkgray
+                            background-color: #ffffff90
                         .bar-current-time
                             height: inherit
                             position: absolute
                             left: 0
-                            background-color: red
+                            background-color: #f86356
                     .bar-full-size
                         margin: 10px 0
                         height: 8px
-                
+                .buttons
+                    display: grid
+                    grid-template-columns: [left] 1fr [right] 1fr
+                    height: 24px
+                    padding: 8px 0
+                    .left, 
+                    .right
+                        grid-column-start: left
+                        grid-template-columns: repeat( auto-fit, minmax(24px, 36px) )
+                        grid-column-gap: 8px
+                        display: grid
+                        align-items: center
+                        .button
+                            width: 24px
+                            height: 24px
+                            cursor: pointer
+                            transition-duration: 0.2s
+                            opacity: 0.75
+                            &:hover
+                                transform: scale(1.25)
+                                opacity: 1
+                    .right
+                        justify-content: right
+                        grid-column-start: right
+                    
+
+    .subtitles-wrapper
+        position: absolute
+        bottom: 64px
+        width: 100%
+        text-align: center
+        cursor: unset
+        transition-duration: 0.5s
+        p
+            font-family: 'Roboto Slab', serif
+            font-size: 28pt
+            text-shadow: 0px 0px 4px black, 0px 0px 10px black
+    .subtitles-wrapper-menu-visible
+        bottom: 128px
+
+
 
 .slide-bottom-enter-active, .slide-bottom-leave-active 
     transition-duration: 0.5s
