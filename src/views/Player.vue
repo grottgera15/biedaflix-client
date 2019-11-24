@@ -1,7 +1,7 @@
 <template>
 	<div class="video-wrapper" ref="wrapper" @mousemove="OnMouseMoved" :class="{'hide-cursor': !visualElements.visibility}">
+		<div class = "waiting-screen" v-show="!this.info.canPlay"/>
 		<video
-			autoplay
 			preload="auto"
 			name="media"
 			kind="captions"
@@ -9,6 +9,7 @@
 			muted
 			@timeupdate="OnTimeUpdated"
 			@durationchange="OnDurationChanged"
+			@canplay="OnCanPlay"
 			:currentTime="info.currentTime"
 		>
 			<source src="http://maksymilianlakomy.pl/SeeS01E01.mp4#t=200" type="video/mp4" />Your browser does not support the video tag.
@@ -74,6 +75,7 @@ export default {
 				duration: null,
 				currentTime: null,
 				newTime: null,
+				canPlay: false,
 				buffered: []
 			},
 			visualElements: {
@@ -87,6 +89,19 @@ export default {
 		};
 	},
 	methods: {
+		OnCanPlay: function(event) {
+			this.info.canPlay = true;
+			event.srcElement.play();
+		},
+		OnPause: function() {
+			
+		},
+		OnPlay: function() {
+
+		},
+		OnPlaying: function() {
+
+		},
 		OnDurationChanged: function(event) {
 			this.info.duration = event.srcElement.duration;
 		},
@@ -102,7 +117,6 @@ export default {
 			let mousePositionPercentage =
 				(event.clientX - boundingClientRect.left) /
 				boundingClientRect.width;
-			console.log(mousePositionPercentage);
 			this.info.newTime = this.PercentageToTime(mousePositionPercentage);
 		},
 		ChangeTime: function() {
@@ -143,6 +157,14 @@ export default {
     overflow: hidden
     width: 100vw
     height: 100vh
+
+    .waiting-screen
+        position: absolute
+        width: 100%
+        height: 100%
+        background-color: black
+        z-index: 9999999999
+        cursor: default
 
     video
         background-color: black
