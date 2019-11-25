@@ -318,7 +318,6 @@ export default {
                         .current-time
                             width: 100%
                             opacity: 0.75
-                            letter-spacing: 0.5pt
                             font-size: 12pt
                         .button
                             height: 24px
