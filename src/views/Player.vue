@@ -82,7 +82,7 @@
                                         src="../files/menu/Audio Full Button.svg"
                                         :class="{'img-hover': mouse.currentButton=='audio'}"
                                     />
-
+                                    <transition name = "fill-left">
                                     <div
                                         class="audio-popup-wrapper"
                                         v-show="mouse.currentButton=='audio'"
@@ -91,6 +91,7 @@
                                             <div class="bar-volume-fill" />
                                         </div>
                                     </div>
+                                    </transition>
                                 </div>
 
                                 <div
@@ -374,9 +375,10 @@ export default {
                     position: relative
                     bottom: 0
                     height: inherit
-                    width: auto
-                    padding-left: calc(24px + 16px)
+                    width: calc(75px + 24px + 16px)
+                    overflow: hidden
                     .bar-volume
+                        float: right
                         position: relative
                         width: 75px
                         height: 4px
@@ -429,6 +431,19 @@ export default {
 .fade-enter, .fade-leave-to
     transition-duration: 0.2s
     opacity: 0
+
+.fill-left-enter-active, .fill-left-leave-active
+    transition-duration: 1s
+    opacity: 1
+    max-width: 150px !important
+
+.fill-left-leave-active
+    transition-delay: 0.5s
+
+.fill-left-enter, .fill-left-leave-to
+    transition-duration: 1s
+    opacity: 0
+    max-width: 0px !important
 
 .slide-bottom-enter-active, .slide-bottom-leave-active 
     transition-duration: 0.5s
