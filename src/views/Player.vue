@@ -18,7 +18,7 @@
             @pause="OnPause"
             @play="OnPlay"
             @playing="OnPlaying"
-            @click="OnVideoClicked"
+            @click="OnVideoSingleClicked"
             :currentTime="info.currentTime"
         >
             <source src="http://maksymilianlakomy.pl/SeeS01E01.mp4#t=200" type="video/mp4" />Your browser does not support the video tag.
@@ -43,6 +43,7 @@
                             @mousemove="OnMouseOverBar"
                             @click="ChangeTime"
                         >
+                            <div class="bar-mouse-over-popup" :style="{'left': (TimeToPercentage(info.newTime) + '%')}"></div>
                             <div class="bar" :class="{'bar-full-size': visualElements.onBar}">
                                 <div
                                     class="bar-buffered"
@@ -89,7 +90,9 @@
                                     </div>
                                 </div>
 
-                                <div class="current-time">{{currentTimeFormated}} / {{durationTimeFormated}}</div>
+                                <div
+                                    class="current-time"
+                                >{{currentTimeFormated}} / {{durationTimeFormated}}</div>
                             </div>
                             <div class="right">
                                 <div
@@ -190,18 +193,16 @@ export default {
         OnMouseLeftButton: function() {
             this.mouse.currentButton = null;
         },
-        OnVideoClicked: function(event) {
-            if (this.info.playing)
-                event.srcElement.pause();
-            else
-                event.srcElement.play();
+        OnVideoSingleClicked: function(event) {
+            if (this.info.playing) event.srcElement.pause();
+            else event.srcElement.play();
         },
         ChangeTime: function() {
             this.$refs.video.currentTime = this.info.newTime;
         },
         CheckInactivity: function() {
             this.visualElements.visibility =
-                Date.now() < this.mouse.lastMovementTime + 30 * 1000;
+                Date.now() < this.mouse.lastMovementTime + 2 * 1000;
         },
         CheckBuffered: function(event) {
             let buffered = event.srcElement.buffered;
@@ -306,6 +307,14 @@ export default {
                             position: absolute
                             left: 0
                             background-color: #f86356
+                    .bar-mouse-over-popup
+                        position: absolute
+                        bottom: 0
+                        height: 50px
+                        width: 50px
+                        transform: translateX(-50%)
+                        background-color: white
+                        pointer-events: none
                     .bar-full-size
                         margin: 10px 0
                         height: 8px
@@ -380,13 +389,14 @@ export default {
         bottom: 64px
         width: 100%
         text-align: center
-        cursor: unset
         transition-duration: 0.5s
+        pointer-events: none
         p
             font-family: 'Roboto Slab', serif
             font-size: 28pt
             letter-spacing: .5pt
             text-shadow: 0px 0px 4px black, 0px 0px 10px black
+            cursor: unset
     .subtitles-wrapper-menu-visible
         bottom: 128px
 
