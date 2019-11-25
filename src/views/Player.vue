@@ -300,7 +300,6 @@ export default {
                         height: 150px
                         width: 100px
                         background-color: #151515
-                        box-shadow: -2px -2px 10px black
                         border-radius: 4px
                         padding: 16px 24px                    
 
