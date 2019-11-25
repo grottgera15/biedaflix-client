@@ -68,6 +68,27 @@
                                         :class="{'img-hover': mouse.currentButton=='playing'}"
                                     />
                                 </div>
+                                <div
+                                    class="button"
+                                    @mouseover="OnMouseOverButton('audio')"
+                                    @mouseleave="OnMouseLeftButton()"
+                                >
+                                    <img
+                                        src="../files/menu/Audio Full Button.svg"
+                                        :class="{'img-hover': mouse.currentButton=='audio'}"
+                                    />
+
+                                    <div
+                                        class="audio-popup-wrapper"
+                                        v-show="mouse.currentButton=='audio'"
+                                    >
+                                        <div class="bar-volume">
+                                            <div class="bar-volume-fill" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="current-time">{{currentTimeFormated}} / {{durationTimeFormated}}</div>
                             </div>
                             <div class="right">
                                 <div
@@ -192,6 +213,26 @@ export default {
         PercentageToTime: function(percentage) {
             return percentage * this.info.duration;
         }
+    },
+    computed: {
+        currentTimeFormated: function() {
+            let minutesPart = Math.floor(this.info.currentTime % 60);
+
+            return (
+                Math.floor(this.info.currentTime / 60) +
+                ":" +
+                minutesPart.toLocaleString("en-US", { minimumIntegerDigits: 2 })
+            );
+        },
+        durationTimeFormated: function() {
+            let minutesPart = Math.floor(this.info.duration % 60);
+
+            return (
+                Math.floor(this.info.duration / 60) +
+                ":" +
+                minutesPart.toLocaleString("en-US", { minimumIntegerDigits: 2 })
+            );
+        }
     }
 };
 </script>
@@ -270,24 +311,50 @@ export default {
                     .left, 
                     .right
                         grid-column-start: left
-                        grid-template-columns: repeat( auto-fit, minmax(24px, 36px) )
-                        grid-column-gap: 8px
+                        grid-template-columns: repeat( auto-fit, minmax(24px, max-content) )
+                        grid-column-gap: 16px
                         display: grid
                         align-items: center
+                        .current-time
+                            width: 100%
+                            opacity: 0.75
+                            letter-spacing: 0.5pt
+                            font-size: 12pt
                         .button
-                            width: 24px
                             height: 24px
                             position: relative
                             cursor: pointer
-                            img
+                            img 
+                                position: absolute
                                 transition-duration: 0.2s
                                 opacity: 0.75
+                                width: 24px
                             .img-hover
                                 transform: scale(1.25)
                                 opacity: 1
                     .right
                         justify-content: right
                         grid-column-start: right
+                .audio-popup-wrapper
+                    position: relative
+                    bottom: 0
+                    height: inherit
+                    width: auto
+                    padding-left: calc(24px + 16px)
+                    .bar-volume
+                        position: relative
+                        width: 75px
+                        height: 4px
+                        background-color: #ffffff40
+                        top: 50%
+                        transform: translateY(-50%)
+                        .bar-volume-fill
+                            position: absolute
+                            top: 0
+                            left: 0
+                            width: 50%
+                            height: inherit
+                            background-color: #f86356
                 .subtitles-popup-wrapper
                     position: absolute
                     bottom: 100%
