@@ -18,6 +18,7 @@
             @pause="OnPause"
             @play="OnPlay"
             @playing="OnPlaying"
+            @click="OnVideoClicked"
             :currentTime="info.currentTime"
         >
             <source src="http://maksymilianlakomy.pl/SeeS01E01.mp4#t=200" type="video/mp4" />Your browser does not support the video tag.
@@ -189,6 +190,12 @@ export default {
         OnMouseLeftButton: function() {
             this.mouse.currentButton = null;
         },
+        OnVideoClicked: function(event) {
+            if (this.info.playing)
+                event.srcElement.pause();
+            else
+                event.srcElement.play();
+        },
         ChangeTime: function() {
             this.$refs.video.currentTime = this.info.newTime;
         },
@@ -266,8 +273,7 @@ export default {
     .menu-wrapper
         position: absolute
         width: 100%
-        height: 100%
-        top: 0
+        bottom: 0
         left: 0
         .menu
             bottom: 0
@@ -353,7 +359,7 @@ export default {
                             left: 0
                             width: 50%
                             height: inherit
-                            background-color: #f86356
+                            background-color: white
                 .subtitles-popup-wrapper
                     position: absolute
                     bottom: 100%
