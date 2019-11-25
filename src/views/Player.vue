@@ -43,7 +43,7 @@
                             @mousemove="OnMouseOverBar"
                             @click="ChangeTime"
                         >
-                            <div class="bar-mouse-over-popup" :style="{'left': (TimeToPercentage(info.newTime) + '%')}"></div>
+                            <div class="bar-mouse-over-popup" v-show="visualElements.onBar" :style="{'left': (TimeToPercentage(info.newTime) + '%')}" v-html="newTimeFormated"></div>
                             <div class="bar" :class="{'bar-full-size': visualElements.onBar}">
                                 <div
                                     class="bar-buffered"
@@ -240,6 +240,15 @@ export default {
                 ":" +
                 minutesPart.toLocaleString("en-US", { minimumIntegerDigits: 2 })
             );
+        },
+        newTimeFormated: function() {
+            let minutesPart = Math.floor(this.info.newTime % 60);
+
+            return (
+                Math.floor(this.info.newTime / 60) +
+                ":" +
+                minutesPart.toLocaleString("en-US", { minimumIntegerDigits: 2 })
+            );
         }
     }
 };
@@ -309,11 +318,9 @@ export default {
                             background-color: #f86356
                     .bar-mouse-over-popup
                         position: absolute
-                        bottom: 0
-                        height: 50px
-                        width: 50px
+                        bottom: 32px
+                        opacity: 0.75
                         transform: translateX(-50%)
-                        background-color: white
                         pointer-events: none
                     .bar-full-size
                         margin: 10px 0
