@@ -438,7 +438,7 @@ export default {
     max-width: 150px !important
 
 .fill-left-leave-active
-    transition-delay: 0.5s
+    transition-delay: 0.4s
 
 .fill-left-enter, .fill-left-leave-to
     transition-duration: 1s
