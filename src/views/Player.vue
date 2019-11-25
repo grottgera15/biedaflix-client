@@ -18,14 +18,17 @@
             @pause="OnPause"
             @play="OnPlay"
             @playing="OnPlaying"
+            @waiting="OnWaiting"
             @click="OnVideoSingleClicked"
             :currentTime="info.currentTime"
+            :class="{'video-buffering' : info.waiting}"
         >
             <source src="http://maksymilianlakomy.pl/SeeS01E01.mp4#t=200" type="video/mp4" />Your browser does not support the video tag.
         </video>
         <div
             class="subtitles-wrapper"
-            :class="{'subtitles-wrapper-menu-visible': visualElements.visibility}"
+            :class="{'subtitles-wrapper-menu-visible': visualElements.visibility,
+            'video-buffering': info.waiting}"
         >
             <p>
                 Test test lorem ipsum
@@ -143,7 +146,8 @@ export default {
                 newTime: null,
                 canPlay: false,
                 buffered: [],
-                playing: false
+                playing: false,
+                waiting: false
             },
             visualElements: {
                 visibility: false,
@@ -166,9 +170,14 @@ export default {
         },
         OnPlay: function() {
             this.info.playing = true;
+            this.info.waiting = false;
         },
         OnPlaying: function() {
             this.info.playing = true;
+            this.info.waiting = false;
+        },
+        OnWaiting: function() {
+            this.info.waiting = true;
         },
         OnDurationChanged: function(event) {
             this.info.duration = event.srcElement.duration;
@@ -279,6 +288,11 @@ export default {
         object-fit: contain
         width: 100%
         height: 100%
+
+    .video-buffering
+        opacity: 0.5
+        transition-duration: 0.1s
+        filter: blur(5px)
 
     .menu-wrapper
         position: absolute
