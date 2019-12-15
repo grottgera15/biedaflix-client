@@ -263,7 +263,6 @@ export default {
 </script>
 
 <style scoped lang="sass">
-
 .hide-cursor
     cursor: none
 
@@ -328,7 +327,7 @@ export default {
                             height: inherit
                             position: absolute
                             left: 0
-                            background-color: #f86356
+                            background-color: #1abc9c
                     .bar-mouse-over-popup
                         position: absolute
                         bottom: 32px
