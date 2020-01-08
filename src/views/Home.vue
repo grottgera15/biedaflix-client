@@ -1,8 +1,8 @@
 <template>
-	<div id="app">
+	<div id="wrapper">
         <Logo />
         <MemoryStatus/>
-		<div id="wrapper">
+		<div id="series-wrapper">
 			<div class="series">
 				<div class="serie" v-for="serie in series" :key="serie.id">
 					<div class="bar" @click="setActive(serie.id)">
@@ -87,14 +87,15 @@ export default {
 @import "../styles/fonts.sass"
     
 $episodes-column-padding: 4px
+a
+    color: unset
+    text-decoration: unset
 
-#app
-    width: 100%
-    height: 100%
+#wrapper
     display: grid
     grid-template-columns: 1fr 1fr 1fr
     grid-template-areas: ". logo ."  ". memory-status ." ". main ."
-    grid-row-gap: 32px
+    grid-row-gap: 16px
     @media screen and (max-width: 1600px)
         grid-template-columns: 0.5fr 1fr 0.5fr
     @media screen and (max-width: 1200px)
@@ -103,140 +104,136 @@ $episodes-column-padding: 4px
         grid-template-columns: 1fr
         grid-template-areas: "logo" "memory-status" "main"
 
-a
-    color: unset
-    text-decoration: unset
-
-#wrapper
-    grid-area: main
-    .series
-        display: grid
-        .serie
-            .bar
-                display: grid
-                grid-template-columns: [name] 2fr [info] 1fr
-                border-bottom: 1px solid #ffffff17
-                cursor: pointer
-                padding: 16px 24px
-                color: #ffffffa3
-                align-items: center
-                background-color: inherit
-                z-index: 999999
-                transition-duration: 0.3s
-                .title
-                    grid-column-start: name
-                    font-size: 14pt
-                    font-weight: 300
-                .active
-                    color: white
-                .on-going
-                    font-size: 8pt
-                    text-align: right
-                    font-weight: 700
-                    letter-spacing: 0.5px
-                    color: white
-                &:hover
-                    color: white
-            .info
-                position: relative
-                overflow: hidden
-                transition-duration: 1s 
-                transition-timing-function: linear
-                background-color: inherit
-                z-index: 999
-                @media screen and (max-width: 720px)
-                    box-shadow: 0 2px 8px #00000080
-                .description-wrapper
-                    height: 350px
+    #series-wrapper
+        grid-area: main
+        .series
+            display: grid
+            .serie
+                .bar
+                    display: grid
+                    grid-template-columns: [name] 2fr [info] 1fr
+                    border-bottom: 1px solid #ffffff17
+                    cursor: pointer
+                    padding: 16px 24px
+                    color: #ffffffa3
+                    align-items: center
+                    background-color: inherit
+                    z-index: 999999
+                    transition-duration: 0.3s
+                    .title
+                        grid-column-start: name
+                        font-size: 14pt
+                        font-weight: 300
+                    .active
+                        color: white
+                    .on-going
+                        font-size: 8pt
+                        text-align: right
+                        font-weight: 700
+                        letter-spacing: 0.5px
+                        color: white
+                    &:hover
+                        color: white
+                .info
                     position: relative
-                    .background   
-                        object-fit: cover
-                        position: absolute
-                        z-index:-999
-                        background-size: cover
-                        opacity: 0.75
-                        background-position: top center
-                        width: 100%
+                    overflow: hidden
+                    transition-duration: 1s 
+                    transition-timing-function: linear
+                    background-color: inherit
+                    z-index: 999
+                    @media screen and (max-width: 720px)
+                        box-shadow: 0 2px 8px #00000080
+                    .description-wrapper
                         height: 350px
-                        &:before
-                            content: ""
+                        position: relative
+                        .background   
+                            object-fit: cover
+                            position: absolute
+                            z-index:-999
+                            background-size: cover
+                            opacity: 0.75
+                            background-position: top center
                             width: 100%
                             height: 350px
+                            &:before
+                                content: ""
+                                width: 100%
+                                height: 350px
+                                position: absolute
+                                background: linear-gradient(50deg, rgba(21,21,21,1) 0%, rgba(21,21,21,0) 100%)
+                            video
+                                object-fit: cover
+                                min-height: 100%
+                                width: 100%
+                        .logo
                             position: absolute
-                            background: linear-gradient(50deg, rgba(21,21,21,1) 0%, rgba(21,21,21,0) 100%)
-                        video
-                            object-fit: cover
-                            min-height: 100%
-                            width: 100%
-                    .logo
-                        position: absolute
-                        padding: 24px 48px
-                        width: calc(100% - 2 * 48px)
-                        img
-                            max-width: 50%
-                            max-height: 36px
-                            opacity: 1
-                    .description
-                        padding: 24px 48px
-                        position: absolute
-                        bottom: 0
-                        overflow: hidden
-                        cursor: default
-                        text-shadow: 2px 2px 10px black
-                .episodes
-                    display: grid
-                    grid-template-columns: repeat(1, 1fr)
-                    grid-column-gap: 8px
-                    .episode
-                        position: relative
-                        padding: 16px 48px
-                        transition-duration: 0.5s
-                        cursor: pointer
-                        background-color: #151515
-                        border: 1px solid #ffffff17
-                        border-top: 0
-                        display: grid
-                        grid-template-columns: [date] auto [name] 2fr [addons] 1fr
-                        align-items: center
-                        grid-column-gap: 4px
-                        @media screen and (max-width: 1200px)
-                            grid-template-columns: [date] auto [name] 3fr [addons] auto
-                            border-left: 0
-                            border-right: 0
-                        &:hover
-                            padding-left: 56px
-                        .number, .title,
-                        .release-date
-                            font-size: 8pt
-                            font-weight: 700
-                            letter-spacing: 0.5px
-                            display: inline-block
-                        .number
-                            grid-column-start: date
-                        .title
-                            font-size: 10pt
-                            font-weight: 300
-                            grid-column-start: name
-                        .addons
-                            grid-column-start: addons
-                            text-align: right
-                            .release-date
-                                display: inline-block
-                        .progress-bar
-                            width: 100%
-                            height: 2px
+                            padding: 24px 48px
+                            width: calc(100% - 2 * 48px)
+                            img
+                                max-width: 50%
+                                max-height: 36px
+                                opacity: 1
+                        .description
+                            padding: 24px 48px
                             position: absolute
                             bottom: 0
-                            background-color: #ffffff17
-                            .progress-bar-fill
-                                background-color: white
-                                height: inherit
-                                opacity: 0.5
-                    .episode-not-available
-                        cursor: default
-                        color: #ffffff4f
-                        &:hover
-                            padding-left: 48px
+                            overflow: hidden
+                            cursor: default
+                            text-shadow: 2px 2px 10px black
+                    .episodes
+                        display: grid
+                        grid-template-columns: repeat(1, 1fr)
+                        grid-column-gap: 8px
+                        .episode
+                            position: relative
+                            padding: 16px 48px
+                            transition-duration: 0.5s
+                            cursor: pointer
+                            background-color: #151515
+                            border: 1px solid #ffffff17
+                            border-top: 0
+                            display: grid
+                            grid-template-columns: [date] auto [name] 2fr [addons] 1fr
+                            align-items: center
+                            grid-column-gap: 4px
+                            @media screen and (max-width: 1200px)
+                                grid-template-columns: [date] auto [name] 3fr [addons] auto
+                                border-left: 0
+                                border-right: 0
+                            &:hover
+                                padding-left: 56px
+                            .number, .title,
+                            .release-date
+                                font-size: 8pt
+                                font-weight: 700
+                                letter-spacing: 0.5px
+                                display: inline-block
+                            .number
+                                grid-column-start: date
+                            .title
+                                font-size: 10pt
+                                font-weight: 300
+                                grid-column-start: name
+                            .addons
+                                grid-column-start: addons
+                                text-align: right
+                                .release-date
+                                    display: inline-block
+                            .progress-bar
+                                width: 100%
+                                height: 2px
+                                position: absolute
+                                bottom: 0
+                                background-color: #ffffff17
+                                .progress-bar-fill
+                                    background-color: white
+                                    height: inherit
+                                    opacity: 0.5
+                        .episode-not-available
+                            cursor: default
+                            color: #ffffff4f
+                            &:hover
+                                padding-left: 48px
 .fade-enter-to, .fade-leave 
     max-height: 1000px
     opacity: 1
