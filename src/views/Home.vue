@@ -2,9 +2,7 @@
 	<div id="app">
 		<!-- <router-view/> -->
         <div id="menu">
-            <div class = "logo">
-                <img src = "../files/images/BiedaFlix500px.png"/>
-            </div>
+            <Logo />
         </div>
 		<div id="wrapper">
 			<div class="series">
@@ -61,13 +59,17 @@
 
 <script>
 import series from "../files/series.json";
+import Logo from "../components/Logo.vue";
 export default {
 	data: function() {
 		return {
 			series: series,
 			activeSerie: -1
 		};
-	},
+    },
+    components: {
+        Logo
+    },
 	methods: {
 		setActive: function(id) {
 			if (this.activeSerie == id) {
@@ -82,6 +84,8 @@ export default {
 
 
 <style scoped lang="sass">
+@import "../styles/fonts.sass"
+    
 $episodes-column-padding: 4px
 
 #app
@@ -104,9 +108,6 @@ a
     grid-column-start: main
     display: grid
     margin: 8px 0
-    .logo
-        img
-            max-height: 24px
 
 #wrapper
     grid-column-start: main

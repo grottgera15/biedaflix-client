@@ -1,37 +1,36 @@
 <template>
 	<div id="app">
 		<div id="wrapper">
-            <div class = "logo">
-                <img src = "../files/images/BiedaFlix500px.png"/>
-            </div>
+			<Logo />
 			<div class="header">
-                <span>Rejestracja</span>
-            </div>
-            <form autocomplete="off">
-			<div class="inputs">
-				<TextInput>Adres e-mail</TextInput>
-                <TextInput>Hasło</TextInput>
-                <TextInput>Powtórz hasło</TextInput>
-                <Button>Zarejestruj się</Button>
+				<span>Rejestracja</span>
 			</div>
-            </form>
+			<form class="inputs" autocomplete="off">
+				<TextInput>Adres e-mail</TextInput>
+				<TextInput :type="'Password'">Hasło</TextInput>
+				<TextInput :type="'Password'">Powtórz hasło</TextInput>
+				<Button>Zarejestruj się</Button>
+			</form>
 		</div>
 	</div>
 </template>
 
 <script>
-import Button from "../components/Button.vue"
-import TextInput from "../components/TextInput.vue"
+import Button from "../components/Button.vue";
+import TextInput from "../components/TextInput.vue";
+import Logo from "../components/Logo.vue";
 export default {
-    components: {
-        Button,
-        TextInput
-    }
+	components: {
+		Logo,
+		Button,
+		TextInput
+	}
 };
 </script>
 
 
 <style scoped lang="sass">
+@import "../styles/variables.sass"
 
 #app
     width: 100%
