@@ -1,9 +1,7 @@
 <template>
 	<div id="app">
-		<!-- <router-view/> -->
-        <div id="menu">
-            <Logo />
-        </div>
+        <Logo />
+        <MemoryStatus/>
 		<div id="wrapper">
 			<div class="series">
 				<div class="serie" v-for="serie in series" :key="serie.id">
@@ -60,6 +58,7 @@
 <script>
 import series from "../files/series.json";
 import Logo from "../components/Logo.vue";
+import MemoryStatus from "../components/MemoryStatus.vue";
 export default {
 	data: function() {
 		return {
@@ -68,7 +67,8 @@ export default {
 		};
     },
     components: {
-        Logo
+        Logo,
+        MemoryStatus
     },
 	methods: {
 		setActive: function(id) {
@@ -92,25 +92,23 @@ $episodes-column-padding: 4px
     width: 100%
     height: 100%
     display: grid
-    grid-template-columns: 1fr [main] 1fr 1fr
+    grid-template-columns: 1fr 1fr 1fr
+    grid-template-areas: ". logo ."  ". memory-status ." ". main ."
+    grid-row-gap: 32px
     @media screen and (max-width: 1600px)
-        grid-template-columns: 0.5fr [main] 1fr 0.5fr
+        grid-template-columns: 0.5fr 1fr 0.5fr
     @media screen and (max-width: 1200px)
-        grid-template-columns: 0.25fr [main] 1fr 0.25fr
+        grid-template-columns: 0.25fr 1fr 0.25fr
     @media screen and (max-width: 720px)
-        grid-template-columns: [main] 1fr
+        grid-template-columns: 1fr
+        grid-template-areas: "logo" "memory-status" "main"
 
 a
     color: unset
     text-decoration: unset
 
-#menu
-    grid-column-start: main
-    display: grid
-    margin: 8px 0
-
 #wrapper
-    grid-column-start: main
+    grid-area: main
     .series
         display: grid
         .serie
