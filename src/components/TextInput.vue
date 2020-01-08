@@ -3,7 +3,7 @@
 		<label :class="[{'label-minimalized': focused}]">
             <slot/>
         </label>
-		<input type="Text" @focus="Focus"/>
+		<input :type="type" @focus="Focus"/>
 	</div>
 </template>
 
@@ -19,11 +19,19 @@ export default {
         Focus: function() {
             this.focused = true;
         }
+    },
+    props: {
+        type: {
+            type: String,
+            default: "Text"
+        }
     }
 };
 </script>
 
 <style lang="sass" scoped>
+@import "../styles/variables.sass"
+
 .input
     position: relative
     margin-bottom: 16px
@@ -42,7 +50,7 @@ export default {
         font-size: 8pt
         transform: unset
         top: 8px
-        color: #f86356
+        color: $main-color
     input
         letter-spacing: 0.5px
         font-weight: 700

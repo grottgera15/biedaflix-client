@@ -11,16 +11,18 @@ export default {
 </script>
 
 <style scoped lang="sass">
+    @import "../styles/variables.sass"
+
     button
             letter-spacing: 0.5px
             font-weight: 700
             font-family: inherit
             width: 100%
             padding: 16px                
-            border: 1px solid #f86356
+            border: 1px solid $main-color
             border-radius: 4px
             color: white
-            background-color: #f86356
+            background-color: $main-color
             cursor: pointer
             transition-duration: 0.5s
             &:hover
