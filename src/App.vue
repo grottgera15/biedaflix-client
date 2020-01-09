@@ -19,5 +19,4 @@ body
     height: 100%
     display: grid
     line-height: 150%
-    margin: 24px 0
 </style>

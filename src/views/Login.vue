@@ -45,6 +45,7 @@ export default {
 @import "../styles/variables.sass"
 
 #wrapper
+    margin: 24px 0
     display: grid
     grid-template-columns: 1fr 1fr 1fr
     grid-template-areas: ". logo ."  ". main ."
