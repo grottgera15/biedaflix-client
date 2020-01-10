@@ -5,6 +5,7 @@
 		@mousemove="OnMouseMoved"
 		:class="{'hide-cursor': !visualElements.visibility}"
 	>   
+        <TopMenu :visibility="visualElements.visibility"/>
         <SharePopUp @close-pop-up="popups.share = false" v-show="popups.share === true"/>
 		<div class="waiting-screen" v-show="!video.canPlay" />
 		<video
@@ -50,6 +51,7 @@
 </template>
 <script>
 import BottomMenu from "../components/Player/BottomMenu.vue";
+import TopMenu from "../components/Player/TopMenu.vue";
 import SharePopUp from "../components/Player/SharePopUp.vue";
 
 export default {
@@ -80,6 +82,7 @@ export default {
     },
     components: {
         BottomMenu,
+        TopMenu,
         SharePopUp
     },
 	methods: {
