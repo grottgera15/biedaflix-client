@@ -4,7 +4,8 @@
 		ref="wrapper"
 		@mousemove="OnMouseMoved"
 		:class="{'hide-cursor': !visualElements.visibility}"
-	>
+	>   
+        <SharePopUp @close-pop-up="popups.share = false" v-show="popups.share === true"/>
 		<div class="waiting-screen" v-show="!video.canPlay" />
 		<video
 			preload="auto"
@@ -49,6 +50,7 @@
 </template>
 <script>
 import BottomMenu from "../components/Player/BottomMenu.vue";
+import SharePopUp from "../components/Player/SharePopUp.vue";
 
 export default {
 	name: "Player",
@@ -68,14 +70,17 @@ export default {
 				visibility: false
 			},
 			mouse: {
-				lastMovementTime: Date.now(),
-				currentButton: null
+				lastMovementTime: Date.now()
 			},
-			subtitles: []
+            subtitles: [],
+            popups: {
+                share: false
+            }
 		};
     },
     components: {
-        BottomMenu
+        BottomMenu,
+        SharePopUp
     },
 	methods: {
         OnAudioButton: function(event) {

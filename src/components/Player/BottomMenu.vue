@@ -52,7 +52,9 @@
 								@mouse-interacted-button="ChangeCurrentButton"
                                 :active="'audio' === currentButton"
                                 :name="'audio'"
-							/>
+                            >
+                                test
+							</PlayerMenuButton>
 							<div class="current-time">{{currentTimeFormated}} / {{durationTimeFormated}}</div>
 						</div>
 						<div class="right">
@@ -306,23 +308,7 @@ export default {
                             width: 50%
                             height: inherit
                             background-color: white
-                            pointer-events: none
-                            
-                .subtitles-popup-wrapper
-                    position: absolute
-                    bottom: 100%
-                    width: auto
-                    height: auto
-                    padding-bottom: 16px
-                    right: -100%
-
-                    .subtitles-popup
-                        position: relative
-                        height: 150px
-                        width: 100px
-                        background-color: #151515
-                        border-radius: 4px
-                        padding: 16px 24px                    
+                            pointer-events: none       
 
 
 .slide-bottom-enter-active, .slide-bottom-leave-active 

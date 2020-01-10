@@ -1,6 +1,7 @@
 <template>
 	<div class="button" @mouseenter="OnMouseEnterButton" @mouseleave="OnMouseLeaveButton">
 		<img :src="icon" :class="{'img-hover': active}" />
+        <slot />
 	</div>
 </template>
 
@@ -46,9 +47,9 @@ export default {
     img 
         transition-duration: .2s
         transition-delay: 0s
-        position: absolute
         opacity: 0.75
         width: 32px
+        display: inline-block
 
     .img-hover
         transform: scale(1.25) 
