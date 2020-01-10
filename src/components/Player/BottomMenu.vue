@@ -32,28 +32,34 @@
 							<PlayerMenuButton
 								:icon="require('../../files/menu/SVG/playButton.svg')"
 								@mouse-interacted-button="ChangeCurrentButton"
-                                :active="'play' === currentButton"
-                                :name="'play'"
+								:active="'play' === currentButton"
+								:name="'play'"
 							/>
 							<PlayerMenuButton
 								:icon="require('../../files/menu/SVG/leftDoubleArrowsButton.svg')"
 								@mouse-interacted-button="ChangeCurrentButton"
-                                :active="'back' === currentButton"
-                                :name="'back'"
+								:active="'back' === currentButton"
+								:name="'back'"
 							/>
 							<PlayerMenuButton
 								:icon="require('../../files/menu/SVG/rightDoubleArrowsButton.svg')"
 								@mouse-interacted-button="ChangeCurrentButton"
-                                :active="'forward' === currentButton"
-                                :name="'forward'"
+								:active="'forward' === currentButton"
+								:name="'forward'"
 							/>
 							<PlayerMenuButton
 								:icon="require('../../files/menu/SVG/audioButton.svg')"
 								@mouse-interacted-button="ChangeCurrentButton"
-                                :active="'audio' === currentButton"
-                                :name="'audio'"
-                            >
-                                test
+								:active="'audio' === currentButton"
+								:name="'audio'"
+							>
+								<transition name="audio-bar">
+									<div class="audio-bar-wrapper" v-show="'audio' === currentButton">
+										<div class="bar-volume" @click="ChangeVolume">
+											<div class="bar-volume-fill" :style="{width: (audioVolume * 100) + '%'}"/>
+										</div>
+									</div>
+								</transition>
 							</PlayerMenuButton>
 							<div class="current-time">{{currentTimeFormated}} / {{durationTimeFormated}}</div>
 						</div>
@@ -61,20 +67,20 @@
 							<PlayerMenuButton
 								:icon="require('../../files/menu/SVG/subtitlesButton.svg')"
 								@mouse-interacted-button="ChangeCurrentButton"
-                                :active="'subtitles' === currentButton"
-                                :name="'subtitles'"
+								:active="'subtitles' === currentButton"
+								:name="'subtitles'"
 							/>
 							<PlayerMenuButton
 								:icon="require('../../files/menu/SVG/shareButton.svg')"
 								@mouse-interacted-button="ChangeCurrentButton"
-                                :active="'share' === currentButton"
-                                :name="'share'"
+								:active="'share' === currentButton"
+								:name="'share'"
 							/>
 							<PlayerMenuButton
 								:icon="require('../../files/menu/SVG/fullscreenButton.svg')"
 								@mouse-interacted-button="ChangeCurrentButton"
-                                :active="'fullscreen' === currentButton"
-                                :name="'fullscreen'"
+								:active="'fullscreen' === currentButton"
+								:name="'fullscreen'"
 							/>
 						</div>
 					</div>
@@ -86,7 +92,7 @@
 
 <script>
 import PlayerMenuButton from "./PlayerMenuButton.vue";
-import ButtonEvent from "../../classes/ButtonEvent.js"
+import ButtonEvent from "../../classes/ButtonEvent.js";
 
 export default {
 	name: "BottomMenu",
@@ -106,12 +112,9 @@ export default {
 	},
 	methods: {
 		ChangeCurrentButton: function(event) {
-            if (!(event instanceof ButtonEvent))
-                throw new TypeError();
-            if (event.state)
-                this.currentButton = event.name
-            else
-                this.currentButton = null;
+			if (!(event instanceof ButtonEvent)) throw new TypeError();
+			if (event.state) this.currentButton = event.name;
+			else this.currentButton = null;
 		},
 		OnMouseOverBar: function(event) {
 			let boundingClientRect = event.srcElement.getBoundingClientRect();
@@ -285,11 +288,12 @@ export default {
                     justify-content: right
                     grid-column-start: right
                     
-                .audio-popup-wrapper
+                .audio-bar-wrapper
+                    display: inline-block
                     position: relative
                     bottom: 0
                     height: inherit
-                    width: calc(75px + 24px + 16px)
+                    width: calc(75px + 8px)
                     overflow: hidden
 
                     .bar-volume
@@ -309,6 +313,15 @@ export default {
                             height: inherit
                             background-color: white
                             pointer-events: none       
+
+
+.audio-bar-enter-active, .audio-bar-leave-active
+    transition-duration: .2s
+    max-width: calc(75px + 8px)
+
+.audio-bar-enter, .audio-bar-leave-to
+    transition-duration: .2s
+    max-width: 0px
 
 
 .slide-bottom-enter-active, .slide-bottom-leave-active 

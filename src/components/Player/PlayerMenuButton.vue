@@ -1,6 +1,6 @@
 <template>
 	<div class="button" @mouseenter="OnMouseEnterButton" @mouseleave="OnMouseLeaveButton">
-		<img :src="icon" :class="{'img-hover': active}" />
+		<img :src="icon" :class="{'img-hover': active}" @click="OnMouseClickButton" />
         <slot />
 	</div>
 </template>
@@ -19,7 +19,10 @@ export default {
 		},
 		OnMouseLeaveButton: function() {
 			this.$emit("mouse-interacted-button", new ButtonEvent(this.name, false));
-		}
+        },
+        OnMouseClickButton: function() {
+            this.$emit("click");
+        }
 	},
 	props: {
 		icon: {
