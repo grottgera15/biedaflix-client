@@ -1,7 +1,8 @@
 <template>
 	<div class="menu-wrapper">
 		<transition name="slide-bottom">
-			<div class="menu">
+			<div class="menu"
+                v-show="visibility">
 				<div class="wrapper">
 					<div
 						class="progress-bar"
@@ -153,6 +154,11 @@ export default {
 		}
 	},
 	props: {
+        visibility: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
 		video: {
 			required: true
         },

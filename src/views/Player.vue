@@ -40,6 +40,7 @@
             :currentTime="video.currentTime"
             :duration="video.duration"
             :buffered="video.buffered"
+            :visibility="visualElements.visibility"
 
             @audio-button-event="OnAudioButton"
             @play-button-event="OnPlayButton"
