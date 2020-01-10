@@ -53,7 +53,7 @@
 								/>
 								<div class="audio-popup-wrapper" v-show="mouse.currentButton=='audio'">
 									<div class="bar-volume" @click="ChangeVolume">
-										<div class="bar-volume-fill" :style="{'width': (info.audioVolume*100) + '%'}" />
+										<div class="bar-volume-fill" :style="{width: (audioVolume*100) + '%'}" />
 									</div>
 								</div>
 							</div>
@@ -102,6 +102,7 @@ export default {
             newTime: null,
             isMuted: true,
             isPlaying: true,
+            audioVolume: 1,
             info: {
 
             },
@@ -126,12 +127,11 @@ export default {
 		},
 
 		ChangeVolume: function(event) {
-			return event;
-			// let boundingClientRect = event.srcElement.getBoundingClientRect();
-			// this.info.audioVolume =
-			// 	(event.clientX - boundingClientRect.left) /
-			// 	boundingClientRect.width;
-			// this.$refs.video.volume = this.info.audioVolume;
+			let boundingClientRect = event.srcElement.getBoundingClientRect();
+			this.audioVolume =
+				(event.clientX - boundingClientRect.left) /
+				boundingClientRect.width;
+			// this.$refs.video.volume = this.audioVolume;
 		},
 		ChangeTime: function() {
 			this.video.currentTime = this.newTime;
@@ -207,7 +207,10 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "../../styles/variables.sass"
+@import "../../styles/variables.sass"   
+.img-hover
+    transform: scale(1.25) 
+    opacity: 1 !important
 
 .menu-wrapper
     position: absolute
@@ -293,10 +296,6 @@ export default {
                             position: absolute
                             opacity: 0.75
                             width: 32px
-                            
-                        .img-hover
-                            transform: scale(1.25)
-                            opacity: 1
 
                 .right
                     justify-content: right
