@@ -29,93 +29,51 @@
 					</div>
 					<div class="buttons">
 						<div class="left">
-							<div
-								class="button"
-								@click="ChangePlaying()"
-								@mouseover="OnMouseOverButton('playing')"
-								@mouseleave="OnMouseLeftButton()"
-							>
-								<img
-									src="../../files/menu/SVG/playButton.svg"
-									:class="{'img-hover': mouse.currentButton=='playing'}"
-								/>
-							</div>
-							<div
-								class="button"
-								@click="ChangePlaying()"
-								@mouseover="OnMouseOverButton('back')"
-								@mouseleave="OnMouseLeftButton()"
-							>
-								<img
-									src="../../files/menu/SVG/leftDoubleArrowsButton.svg"
-									:class="{'img-hover': mouse.currentButton=='back'}"
-								/>
-							</div>
-							<div
-								class="button"
-								@click="ChangePlaying()"
-								@mouseover="OnMouseOverButton('forward')"
-								@mouseleave="OnMouseLeftButton()"
-							>
-								<img
-									src="../../files/menu/SVG/rightDoubleArrowsButton.svg"
-									:class="{'img-hover': mouse.currentButton=='forward'}"
-								/>
-							</div>
-							<div
-								class="button"
-								@mouseover="OnMouseOverButton('audio')"
-								@click="ChangeMute()"
-								@mouseleave="OnMouseLeftButton()"
-							>
-								<img
-									src="../../files/menu/SVG/audioButton.svg"
-									:class="{'img-hover': mouse.currentButton=='audio'}"
-								/>
-								<div class="audio-popup-wrapper" v-show="mouse.currentButton=='audio'">
-									<div class="bar-volume" @click="ChangeVolume">
-										<div class="bar-volume-fill" :style="{width: (audioVolume*100) + '%'}" />
-									</div>
-								</div>
-							</div>
-
+							<PlayerMenuButton
+								:icon="require('../../files/menu/SVG/playButton.svg')"
+								@mouse-interacted-button="ChangeCurrentButton"
+                                :active="'play' === currentButton"
+                                :name="'play'"
+							/>
+							<PlayerMenuButton
+								:icon="require('../../files/menu/SVG/leftDoubleArrowsButton.svg')"
+								@mouse-interacted-button="ChangeCurrentButton"
+                                :active="'back' === currentButton"
+                                :name="'back'"
+							/>
+							<PlayerMenuButton
+								:icon="require('../../files/menu/SVG/rightDoubleArrowsButton.svg')"
+								@mouse-interacted-button="ChangeCurrentButton"
+                                :active="'forward' === currentButton"
+                                :name="'forward'"
+							/>
+							<PlayerMenuButton
+								:icon="require('../../files/menu/SVG/audioButton.svg')"
+								@mouse-interacted-button="ChangeCurrentButton"
+                                :active="'audio' === currentButton"
+                                :name="'audio'"
+							/>
 							<div class="current-time">{{currentTimeFormated}} / {{durationTimeFormated}}</div>
 						</div>
 						<div class="right">
-							<div
-								class="button"
-								@mouseover="OnMouseOverButton('subtitles')"
-								@mouseleave="OnMouseLeftButton()"
-							>
-								<img
-									src="../../files/menu/SVG/subtitlesButton.svg"
-									:class="{'img-hover': mouse.currentButton=='subtitles'}"
-								/>
-
-								<div class="subtitles-popup-wrapper" v-show="mouse.currentButton=='subtitles'">
-									<div class="subtitles-popup">Napisy</div>
-								</div>
-							</div>
-							<div
-								class="button"
-								@mouseover="OnMouseOverButton('share')"
-								@mouseleave="OnMouseLeftButton()"
-							>
-								<img
-									src="../../files/menu/SVG/shareButton.svg"
-									:class="{'img-hover': mouse.currentButton=='share'}"
-								/>
-							</div>
-							<div
-								class="button"
-								@mouseover="OnMouseOverButton('full-screen')"
-								@mouseleave="OnMouseLeftButton()"
-							>
-								<img
-									src="../../files/menu/SVG/fullscreenButton.svg"
-									:class="{'img-hover': mouse.currentButton=='full-screen'}"
-								/>
-							</div>
+							<PlayerMenuButton
+								:icon="require('../../files/menu/SVG/subtitlesButton.svg')"
+								@mouse-interacted-button="ChangeCurrentButton"
+                                :active="'subtitles' === currentButton"
+                                :name="'subtitles'"
+							/>
+							<PlayerMenuButton
+								:icon="require('../../files/menu/SVG/shareButton.svg')"
+								@mouse-interacted-button="ChangeCurrentButton"
+                                :active="'share' === currentButton"
+                                :name="'share'"
+							/>
+							<PlayerMenuButton
+								:icon="require('../../files/menu/SVG/fullscreenButton.svg')"
+								@mouse-interacted-button="ChangeCurrentButton"
+                                :active="'fullscreen' === currentButton"
+                                :name="'fullscreen'"
+							/>
 						</div>
 					</div>
 				</div>
@@ -125,6 +83,9 @@
 </template>
 
 <script>
+import PlayerMenuButton from "./PlayerMenuButton.vue";
+import ButtonEvent from "../../classes/ButtonEvent.js"
+
 export default {
 	name: "BottomMenu",
 	data() {
@@ -135,17 +96,20 @@ export default {
 			isPlaying: true,
 			audioVolume: 1,
 			info: {},
-			mouse: {
-				currentbutton: null
-			}
+			currentButton: null
 		};
 	},
+	components: {
+		PlayerMenuButton
+	},
 	methods: {
-		OnMouseOverButton: function(buttonName) {
-			this.mouse.currentButton = buttonName;
-		},
-		OnMouseLeftButton: function() {
-			this.mouse.currentButton = null;
+		ChangeCurrentButton: function(event) {
+            if (!(event instanceof ButtonEvent))
+                throw new TypeError();
+            if (event.state)
+                this.currentButton = event.name
+            else
+                this.currentButton = null;
 		},
 		OnMouseOverBar: function(event) {
 			let boundingClientRect = event.srcElement.getBoundingClientRect();
@@ -236,10 +200,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "../../styles/variables.sass"   
-.img-hover
-    transform: scale(1.25) 
-    opacity: 1 !important
+@import "../../styles/variables.sass"  
 
 .menu-wrapper
     position: absolute
@@ -316,17 +277,7 @@ export default {
                         cursor: default
                         font-weight: 800
                         letter-spacing: 0.5px
-                    
-                    .button
-                        height: 32px
-                        position: relative
-                        cursor: pointer
-                        img 
-                            transition-duration: .2s
-                            transition-delay: 0s
-                            position: absolute
-                            opacity: 0.75
-                            width: 32px
+
 
                 .right
                     justify-content: right
