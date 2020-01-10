@@ -1,8 +1,7 @@
 <template>
 	<div class="menu-wrapper">
 		<transition name="slide-bottom">
-			<div class="menu"
-                v-show="visibility">
+			<div class="menu" v-show="visibility">
 				<div class="wrapper">
 					<div
 						class="progress-bar"
@@ -32,13 +31,35 @@
 						<div class="left">
 							<div
 								class="button"
-                                @click="ChangePlaying()"
+								@click="ChangePlaying()"
 								@mouseover="OnMouseOverButton('playing')"
 								@mouseleave="OnMouseLeftButton()"
 							>
 								<img
 									src="../../files/menu/SVG/playButton.svg"
 									:class="{'img-hover': mouse.currentButton=='playing'}"
+								/>
+							</div>
+							<div
+								class="button"
+								@click="ChangePlaying()"
+								@mouseover="OnMouseOverButton('back')"
+								@mouseleave="OnMouseLeftButton()"
+							>
+								<img
+									src="../../files/menu/SVG/leftDoubleArrowsButton.svg"
+									:class="{'img-hover': mouse.currentButton=='back'}"
+								/>
+							</div>
+							<div
+								class="button"
+								@click="ChangePlaying()"
+								@mouseover="OnMouseOverButton('forward')"
+								@mouseleave="OnMouseLeftButton()"
+							>
+								<img
+									src="../../files/menu/SVG/rightDoubleArrowsButton.svg"
+									:class="{'img-hover': mouse.currentButton=='forward'}"
 								/>
 							</div>
 							<div
@@ -77,11 +98,21 @@
 							</div>
 							<div
 								class="button"
+								@mouseover="OnMouseOverButton('share')"
+								@mouseleave="OnMouseLeftButton()"
+							>
+								<img
+									src="../../files/menu/SVG/shareButton.svg"
+									:class="{'img-hover': mouse.currentButton=='share'}"
+								/>
+							</div>
+							<div
+								class="button"
 								@mouseover="OnMouseOverButton('full-screen')"
 								@mouseleave="OnMouseLeftButton()"
 							>
 								<img
-									src="../../files/menu/Full Screen Button.svg"
+									src="../../files/menu/SVG/fullscreenButton.svg"
 									:class="{'img-hover': mouse.currentButton=='full-screen'}"
 								/>
 							</div>
@@ -99,13 +130,11 @@ export default {
 	data() {
 		return {
 			mouseOnBar: false,
-            newTime: null,
-            isMuted: true,
-            isPlaying: true,
-            audioVolume: 1,
-            info: {
-
-            },
+			newTime: null,
+			isMuted: true,
+			isPlaying: true,
+			audioVolume: 1,
+			info: {},
 			mouse: {
 				currentbutton: null
 			}
@@ -137,13 +166,13 @@ export default {
 			this.video.currentTime = this.newTime;
 		},
 		ChangeMute: function() {
-            this.isMuted = !this.isMuted;
-            this.$emit("audio-button-event", this.isMuted);
-        },
-        ChangePlaying: function() {
-            this.isPlaying = !this.isPlaying;
-            this.$emit("play-button-event", this.isPlaying);
-        },
+			this.isMuted = !this.isMuted;
+			this.$emit("audio-button-event", this.isMuted);
+		},
+		ChangePlaying: function() {
+			this.isPlaying = !this.isPlaying;
+			this.$emit("play-button-event", this.isPlaying);
+		},
 
 		TimeToPercentage: function(time) {
 			if (this.video === undefined) return;
@@ -154,23 +183,23 @@ export default {
 		}
 	},
 	props: {
-        visibility: {
-            type: Boolean,
-            required: true,
-            default: false
-        },
+		visibility: {
+			type: Boolean,
+			required: true,
+			default: false
+		},
 		video: {
 			required: true
-        },
-        currentTime: {
-            required: true
-        },
-        duration: {
-            required: true
-        },
-        buffered: {
-            required: true
-        }
+		},
+		currentTime: {
+			required: true
+		},
+		duration: {
+			required: true
+		},
+		buffered: {
+			required: true
+		}
 	},
 	computed: {
 		currentTimeFormated: function() {
@@ -293,6 +322,8 @@ export default {
                         position: relative
                         cursor: pointer
                         img 
+                            transition-duration: .2s
+                            transition-delay: 0s
                             position: absolute
                             opacity: 0.75
                             width: 32px
