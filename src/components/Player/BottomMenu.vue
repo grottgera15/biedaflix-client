@@ -41,7 +41,7 @@
 									v-for="(component, i) in button.components"
 									:key="i"
 									:is="component.component"
-									@component-created="ComponentCreated(component.events, $event)"
+                                    v-on="component.events"
 								/>
 							</PlayerMenuButton>
 							<div
@@ -92,7 +92,7 @@ export default {
 						components: [
 							{
 								component: AudioBar,
-								events: ["volume-changed"]
+								events: {"volume-changed": () => this.ChangeVolume() }
 							}
 						]
 					}
@@ -111,24 +111,13 @@ export default {
 						icon: require("../../files/menu/SVG/fullscreenButton.svg")
 					}
 				]
-			},
-			knownEvents: {}
+			}
 		};
 	},
 	components: {
 		PlayerMenuButton
 	},
-	created() {
-		this.knownEvents["volume-changed"] = (() => {
-			this.ChangeVolume();
-		});
-	},
 	methods: {
-		ComponentCreated: function(events, event) {
-			for (let e of events) {
-				event.$on(e, this.knownEvents[e]);
-			}
-		},
 		ChangeCurrentButton: function(event) {
 			if (!(event instanceof ButtonEvent)) throw new TypeError();
 			if (event.state) this.currentButton = event.name;

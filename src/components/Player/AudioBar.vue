@@ -14,9 +14,6 @@ export default {
 	data() {
 		return {};
     },
-    mounted() {
-        this.$emit("component-created", this);
-    },
     methods: {
         ChangeVolume: function(event) {
             this.$emit("volume-changed", event);
