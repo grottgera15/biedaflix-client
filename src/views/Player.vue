@@ -54,6 +54,7 @@ import BottomMenu from "../components/Player/BottomMenu.vue";
 import TopMenu from "../components/Player/TopMenu.vue";
 import SharePopUp from "../components/Player/SharePopUp.vue";
 
+
 export default {
 	name: "Player",
 	data: function() {

@@ -1,7 +1,7 @@
 <template>
 	<transition name="audio-bar">
 		<div class="audio-bar-wrapper">
-			<div class="bar-volume" >
+			<div class="bar-volume" @click="ChangeVolume">
 				<div class="bar-volume-fill"/>
 			</div>
 		</div>
@@ -13,7 +13,15 @@ export default {
 	name: "AudioBar",
 	data() {
 		return {};
-	}
+    },
+    mounted() {
+        this.$emit("component-created", this);
+    },
+    methods: {
+        ChangeVolume: function(event) {
+            this.$emit("volume-changed", event);
+        }
+    }
 };
 </script>
 
@@ -25,7 +33,7 @@ export default {
 .audio-bar-enter, .audio-bar-leave-to
     transition-duration: .2s
     max-width: 0px
-    
+
 .audio-bar-wrapper
     display: inline-block
     position: relative

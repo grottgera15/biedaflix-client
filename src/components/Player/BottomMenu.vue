@@ -37,7 +37,12 @@
 								:active="button.name === currentButton"
 								@mouse-interacted-button="ChangeCurrentButton"
 							>
-								<component v-for="(component, i) in button.components" :key="i" :is="component" />
+								<component
+									v-for="(component, i) in button.components"
+									:key="i"
+									:is="component.component"
+									@component-created="ComponentCreated(component.events, $event)"
+								/>
 							</PlayerMenuButton>
 							<div
 								class="current-time"
@@ -84,7 +89,12 @@ export default {
 					{
 						name: "audio",
 						icon: require("../../files/menu/SVG/audioButton.svg"),
-						components: [AudioBar]
+						components: [
+							{
+								component: AudioBar,
+								events: ["volume-changed"]
+							}
+						]
 					}
 				],
 				right: [
@@ -101,13 +111,24 @@ export default {
 						icon: require("../../files/menu/SVG/fullscreenButton.svg")
 					}
 				]
-			}
+			},
+			knownEvents: {}
 		};
 	},
 	components: {
 		PlayerMenuButton
 	},
+	created() {
+		this.knownEvents["volume-changed"] = (() => {
+			this.ChangeVolume();
+		});
+	},
 	methods: {
+		ComponentCreated: function(events, event) {
+			for (let e of events) {
+				event.$on(e, this.knownEvents[e]);
+			}
+		},
 		ChangeCurrentButton: function(event) {
 			if (!(event instanceof ButtonEvent)) throw new TypeError();
 			if (event.state) this.currentButton = event.name;
@@ -120,12 +141,12 @@ export default {
 				boundingClientRect.width;
 			this.newTime = this.PercentageToTime(mousePositionPercentage);
 		},
-
-		ChangeVolume: function(event) {
-			let boundingClientRect = event.srcElement.getBoundingClientRect();
-			this.audioVolume =
-				(event.clientX - boundingClientRect.left) /
-				boundingClientRect.width;
+		ChangeVolume: function() {
+			console.log("Change Volume");
+			// let boundingClientRect = event.srcElement.getBoundingClientRect();
+			// this.audioVolume =
+			// 	(event.clientX - boundingClientRect.left) /
+			// 	boundingClientRect.width;
 			// this.$refs.video.volume = this.audioVolume;
 		},
 		ChangeMute: function() {
