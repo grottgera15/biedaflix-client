@@ -38,11 +38,10 @@
 								v-on="button.events"
 								@mouse-interacted-button="ChangeCurrentButton"
 							>
-								<component
-									v-for="(component, i) in button.components"
-									:key="i"
-									:is="component.component"
-									v-on="component.events"
+								<AudioBar
+									v-if="button.name === 'audio'"
+									:audioVolume="audio.audioVolume"
+									@volume-change="VolumeChange"
 								/>
 							</PlayerMenuButton>
 							<div
@@ -66,11 +65,13 @@ export default {
 	name: "BottomMenu",
 	data() {
 		return {
+			audio: {
+				audioVolume: 1,
+				temporaryAudioVolume: 1
+			},
 			mouseOnBar: false,
 			newTime: null,
-			isMuted: true,
 			isPlaying: true,
-			audioVolume: 1,
 			info: {},
 			currentButton: null,
 			buttons: {
@@ -97,15 +98,9 @@ export default {
 					{
 						name: "audio",
 						icon: require("../../files/menu/SVG/audioButton.svg"),
-						components: [
-							{
-								component: AudioBar,
-								events: {
-									"volume-change": audioVolume =>
-										this.VolumeChange(audioVolume)
-								}
-							}
-						]
+						events: {
+							click: () => this.ChangeVolumeState()
+						}
 					}
 				],
 				right: [
@@ -126,16 +121,15 @@ export default {
 		};
 	},
 	components: {
-		PlayerMenuButton
-    },
-    created() {
-        document.addEventListener("keydown", (event) => {
-            if (event.key == "ArrowLeft")
-                this.TimeSkip(-10)
-            if (event.key == "ArrowRight")
-                this.TimeSkip(10)
-        });
-    },
+		PlayerMenuButton,
+		AudioBar
+	},
+	created() {
+		document.addEventListener("keydown", event => {
+			if (event.key == "ArrowLeft") this.TimeSkip(-10);
+			if (event.key == "ArrowRight") this.TimeSkip(10);
+		});
+	},
 	methods: {
 		ChangeCurrentButton: function(event) {
 			if (!(event instanceof ButtonEvent)) throw new TypeError();
@@ -149,15 +143,27 @@ export default {
 				boundingClientRect.width;
 			this.newTime = this.PercentageToTime(mousePositionPercentage);
 		},
-		VolumeChange: function(audioVolume) {
-			this.$emit("volume-change", audioVolume);
-		},
+
 		TimeChange: function(time) {
 			this.$emit("time-change", time);
 		},
 		TimeSkip: function(timeDifference) {
 			this.$emit("time-change", this.currentTime + timeDifference);
 		},
+		VolumeChange: function(audioVolume) {
+			this.audio.audioVolume = audioVolume;
+			this.$emit("volume-change", audioVolume);
+		},
+		ChangeVolumeState: function() {
+			if (this.audio.audioVolume > 0) {
+				this.audio.temporaryAudioVolume = this.audio.audioVolume;
+				this.audio.audioVolume = 0;
+			} else {
+                this.audio.audioVolume = this.audio.temporaryAudioVolume;
+            }
+			this.$emit("volume-change", this.audio.audioVolume);
+		},
+
 		ChangePlaying: function() {
 			this.isPlaying = !this.isPlaying;
 			this.$emit("play-button-event", this.isPlaying);

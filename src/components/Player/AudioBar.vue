@@ -11,18 +11,19 @@
 <script>
 export default {
 	name: "AudioBar",
-	data() {
-		return {
-            audioVolume: 1
-        };
-    },
     methods: {
         ChangeVolume: function(event) {
             let boundingClientRect = event.srcElement.getBoundingClientRect();
-			this.audioVolume =
+			let tempAudioVolume =
 				(event.clientX - boundingClientRect.left) /
 				boundingClientRect.width; 
-            this.$emit("volume-change", this.audioVolume);
+            this.$emit("volume-change", tempAudioVolume);
+        }
+    },
+    props: {
+        audioVolume: {
+            type: Number,
+            required: true
         }
     }
 };
