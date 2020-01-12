@@ -8,7 +8,7 @@
 						@mouseenter="mouseOnBar = true"
 						@mouseleave="mouseOnBar = false"
 						@mousemove="OnMouseOverBar"
-						@click="ChangeTime"
+						@click="TimeChange(newTime)"
 					>
 						<div
 							class="bar-mouse-over-popup"
@@ -35,7 +35,7 @@
 								:icon="button.icon"
 								:name="button.name"
 								:active="button.name === currentButton"
-                                v-on="button.events"
+								v-on="button.events"
 								@mouse-interacted-button="ChangeCurrentButton"
 							>
 								<component
@@ -77,18 +77,22 @@ export default {
 				left: [
 					{
 						name: "play",
-                        icon: require("../../files/menu/SVG/playButton.svg"),
-                        events: {
-
-                        }
+						icon: require("../../files/menu/SVG/playButton.svg"),
+						events: {}
 					},
 					{
 						name: "back",
-						icon: require("../../files/menu/SVG/leftDoubleArrowsButton.svg")
+						icon: require("../../files/menu/SVG/leftDoubleArrowsButton.svg"),
+						events: {
+							click: () => this.TimeSkip(-10)
+						}
 					},
 					{
 						name: "forward",
-						icon: require("../../files/menu/SVG/rightDoubleArrowsButton.svg")
+						icon: require("../../files/menu/SVG/rightDoubleArrowsButton.svg"),
+						events: {
+							click: () => this.TimeSkip(+10)
+						}
 					},
 					{
 						name: "audio",
@@ -97,7 +101,8 @@ export default {
 							{
 								component: AudioBar,
 								events: {
-									"volume-change": (audioVolume) => this.VolumeChange(audioVolume)
+									"volume-change": audioVolume =>
+										this.VolumeChange(audioVolume)
 								}
 							}
 						]
@@ -122,7 +127,15 @@ export default {
 	},
 	components: {
 		PlayerMenuButton
-	},
+    },
+    created() {
+        document.addEventListener("keydown", (event) => {
+            if (event.key == "ArrowLeft")
+                this.TimeSkip(-10)
+            if (event.key == "ArrowRight")
+                this.TimeSkip(10)
+        });
+    },
 	methods: {
 		ChangeCurrentButton: function(event) {
 			if (!(event instanceof ButtonEvent)) throw new TypeError();
@@ -137,25 +150,19 @@ export default {
 			this.newTime = this.PercentageToTime(mousePositionPercentage);
 		},
 		VolumeChange: function(audioVolume) {
-			this.$emit("volume-change", audioVolume)
+			this.$emit("volume-change", audioVolume);
 		},
-		ChangeMute: function() {
-			this.audioVolume = 0;
+		TimeChange: function(time) {
+			this.$emit("time-change", time);
 		},
-		ChangeTime: function() {
-			this.video.currentTime = this.newTime;
+		TimeSkip: function(timeDifference) {
+			this.$emit("time-change", this.currentTime + timeDifference);
 		},
-		// ChangeMute: function() {
-		// 	this.isMuted = !this.isMuted;
-		// 	this.$emit("audio-button-event", this.isMuted);
-		// },
 		ChangePlaying: function() {
 			this.isPlaying = !this.isPlaying;
 			this.$emit("play-button-event", this.isPlaying);
 		},
-
 		TimeToPercentage: function(time) {
-			if (this.video === undefined) return;
 			return (time / this.duration) * 100;
 		},
 		PercentageToTime: function(percentage) {
@@ -183,7 +190,6 @@ export default {
 	},
 	computed: {
 		currentTimeFormated: function() {
-			if (this.video === undefined) return;
 			let minutesPart = Math.floor(this.currentTime % 60);
 
 			return (
@@ -193,7 +199,6 @@ export default {
 			);
 		},
 		durationTimeFormated: function() {
-			if (this.video === undefined) return;
 			let minutesPart = Math.floor(this.duration % 60);
 
 			return (

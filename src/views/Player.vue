@@ -45,6 +45,8 @@
 
             @audio-button-event="OnAudioButton"
             @play-button-event="OnPlayButton"
+
+            @time-change="OnTimeChange"
             @volume-change="OnVolumeChange"
         />
 	</div>
@@ -86,6 +88,9 @@ export default {
         SharePopUp
     },
 	methods: {
+        OnTimeChange: function(time) {
+            this.$refs.video.currentTime = time;
+        },
         OnVolumeChange: function(audioVolume) {
             this.$refs.video.volume = audioVolume;
         },
