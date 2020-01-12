@@ -5,6 +5,9 @@
 				<img src="../../files/menu/SVG/returnButton.svg" />
 				<div class="header">Wróć do przeglądania</div>
 			</div>
+            <div class="share-info">
+                Test
+            </div>
 		</div>
 	</transition>
 </template>
@@ -34,8 +37,8 @@ export default {
     z-index: 100000
     background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)
     display: grid
-    grid-template-columns: max-content
-    grid-template-areas: "return-button"
+    grid-template-columns: max-content 1fr max-content
+    grid-template-areas: "return-button . share-info"
 
     .return-button
         grid-area: return-button
@@ -59,6 +62,10 @@ export default {
             text-transform: uppercase
             font-weight: 800
             letter-spacing: .5px
+
+    .share-info
+        grid-area: share-info
+        
 
 .slide-top-enter-active, .slide-top-leave-active 
     transition-duration: 0.5s

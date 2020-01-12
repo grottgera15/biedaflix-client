@@ -25,7 +25,7 @@
 			:currentTime="video.currentTime"
 			:class="{'video-buffering' : video.waiting}"
 		>
-			<source src="http://maksymilianlakomy.pl/SeeS01E01.mp4#t=200" type="video/mp4" />Your browser does not support the video tag.
+			<source src="http://maksymilianlakomy.pl/MandalorianS01E02.mp4#t=200" type="video/mp4" />Your browser does not support the video tag.
 		</video>
 		<div
 			class="subtitles-wrapper"

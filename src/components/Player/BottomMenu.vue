@@ -28,60 +28,21 @@
 						</div>
 					</div>
 					<div class="buttons">
-						<div class="left">
+						<div v-for="(buttons, i) in buttons" :key="i" :class="i">
 							<PlayerMenuButton
-								:icon="require('../../files/menu/SVG/playButton.svg')"
+								v-for="(button, i) in buttons"
+								:key="i"
+								:icon="button.icon"
+								:name="button.name"
+								:active="button.name === currentButton"
 								@mouse-interacted-button="ChangeCurrentButton"
-								:active="'play' === currentButton"
-								:name="'play'"
-							/>
-							<PlayerMenuButton
-								:icon="require('../../files/menu/SVG/leftDoubleArrowsButton.svg')"
-								@mouse-interacted-button="ChangeCurrentButton"
-								:active="'back' === currentButton"
-								:name="'back'"
-							/>
-							<PlayerMenuButton
-								:icon="require('../../files/menu/SVG/rightDoubleArrowsButton.svg')"
-								@mouse-interacted-button="ChangeCurrentButton"
-								:active="'forward' === currentButton"
-								:name="'forward'"
-							/>
-							<PlayerMenuButton
-								:icon="require('../../files/menu/SVG/audioButton.svg')"
-								@mouse-interacted-button="ChangeCurrentButton"
-								:active="'audio' === currentButton"
-								:name="'audio'"
 							>
-								<transition name="audio-bar">
-									<div class="audio-bar-wrapper" v-show="'audio' === currentButton">
-										<div class="bar-volume" @click="ChangeVolume">
-											<div class="bar-volume-fill" :style="{width: (audioVolume * 100) + '%'}"/>
-										</div>
-									</div>
-								</transition>
+								<component v-for="(component, i) in button.components" :key="i" :is="component" />
 							</PlayerMenuButton>
-							<div class="current-time">{{currentTimeFormated}} / {{durationTimeFormated}}</div>
-						</div>
-						<div class="right">
-							<PlayerMenuButton
-								:icon="require('../../files/menu/SVG/subtitlesButton.svg')"
-								@mouse-interacted-button="ChangeCurrentButton"
-								:active="'subtitles' === currentButton"
-								:name="'subtitles'"
-							/>
-							<PlayerMenuButton
-								:icon="require('../../files/menu/SVG/shareButton.svg')"
-								@mouse-interacted-button="ChangeCurrentButton"
-								:active="'share' === currentButton"
-								:name="'share'"
-							/>
-							<PlayerMenuButton
-								:icon="require('../../files/menu/SVG/fullscreenButton.svg')"
-								@mouse-interacted-button="ChangeCurrentButton"
-								:active="'fullscreen' === currentButton"
-								:name="'fullscreen'"
-							/>
+							<div
+								class="current-time"
+								v-if="i === 'left'"
+							>{{currentTimeFormated}} / {{durationTimeFormated}}</div>
 						</div>
 					</div>
 				</div>
@@ -93,6 +54,7 @@
 <script>
 import PlayerMenuButton from "./PlayerMenuButton.vue";
 import ButtonEvent from "../../classes/ButtonEvent.js";
+import AudioBar from "./AudioBar.vue";
 
 export default {
 	name: "BottomMenu",
@@ -104,7 +66,42 @@ export default {
 			isPlaying: true,
 			audioVolume: 1,
 			info: {},
-			currentButton: null
+			currentButton: null,
+			buttons: {
+				left: [
+					{
+						name: "play",
+						icon: require("../../files/menu/SVG/playButton.svg")
+					},
+					{
+						name: "back",
+						icon: require("../../files/menu/SVG/leftDoubleArrowsButton.svg")
+					},
+					{
+						name: "forward",
+						icon: require("../../files/menu/SVG/rightDoubleArrowsButton.svg")
+					},
+					{
+						name: "audio",
+						icon: require("../../files/menu/SVG/audioButton.svg"),
+						components: [AudioBar]
+					}
+				],
+				right: [
+					{
+						name: "subtitles",
+						icon: require("../../files/menu/SVG/subtitlesButton.svg")
+					},
+					{
+						name: "share",
+						icon: require("../../files/menu/SVG/shareButton.svg")
+					},
+					{
+						name: "fullscreen",
+						icon: require("../../files/menu/SVG/fullscreenButton.svg")
+					}
+				]
+			}
 		};
 	},
 	components: {
@@ -131,13 +128,16 @@ export default {
 				boundingClientRect.width;
 			// this.$refs.video.volume = this.audioVolume;
 		},
+		ChangeMute: function() {
+			this.audioVolume = 0;
+		},
 		ChangeTime: function() {
 			this.video.currentTime = this.newTime;
 		},
-		ChangeMute: function() {
-			this.isMuted = !this.isMuted;
-			this.$emit("audio-button-event", this.isMuted);
-		},
+		// ChangeMute: function() {
+		// 	this.isMuted = !this.isMuted;
+		// 	this.$emit("audio-button-event", this.isMuted);
+		// },
 		ChangePlaying: function() {
 			this.isPlaying = !this.isPlaying;
 			this.$emit("play-button-event", this.isPlaying);
@@ -287,42 +287,6 @@ export default {
                 .right
                     justify-content: right
                     grid-column-start: right
-                    
-                .audio-bar-wrapper
-                    display: inline-block
-                    position: relative
-                    bottom: 0
-                    height: inherit
-                    width: calc(75px + 8px)
-                    overflow: hidden
-
-                    .bar-volume
-                        float: right
-                        position: relative
-                        width: 75px
-                        height: 4px
-                        background-color: #ffffff40
-                        top: 50%
-                        transform: translateY(-50%)
-
-                        .bar-volume-fill
-                            position: absolute
-                            top: 0
-                            left: 0
-                            width: 50%
-                            height: inherit
-                            background-color: white
-                            pointer-events: none       
-
-
-.audio-bar-enter-active, .audio-bar-leave-active
-    transition-duration: .2s
-    max-width: calc(75px + 8px)
-
-.audio-bar-enter, .audio-bar-leave-to
-    transition-duration: .2s
-    max-width: 0px
-
 
 .slide-bottom-enter-active, .slide-bottom-leave-active 
     transition-duration: 0.5s
