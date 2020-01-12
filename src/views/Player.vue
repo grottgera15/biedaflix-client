@@ -13,7 +13,6 @@
 			name="media"
 			kind="captions"
 			ref="video"
-            muted
 			@timeupdate="OnTimeUpdated"
 			@durationchange="OnDurationChanged"
 			@canplay="OnCanPlay"
@@ -46,6 +45,7 @@
 
             @audio-button-event="OnAudioButton"
             @play-button-event="OnPlayButton"
+            @volume-change="OnVolumeChange"
         />
 	</div>
 </template>
@@ -66,8 +66,7 @@ export default {
 				canPlay: false,
 				buffered: [],
 				playing: false,
-				waiting: false,
-				audioVolume: 1
+				waiting: false
 			},
 			visualElements: {
 				visibility: false
@@ -87,6 +86,9 @@ export default {
         SharePopUp
     },
 	methods: {
+        OnVolumeChange: function(audioVolume) {
+            this.$refs.video.volume = audioVolume;
+        },
         OnAudioButton: function(event) {
             console.log(event);
         },

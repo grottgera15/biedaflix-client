@@ -35,13 +35,14 @@
 								:icon="button.icon"
 								:name="button.name"
 								:active="button.name === currentButton"
+                                v-on="button.events"
 								@mouse-interacted-button="ChangeCurrentButton"
 							>
 								<component
 									v-for="(component, i) in button.components"
 									:key="i"
 									:is="component.component"
-                                    v-on="component.events"
+									v-on="component.events"
 								/>
 							</PlayerMenuButton>
 							<div
@@ -76,7 +77,10 @@ export default {
 				left: [
 					{
 						name: "play",
-						icon: require("../../files/menu/SVG/playButton.svg")
+                        icon: require("../../files/menu/SVG/playButton.svg"),
+                        events: {
+
+                        }
 					},
 					{
 						name: "back",
@@ -92,7 +96,9 @@ export default {
 						components: [
 							{
 								component: AudioBar,
-								events: {"volume-changed": () => this.ChangeVolume() }
+								events: {
+									"volume-change": (audioVolume) => this.VolumeChange(audioVolume)
+								}
 							}
 						]
 					}
@@ -130,13 +136,8 @@ export default {
 				boundingClientRect.width;
 			this.newTime = this.PercentageToTime(mousePositionPercentage);
 		},
-		ChangeVolume: function() {
-			console.log("Change Volume");
-			// let boundingClientRect = event.srcElement.getBoundingClientRect();
-			// this.audioVolume =
-			// 	(event.clientX - boundingClientRect.left) /
-			// 	boundingClientRect.width;
-			// this.$refs.video.volume = this.audioVolume;
+		VolumeChange: function(audioVolume) {
+			this.$emit("volume-change", audioVolume)
 		},
 		ChangeMute: function() {
 			this.audioVolume = 0;

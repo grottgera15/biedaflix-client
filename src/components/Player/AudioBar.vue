@@ -2,7 +2,7 @@
 	<transition name="audio-bar">
 		<div class="audio-bar-wrapper">
 			<div class="bar-volume" @click="ChangeVolume">
-				<div class="bar-volume-fill"/>
+				<div class="bar-volume-fill" :style="{width: (audioVolume * 100) + '%'}"/>
 			</div>
 		</div>
 	</transition>
@@ -12,11 +12,17 @@
 export default {
 	name: "AudioBar",
 	data() {
-		return {};
+		return {
+            audioVolume: 1
+        };
     },
     methods: {
         ChangeVolume: function(event) {
-            this.$emit("volume-changed", event);
+            let boundingClientRect = event.srcElement.getBoundingClientRect();
+			this.audioVolume =
+				(event.clientX - boundingClientRect.left) /
+				boundingClientRect.width; 
+            this.$emit("volume-change", this.audioVolume);
         }
     }
 };
