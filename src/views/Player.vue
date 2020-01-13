@@ -7,7 +7,7 @@
 	>   
         <TopMenu :visibility="visualElements.visibility"/>
         <SharePopUp @close-pop-up="popups.share = false" v-show="popups.share === true"/>
-		<div class="waiting-screen" v-show="!video.canPlay" />
+		<div class="waiting-screen" v-show="!player.source.isReady" />
 		<video
 			preload="auto"
 			name="media"
@@ -21,38 +21,39 @@
 			@playing="OnPlaying"
 			@waiting="OnWaiting"
 			@click="OnVideoSingleClicked"
-			:currentTime="video.currentTime"
-			:class="{'video-buffering' : video.waiting}"
+			:currentTime="player.currentTimeStamp"
+			:class="{'video-buffering' : player.isWaitingToBuffer}"
 		>
-			<source src="http://maksymilianlakomy.pl/MandalorianS01E02.mp4#t=200" type="video/mp4" />Your browser does not support the video tag.
+			<source :src="player.source.url" type="video/mp4" />Your browser does not support the video tag.
 		</video>
 		<div
 			class="subtitles-wrapper"
 			:class="{'subtitles-wrapper-menu-visible': visualElements.visibility,
-            'video-buffering': video.waiting}"
+            'video-buffering': player.isWaitingToBuffer}"
 		>
 			<p>
-				Test test lorem ipsum
-				<br />test test.
+				Lorem ipsum dolor sit amet, 
+				<br />consectetur adipiscing elit.
 			</p>
 		</div>
-        <BottomMenu 
+        <ControlsMenu 
             :video="$refs.video"
-            :currentTime="video.currentTime"
-            :duration="video.duration"
-            :buffered="video.buffered"
+            
+            :currentTimeStamp="player.currentTimeStamp"
+            :duration="player.source.duration"
+            :buffered="player.source.buffered"
+            :isPlaying="player.isPlaying"
+
             :visibility="visualElements.visibility"
 
-            @audio-button-event="OnAudioButton"
-            @play-button-event="OnPlayButton"
-
+            @state-change="OnStateChange"
             @time-change="OnTimeChange"
             @volume-change="OnVolumeChange"
         />
 	</div>
 </template>
 <script>
-import BottomMenu from "../components/Player/BottomMenu.vue";
+import ControlsMenu from "../components/Player/ControlsMenu.vue";
 import TopMenu from "../components/Player/TopMenu.vue";
 import SharePopUp from "../components/Player/SharePopUp.vue";
 
@@ -61,15 +62,17 @@ export default {
 	name: "Player",
 	data: function() {
 		return {
-			video: {
-				duration: null,
-				currentTime: null,
-				// newTime: null,
-				canPlay: false,
-				buffered: [],
-				playing: false,
-				waiting: false
-			},
+            player: {
+                source: {
+                    url: "http://maksymilianlakomy.pl/MandalorianS01E02.mp4#t=200",
+                    isReady: false,
+                    duration: null,
+                    buffered: []
+                },
+                currentTimeStamp: null,
+                isPlaying: false,
+                isWaitingToBuffer: false
+            },
 			visualElements: {
 				visibility: false
 			},
@@ -83,62 +86,76 @@ export default {
 		};
     },
     components: {
-        BottomMenu,
+        ControlsMenu,
         TopMenu,
         SharePopUp
     },
 	methods: {
+        // Player controlling events
+        OnStateChange: function(state) {
+            this.player.isPlaying = state;
+            if (this.player.isPlaying)
+                this.$refs.video.play();
+            else
+                this.$refs.video.pause();
+        },
         OnTimeChange: function(time) {
             this.$refs.video.currentTime = time;
         },
         OnVolumeChange: function(audioVolume) {
             this.$refs.video.volume = audioVolume;
         },
-        OnAudioButton: function(event) {
-            console.log(event);
-        },
-        OnPlayButton: function(event) {
-            console.log(event);
-        },
-		OnCanPlay: function(event) {
-			this.video.canPlay = true;
-			event.srcElement.play();
-		},
-		OnPause: function() {
-			this.video.playing = false;
+
+        // Player original events
+		OnCanPlay: function() {
+            this.player.source.isReady = true;
+			this.$refs.video.play();
 		},
 		OnPlay: function() {
-			this.video.playing = true;
-			this.video.waiting = false;
+			this.player.isPlaying = true;
+			this.player.isWaitingToBuffer = false;
 		},
 		OnPlaying: function() {
-			this.video.playing = true;
-			this.video.waiting = false;
+            this.player.isPlaying = true;
+			this.player.isWaitingToBuffer = false;
+        },
+        OnPause: function() {
+			this.player.isPlaying = false;
 		},
 		OnWaiting: function() {
-			this.video.waiting = true;
+			this.player.isWaitingToBuffer = false;
+        },
+		OnDurationChanged: function() {
+			this.player.source.duration = this.$refs.video.duration;
 		},
-		OnDurationChanged: function(event) {
-			this.video.duration = event.srcElement.duration;
-		},
+		OnTimeUpdated: function() {
+            this.player.currentTimeStamp = this.$refs.video.currentTime;
+            
+            this.CheckInactivity(event); // Move out
+            this.CheckBuffered(event); // Move out
+        },
+        
+        // Non-standard player controllers
+		OnVideoSingleClicked: function() {
+            if (this.player.isPlaying) 
+                this.$refs.video.pause();
+            else
+                this.$refs.video.play();
+        },
+
+        // Player bottom menu visibility
 		OnMouseMoved: function() {
 			this.mouse.lastMovementTime = Date.now();
 		},
-		OnTimeUpdated: function(event) {
-			this.video.currentTime = event.srcElement.currentTime;
-            this.CheckInactivity(event);
-            this.CheckBuffered(event);
-		},
-		OnVideoSingleClicked: function(event) {
-			if (this.video.playing) event.srcElement.pause();
-			else event.srcElement.play();
-        },
+
 		CheckInactivity: function() {
 			this.visualElements.visibility =
 				Date.now() < this.mouse.lastMovementTime + 2 * 1000;
-		},
-		CheckBuffered: function(event) {
-			let buffered = event.srcElement.buffered;
+        },
+        
+        // Grab buffering elements from player
+		CheckBuffered: function() {
+			let buffered = this.$refs.video.buffered;
 			let bufferedArray = [];
 			for (let i = 0; i < buffered.length; i++) {
 				bufferedArray.push({
@@ -146,7 +163,7 @@ export default {
 					end: buffered.end(i)
 				});
 			}
-			this.video.buffered = bufferedArray;
+			this.player.source.buffered = bufferedArray;
 		}
 	}
 };

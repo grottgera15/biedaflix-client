@@ -24,32 +24,10 @@
 								:style="{left: TimeToPercentage(buffer.start) + '%',
                                         right: (100-TimeToPercentage(buffer.end)) + '%'}"
 							/>
-							<div class="bar-current-time" :style="{width: TimeToPercentage(currentTime) + '%'}" />
+							<div class="bar-current-time" :style="{width: TimeToPercentage(currentTimeStamp) + '%'}" />
 						</div>
 					</div>
-					<div class="buttons">
-						<div v-for="(buttons, i) in buttons" :key="i" :class="i">
-							<PlayerMenuButton
-								v-for="(button, i) in buttons"
-								:key="i"
-								:icon="button.icon"
-								:name="button.name"
-								:active="button.name === currentButton"
-								v-on="button.events"
-								@mouse-interacted-button="ChangeCurrentButton"
-							>
-								<AudioBar
-									v-if="button.name === 'audio'"
-									:audioVolume="audio.audioVolume"
-									@volume-change="VolumeChange"
-								/>
-							</PlayerMenuButton>
-							<div
-								class="current-time"
-								v-if="i === 'left'"
-							>{{currentTimeFormated}} / {{durationTimeFormated}}</div>
-						</div>
-					</div>
+					<ControllerButtonsBar />
 				</div>
 			</div>
 		</transition>
@@ -57,12 +35,14 @@
 </template>
 
 <script>
-import PlayerMenuButton from "./PlayerMenuButton.vue";
+// import PlayerMenuButton from "./PlayerMenuButton.vue";
 import ButtonEvent from "../../classes/ButtonEvent.js";
-import AudioBar from "./AudioBar.vue";
+// import AudioBar from "./AudioBar.vue";
+
+import ControllerButtonsBar from "./ControllerButtonsBar";
 
 export default {
-	name: "BottomMenu",
+	name: "ControlsMenu",
 	data() {
 		return {
 			audio: {
@@ -71,7 +51,6 @@ export default {
 			},
 			mouseOnBar: false,
 			newTime: null,
-			isPlaying: true,
 			info: {},
 			currentButton: null,
 			buttons: {
@@ -79,7 +58,11 @@ export default {
 					{
 						name: "play",
 						icon: require("../../files/menu/SVG/playButton.svg"),
-						events: {}
+						secondaryIcon: require("../../files/menu/SVG/pauseButton.svg"),
+						iconCondition: this.isPlaying,
+						events: {
+							click: () => this.StateChange()
+						}
 					},
 					{
 						name: "back",
@@ -121,8 +104,9 @@ export default {
 		};
 	},
 	components: {
-		PlayerMenuButton,
-		AudioBar
+        ControllerButtonsBar
+		// PlayerMenuButton,
+		// AudioBar
 	},
 	created() {
 		document.addEventListener("keydown", event => {
@@ -144,11 +128,15 @@ export default {
 			this.newTime = this.PercentageToTime(mousePositionPercentage);
 		},
 
+		StateChange: function() {
+			this.$emit("state-change", !this.isPlaying);
+		},
+
 		TimeChange: function(time) {
 			this.$emit("time-change", time);
 		},
 		TimeSkip: function(timeDifference) {
-			this.$emit("time-change", this.currentTime + timeDifference);
+			this.$emit("time-change", this.currentTimeStamp + timeDifference);
 		},
 		VolumeChange: function(audioVolume) {
 			this.audio.audioVolume = audioVolume;
@@ -159,15 +147,11 @@ export default {
 				this.audio.temporaryAudioVolume = this.audio.audioVolume;
 				this.audio.audioVolume = 0;
 			} else {
-                this.audio.audioVolume = this.audio.temporaryAudioVolume;
-            }
+				this.audio.audioVolume = this.audio.temporaryAudioVolume;
+			}
 			this.$emit("volume-change", this.audio.audioVolume);
 		},
 
-		ChangePlaying: function() {
-			this.isPlaying = !this.isPlaying;
-			this.$emit("play-button-event", this.isPlaying);
-		},
 		TimeToPercentage: function(time) {
 			return (time / this.duration) * 100;
 		},
@@ -184,7 +168,11 @@ export default {
 		video: {
 			required: true
 		},
-		currentTime: {
+		isPlaying: {
+			type: Boolean,
+			required: true
+		},
+		currentTimeStamp: {
 			required: true
 		},
 		duration: {
@@ -196,10 +184,10 @@ export default {
 	},
 	computed: {
 		currentTimeFormated: function() {
-			let minutesPart = Math.floor(this.currentTime % 60);
+			let minutesPart = Math.floor(this.currentTimeStamp % 60);
 
 			return (
-				Math.floor(this.currentTime / 60) +
+				Math.floor(this.currentTimeStamp / 60) +
 				":" +
 				minutesPart.toLocaleString("en-US", { minimumIntegerDigits: 2 })
 			);
