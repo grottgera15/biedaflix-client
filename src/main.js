@@ -7,19 +7,17 @@ Vue.config.productionTip = false
 
 Vue.use(Vuex);
 
+import modulePlayer from "./vuex/modulePlayer.js";
+import moduleApp from "./vuex/moduleApp.js";
 const store = new Vuex.Store({
-    state: { 
-        count: 0,
-        sourceDestination: null
-    },
-    mutations: {
-        increment (state) {
-            state.count++;
-        }
+    modules: {
+        app: moduleApp,
+        player: modulePlayer
     }
 })
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

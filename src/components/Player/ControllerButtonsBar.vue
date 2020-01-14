@@ -26,6 +26,7 @@
 				:iconCondition="isPlaying"
 				@click="ChangeVolumeState()"
 			/>
+            {{currentTime}}
 		</div>
 		<div class="right-side">
 			<ControllerButton
@@ -59,7 +60,12 @@ export default {
 	components: {
 		ControllerButton
 		// AudioBar
-	}
+    },
+    computed: {
+        currentTime () {
+            return this.$store.state.player.currentTime;
+        }
+    }
 };
 </script>
 

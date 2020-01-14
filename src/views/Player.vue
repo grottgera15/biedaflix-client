@@ -4,10 +4,10 @@
 		ref="wrapper"
 		@mousemove="OnMouseMoved"
 		:class="{'hide-cursor': !visualElements.visibility}"
-	>   
-        <TopMenu :visibility="visualElements.visibility"/>
-        <SharePopUp @close-pop-up="popups.share = false" v-show="popups.share === true"/>
-		<div class="waiting-screen" v-show="!player.source.isReady" />
+	>
+		<TopMenu :visibility="visualElements.visibility" />
+		<!-- <SharePopUp @close-pop-up="popups.share = false" v-show="popups.share === true"/> -->
+		<div class="waiting-screen" v-show="!isReady" />
 		<video
 			preload="auto"
 			name="media"
@@ -16,134 +16,107 @@
 			@timeupdate="OnTimeUpdated"
 			@durationchange="OnDurationChanged"
 			@canplay="OnCanPlay"
+            @canplaythrough="OnCanPlayThrough"
 			@pause="OnPause"
 			@play="OnPlay"
 			@playing="OnPlaying"
 			@waiting="OnWaiting"
 			@click="OnVideoSingleClicked"
-			:currentTime="player.currentTimeStamp"
-			:class="{'video-buffering' : player.isWaitingToBuffer}"
+			:class="{'video-buffering' : this.isWaitingToBuffer}"
 		>
-			<source :src="player.source.url" type="video/mp4" />Your browser does not support the video tag.
+			<source :src="source" type="video/mp4" />Your browser does not support the video tag.
 		</video>
 		<div
 			class="subtitles-wrapper"
 			:class="{'subtitles-wrapper-menu-visible': visualElements.visibility,
-            'video-buffering': player.isWaitingToBuffer}"
+            'video-buffering': this.isWaitingToBuffer}"
 		>
 			<p>
-				Lorem ipsum dolor sit amet, 
+				Lorem ipsum dolor sit amet,
 				<br />consectetur adipiscing elit.
 			</p>
 		</div>
-        <ControlsMenu 
-            :video="$refs.video"
-            
-            :currentTimeStamp="player.currentTimeStamp"
-            :duration="player.source.duration"
-            :buffered="player.source.buffered"
-            :isPlaying="player.isPlaying"
-
-            :visibility="visualElements.visibility"
-
-            @state-change="OnStateChange"
-            @time-change="OnTimeChange"
-            @volume-change="OnVolumeChange"
-        />
+		<!-- <ControlsMenu /> -->
 	</div>
 </template>
 <script>
-import ControlsMenu from "../components/Player/ControlsMenu.vue";
+// import ControlsMenu from "../components/Player/ControlsMenu.vue";
 import TopMenu from "../components/Player/TopMenu.vue";
-import SharePopUp from "../components/Player/SharePopUp.vue";
+// import SharePopUp from "../components/Player/SharePopUp.vue";
 
+import Mutations from "../vuex/PlayerMutations.js";
+import playerMixin from "../components/Mixins/playerMixin.js";
 
 export default {
 	name: "Player",
 	data: function() {
 		return {
-            player: {
-                source: {
-                    url: "http://maksymilianlakomy.pl/MandalorianS01E02.mp4#t=200",
-                    isReady: false,
-                    duration: null,
-                    buffered: []
-                },
-                currentTimeStamp: null,
-                isPlaying: false,
-                isWaitingToBuffer: false
-            },
 			visualElements: {
 				visibility: false
 			},
 			mouse: {
 				lastMovementTime: Date.now()
 			},
-            subtitles: [],
-            popups: {
-                share: false
-            }
+			subtitles: [],
+			popups: {
+				share: false
+			}
 		};
-    },
-    components: {
-        ControlsMenu,
-        TopMenu,
-        SharePopUp
-    },
+	},
+	components: {
+		// ControlsMenu,
+		TopMenu
+		// SharePopUp
+	},
 	methods: {
-        // Player controlling events
-        OnStateChange: function(state) {
-            this.player.isPlaying = state;
-            if (this.player.isPlaying)
-                this.$refs.video.play();
-            else
-                this.$refs.video.pause();
-        },
-        OnTimeChange: function(time) {
-            this.$refs.video.currentTime = time;
-        },
-        OnVolumeChange: function(audioVolume) {
-            this.$refs.video.volume = audioVolume;
-        },
-
-        // Player original events
+		// Player original events
 		OnCanPlay: function() {
-            this.player.source.isReady = true;
+			this.$store.commit(Mutations.ReadinessSet, true);
+			this.$store.commit(Mutations.PendingSet, false);
 			this.$refs.video.play();
 		},
+		OnCanPlayThrough: function() {
+			this.$store.commit(Mutations.PendingSet, false);
+		},
 		OnPlay: function() {
-			this.player.isPlaying = true;
-			this.player.isWaitingToBuffer = false;
+			if (this.isPlaying != true)
+				this.$store.commit(Mutations.PlayerStateSet, true);
+			this.$store.commit(Mutations.PendingSet, false);
 		},
 		OnPlaying: function() {
-            this.player.isPlaying = true;
-			this.player.isWaitingToBuffer = false;
-        },
-        OnPause: function() {
-			this.player.isPlaying = false;
+			if (this.isPlaying != true)
+				this.$store.commit(Mutations.PlayerStateSet, true);
+			this.$store.commit(Mutations.PendingSet, false);
+		},
+		OnPause: function() {
+			if (this.isPlaying != false)
+				this.$store.commit(Mutations.PlayerStateSet, false);
 		},
 		OnWaiting: function() {
-			this.player.isWaitingToBuffer = false;
-        },
+			this.$store.commit(Mutations.PendingSet, true);
+		},
 		OnDurationChanged: function() {
-			this.player.source.duration = this.$refs.video.duration;
+			this.$store.commit(
+				Mutations.DurationSet,
+				this.$refs.video.duration
+			);
 		},
 		OnTimeUpdated: function() {
-            this.player.currentTimeStamp = this.$refs.video.currentTime;
-            
-            this.CheckInactivity(event); // Move out
-            this.CheckBuffered(event); // Move out
-        },
-        
-        // Non-standard player controllers
-		OnVideoSingleClicked: function() {
-            if (this.player.isPlaying) 
-                this.$refs.video.pause();
-            else
-                this.$refs.video.play();
-        },
+			this.$store.commit(
+				Mutations.CurrentTimeSet,
+				this.$refs.video.currentTime
+			);
 
-        // Player bottom menu visibility
+			this.CheckInactivity(event); // Move out
+			this.CheckBuffered(event); // Move out
+		},
+
+		// Non-standard player controllers
+		OnVideoSingleClicked: function() {
+           this.$store.commit(Mutations.PlayerStateSet, !this.isPlaying);
+		},
+
+		// Player bottom menu visibility
 		OnMouseMoved: function() {
 			this.mouse.lastMovementTime = Date.now();
 		},
@@ -151,9 +124,9 @@ export default {
 		CheckInactivity: function() {
 			this.visualElements.visibility =
 				Date.now() < this.mouse.lastMovementTime + 2 * 1000;
-        },
-        
-        // Grab buffering elements from player
+		},
+
+		// Grab buffered time stamps from player
 		CheckBuffered: function() {
 			let buffered = this.$refs.video.buffered;
 			let bufferedArray = [];
@@ -163,7 +136,16 @@ export default {
 					end: buffered.end(i)
 				});
 			}
-			this.player.source.buffered = bufferedArray;
+			this.$store.commit(Mutations.BufferedSet, bufferedArray);
+		}
+	},
+	mixins: [
+        playerMixin
+    ],
+	watch: {
+		isPlaying: function() {
+			if (this.isPlaying) this.$refs.video.play();
+			else this.$refs.video.pause();
 		}
 	}
 };
