@@ -9,7 +9,7 @@ Vue.use(Vuex);
 
 import modulePlayer from "./vuex/modulePlayer.js";
 import moduleApp from "./vuex/moduleApp.js";
-const store = new Vuex.Store({
+export const store = new Vuex.Store({
     modules: {
         app: moduleApp,
         player: modulePlayer

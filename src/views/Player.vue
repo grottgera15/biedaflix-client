@@ -13,39 +13,42 @@
 			name="media"
 			kind="captions"
 			ref="video"
+			muted
 			@timeupdate="OnTimeUpdated"
 			@durationchange="OnDurationChanged"
 			@canplay="OnCanPlay"
-            @canplaythrough="OnCanPlayThrough"
+			@canplaythrough="OnCanPlayThrough"
 			@pause="OnPause"
 			@play="OnPlay"
 			@playing="OnPlaying"
 			@waiting="OnWaiting"
 			@click="OnVideoSingleClicked"
-			:class="{'video-buffering' : this.isWaitingToBuffer}"
+			:class="{'video-buffering' : this.isWaitingForBuffer}"
 		>
 			<source :src="source" type="video/mp4" />Your browser does not support the video tag.
 		</video>
 		<div
 			class="subtitles-wrapper"
 			:class="{'subtitles-wrapper-menu-visible': visualElements.visibility,
-            'video-buffering': this.isWaitingToBuffer}"
+            'video-buffering': this.isWaitingForBuffer}"
 		>
 			<p>
 				Lorem ipsum dolor sit amet,
 				<br />consectetur adipiscing elit.
 			</p>
 		</div>
-		<!-- <ControlsMenu /> -->
+		<ControlsMenu />
 	</div>
 </template>
 <script>
-// import ControlsMenu from "../components/Player/ControlsMenu.vue";
+import ControlsMenu from "../components/Player/ControlsMenu.vue";
 import TopMenu from "../components/Player/TopMenu.vue";
 // import SharePopUp from "../components/Player/SharePopUp.vue";
 
 import Mutations from "../vuex/PlayerMutations.js";
 import playerMixin from "../components/Mixins/playerMixin.js";
+import { PlayerEventBus } from "../PlayerEventBus.js";
+
 
 export default {
 	name: "Player",
@@ -64,10 +67,15 @@ export default {
 		};
 	},
 	components: {
-		// ControlsMenu,
+		ControlsMenu,
 		TopMenu
 		// SharePopUp
-	},
+    },
+    mounted: function(){
+        PlayerEventBus.$on("CurrentTimeChanged", (newTime) => {
+            this.$refs.video.currentTime = newTime;
+        })
+    },
 	methods: {
 		// Player original events
 		OnCanPlay: function() {
@@ -146,7 +154,11 @@ export default {
 		isPlaying: function() {
 			if (this.isPlaying) this.$refs.video.play();
 			else this.$refs.video.pause();
-		}
+        },
+        currentTime: function() {
+            if (Math.abs(this.$refs.video.currentTime*100 - this.currentTime*100) > 5) 
+                this.$refs.video.currentTime = this.currentTime;
+        }
 	}
 };
 </script>

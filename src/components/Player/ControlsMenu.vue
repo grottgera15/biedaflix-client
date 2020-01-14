@@ -14,7 +14,7 @@
 							class="bar-mouse-over-popup"
 							v-show="mouseOnBar"
 							:style="{'left': (TimeToPercentage(newTime) + '%')}"
-							v-html="newTimeFormated"
+							v-html="TimeFormatted(newTime)"
 						></div>
 						<div class="bar" :class="{'bar-full-size': mouseOnBar}">
 							<div
@@ -24,10 +24,10 @@
 								:style="{left: TimeToPercentage(buffer.start) + '%',
                                         right: (100-TimeToPercentage(buffer.end)) + '%'}"
 							/>
-							<div class="bar-current-time" :style="{width: TimeToPercentage(currentTimeStamp) + '%'}" />
+							<div class="bar-current-time" :style="{width: TimeToPercentage(currentTime) + '%'}" />
 						</div>
 					</div>
-					<ControllerButtonsBar />
+					<!-- <ControllerButtonsBar /> -->
 				</div>
 			</div>
 		</transition>
@@ -39,72 +39,26 @@
 import ButtonEvent from "../../classes/ButtonEvent.js";
 // import AudioBar from "./AudioBar.vue";
 
-import ControllerButtonsBar from "./ControllerButtonsBar";
+// import ControllerButtonsBar from "./ControllerButtonsBar";
+
+import { PlayerEventBus } from "../../PlayerEventBus.js";
+
+// import Mutations from "../../vuex/PlayerMutations.js";
+import playerMixin from "../Mixins/playerMixin.js";
 
 export default {
 	name: "ControlsMenu",
 	data() {
 		return {
-			audio: {
-				audioVolume: 1,
-				temporaryAudioVolume: 1
-			},
 			mouseOnBar: false,
-			newTime: null,
-			info: {},
-			currentButton: null,
-			buttons: {
-				left: [
-					{
-						name: "play",
-						icon: require("../../files/menu/SVG/playButton.svg"),
-						secondaryIcon: require("../../files/menu/SVG/pauseButton.svg"),
-						iconCondition: this.isPlaying,
-						events: {
-							click: () => this.StateChange()
-						}
-					},
-					{
-						name: "back",
-						icon: require("../../files/menu/SVG/leftDoubleArrowsButton.svg"),
-						events: {
-							click: () => this.TimeSkip(-10)
-						}
-					},
-					{
-						name: "forward",
-						icon: require("../../files/menu/SVG/rightDoubleArrowsButton.svg"),
-						events: {
-							click: () => this.TimeSkip(+10)
-						}
-					},
-					{
-						name: "audio",
-						icon: require("../../files/menu/SVG/audioButton.svg"),
-						events: {
-							click: () => this.ChangeVolumeState()
-						}
-					}
-				],
-				right: [
-					{
-						name: "subtitles",
-						icon: require("../../files/menu/SVG/subtitlesButton.svg")
-					},
-					{
-						name: "share",
-						icon: require("../../files/menu/SVG/shareButton.svg")
-					},
-					{
-						name: "fullscreen",
-						icon: require("../../files/menu/SVG/fullscreenButton.svg")
-					}
-				]
-			}
+			newTime: null
 		};
-	},
+    },
+    mixins: [
+        playerMixin
+    ],
 	components: {
-        ControllerButtonsBar
+        // ControllerButtonsBar
 		// PlayerMenuButton,
 		// AudioBar
 	},
@@ -113,7 +67,13 @@ export default {
 			if (event.key == "ArrowLeft") this.TimeSkip(-10);
 			if (event.key == "ArrowRight") this.TimeSkip(10);
 		});
-	},
+    },
+    props: {
+        visibility: {
+            type: Boolean,
+            default: true
+        }
+    },
 	methods: {
 		ChangeCurrentButton: function(event) {
 			if (!(event instanceof ButtonEvent)) throw new TypeError();
@@ -126,90 +86,28 @@ export default {
 				(event.clientX - boundingClientRect.left) /
 				boundingClientRect.width;
 			this.newTime = this.PercentageToTime(mousePositionPercentage);
-		},
-
-		StateChange: function() {
-			this.$emit("state-change", !this.isPlaying);
-		},
-
-		TimeChange: function(time) {
-			this.$emit("time-change", time);
-		},
-		TimeSkip: function(timeDifference) {
-			this.$emit("time-change", this.currentTimeStamp + timeDifference);
-		},
-		VolumeChange: function(audioVolume) {
-			this.audio.audioVolume = audioVolume;
-			this.$emit("volume-change", audioVolume);
-		},
-		ChangeVolumeState: function() {
-			if (this.audio.audioVolume > 0) {
-				this.audio.temporaryAudioVolume = this.audio.audioVolume;
-				this.audio.audioVolume = 0;
-			} else {
-				this.audio.audioVolume = this.audio.temporaryAudioVolume;
-			}
-			this.$emit("volume-change", this.audio.audioVolume);
-		},
-
+        },
+        TimeChange: function(newTime) {
+            // this.$store.commit(Mutations.CurrentTimeSet, newTime);
+            PlayerEventBus.$emit("CurrentTimeChanged", newTime);
+        },
+        
+		// Time formatting
 		TimeToPercentage: function(time) {
 			return (time / this.duration) * 100;
 		},
 		PercentageToTime: function(percentage) {
 			return percentage * this.duration;
-		}
-	},
-	props: {
-		visibility: {
-			type: Boolean,
-			required: true,
-			default: false
-		},
-		video: {
-			required: true
-		},
-		isPlaying: {
-			type: Boolean,
-			required: true
-		},
-		currentTimeStamp: {
-			required: true
-		},
-		duration: {
-			required: true
-		},
-		buffered: {
-			required: true
-		}
-	},
-	computed: {
-		currentTimeFormated: function() {
-			let minutesPart = Math.floor(this.currentTimeStamp % 60);
+        },
+        TimeFormatted: function(time) {
+            let minutesPart = Math.floor(time % 60);
 
 			return (
-				Math.floor(this.currentTimeStamp / 60) +
+				Math.floor(time / 60) +
 				":" +
 				minutesPart.toLocaleString("en-US", { minimumIntegerDigits: 2 })
-			);
-		},
-		durationTimeFormated: function() {
-			let minutesPart = Math.floor(this.duration % 60);
-
-			return (
-				Math.floor(this.duration / 60) +
-				":" +
-				minutesPart.toLocaleString("en-US", { minimumIntegerDigits: 2 })
-			);
-		},
-		newTimeFormated: function() {
-			let minutesPart = Math.floor(this.newTime % 60);
-
-			return (
-				Math.floor(this.newTime / 60) +
-				":" +
-				minutesPart.toLocaleString("en-US", { minimumIntegerDigits: 2 })
-			);
-		}
+			); 
+        }
 	}
 };
 </script>

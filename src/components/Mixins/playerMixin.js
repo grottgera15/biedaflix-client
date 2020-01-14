@@ -14,6 +14,12 @@ export default {
         },
 		currentTime: function() {
 			return this.$store.state.player.currentTime;
-		}
+        },
+        duration: function() {
+            return this.$store.state.player.duration;
+        },
+        buffered: function() {
+            return this.$store.state.player.buffered;
+        }
     }
 }
