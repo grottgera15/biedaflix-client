@@ -5,8 +5,9 @@
 			<div class="header">
 				<span>Rejestracja</span>
 			</div>
-
-            <AvatarBlock :avatar="avatar"/>
+            <div class = "avatar-wrapper">
+            <AvatarBlock :avatar="avatar" :size="128"/>
+            </div>
 			<TextInput v-model="user.email">Adres e-mail</TextInput>
 			<TextInput :type="'Password'">Hasło</TextInput>
 			<TextInput :type="'Password'">Powtórz hasło</TextInput>
@@ -80,6 +81,12 @@ export default {
             padding: 16px 48px
             border-bottom: 1px solid #ffffff17  
             align-items: center
+
+        .avatar-wrapper
+            width: 100%
+            text-align: center
+            
+
         
 
 </style>
