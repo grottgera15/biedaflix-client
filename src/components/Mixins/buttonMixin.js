@@ -6,7 +6,7 @@ export default {
             this.$emit("mouse-interacted-button", new ButtonEvent(this.name, true))
         },
         OnMouseLeaveButton: function() {
-            this.$emit("mouse-internacted-button", new ButtonEvent(this.name, false))
+            this.$emit("mouse-interacted-button", new ButtonEvent(this.name, false))
         },
         OnMouseClickButton: function(event) {
             this.$emit("click", event);
