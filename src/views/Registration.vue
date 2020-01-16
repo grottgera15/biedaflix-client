@@ -5,7 +5,8 @@
 			<div class="header">
 				<span>Rejestracja</span>
 			</div>
-			<img :src="avatarUrl" />
+
+            <AvatarBlock :avatar="avatar"/>
 			<TextInput v-model="user.email">Adres e-mail</TextInput>
 			<TextInput :type="'Password'">Hasło</TextInput>
 			<TextInput :type="'Password'">Powtórz hasło</TextInput>
@@ -19,7 +20,9 @@ import Button from "../components/Button.vue";
 import TextInput from "../components/TextInput.vue";
 import Logo from "../components/Logo.vue";
 
-import avatars from "../components/Mixins/avatarsMixin";
+import Avatar from "../classes/Avatar.js";
+import avatars from "../components/Mixins/avatarsMixin.js";
+import AvatarBlock from "../components/AvatarBlock.vue";
 
 export default {
 	name: "Registration",
@@ -28,26 +31,18 @@ export default {
 			user: {
 				email: null
 			},
-			avatar: {
-                eyes: null,
-                nose: null,
-                mouth: null
-            }
+			avatar: new Avatar(null, null, null)
 		};
 	},
 	components: {
 		Logo,
 		Button,
-		TextInput
+        TextInput,
+        AvatarBlock
     },
     mixins: [
         avatars
     ],
-    computed: {
-        avatarUrl: function() {
-            return this.GenerateAvatar(this.avatar.eyes, this.avatar.nose, this.avatar.mouth, "b22222");
-        }
-    },
     watch: {
         'user.email': function() {
             this.avatar = this.GenerateRandomAvatar();
@@ -85,7 +80,6 @@ export default {
             padding: 16px 48px
             border-bottom: 1px solid #ffffff17  
             align-items: center
-        
         
 
 </style>
