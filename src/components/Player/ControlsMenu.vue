@@ -27,7 +27,7 @@
 							<div class="bar-current-time" :style="{width: TimeToPercentage(currentTime) + '%'}" />
 						</div>
 					</div>
-					<!-- <ControllerButtonsBar /> -->
+					<ControllerButtonsBar />
 				</div>
 			</div>
 		</transition>
@@ -39,7 +39,7 @@
 import ButtonEvent from "../../classes/ButtonEvent.js";
 // import AudioBar from "./AudioBar.vue";
 
-// import ControllerButtonsBar from "./ControllerButtonsBar";
+import ControllerButtonsBar from "./ControllerButtonsBar";
 
 import { PlayerEventBus } from "../../PlayerEventBus.js";
 
@@ -58,7 +58,7 @@ export default {
         playerMixin
     ],
 	components: {
-        // ControllerButtonsBar
+        ControllerButtonsBar
 		// PlayerMenuButton,
 		// AudioBar
 	},
@@ -88,7 +88,6 @@ export default {
 			this.newTime = this.PercentageToTime(mousePositionPercentage);
         },
         TimeChange: function(newTime) {
-            // this.$store.commit(Mutations.CurrentTimeSet, newTime);
             PlayerEventBus.$emit("CurrentTimeChanged", newTime);
         },
         

@@ -4,45 +4,52 @@
 			<ControllerButton
 				:name="'play'"
 				:icon="require('../../files/menu/SVG/playButton.svg')"
+                :isMainIconActive="!isPlaying"
 				:secondaryIcon="require('../../files/menu/SVG/pauseButton.svg')"
-				:iconCondition="isPlaying"
+                :isFocused="'play' === activeButton"
+                @mouse-interacted-button="ActiveButtonChange"
 				@click="StateChange()"
 			/>
 			<ControllerButton
                 :name="'back'"
 				:icon="require('../../files/menu/SVG/leftDoubleArrowsButton.svg')"
-				:iconCondition="isPlaying"
+                :isFocused="'back' === activeButton"
+                @mouse-interacted-button="ActiveButtonChange"
 				@click="TimeSkip(-10)"
 			/>
 			<ControllerButton
                 :name="'forward'"
 				:icon="require('../../files/menu/SVG/rightDoubleArrowsButton.svg')"
-				:iconCondition="isPlaying"
+                :isFocused="'forward' === activeButton"
+                @mouse-interacted-button="ActiveButtonChange"
 				@click="TimeSkip(+10)"
 			/>
 			<ControllerButton
                 :name="'audio'"
 				:icon="require('../../files/menu/SVG/audioButton.svg')"
-				:iconCondition="isPlaying"
+                :isFocused="'audio' === activeButton"
+                @mouse-interacted-button="ActiveButtonChange"
 				@click="ChangeVolumeState()"
 			/>
-            {{currentTime}}
 		</div>
 		<div class="right-side">
 			<ControllerButton
                 :name="'subtitles'"
 				:icon="require('../../files/menu/SVG/subtitlesButton.svg')"
-				:iconCondition="isPlaying"
+                :isFocused="'subtitles' === activeButton"
+                @mouse-interacted-button="ActiveButtonChange"
 			/>
 			<ControllerButton
                 :name="'share'"
 				:icon="require('../../files/menu/SVG/shareButton.svg')"
-				:iconCondition="isPlaying"
+                :isFocused="'share' === activeButton"
+                @mouse-interacted-button="ActiveButtonChange"
 			/>
 			<ControllerButton
                 :name="'fullscreen'"
 				:icon="require('../../files/menu/SVG/fullscreenButton.svg')"
-				:iconCondition="isPlaying"
+                :isFocused="'fullscreen' === activeButton"
+                @mouse-interacted-button="ActiveButtonChange"
 			/>
 		</div>
 	</div>
@@ -52,21 +59,43 @@
 import ControllerButton from "./ControllerButton.vue";
 // import AudioBar from "./AudioBar.vue";
 
+import ButtonEvent from "../../classes/ButtonEvent.js"
+import playerMixin from "../Mixins/playerMixin.js";
+import Mutations from "../../vuex/PlayerMutations.js";
+
 export default {
 	name: "ControllerButtonsBar",
 	data() {
-		return {};
+		return {
+            activeButton: null
+        };
 	},
 	components: {
 		ControllerButton
 		// AudioBar
     },
+    mixins: [
+        playerMixin
+    ],
+    methods: {
+        ActiveButtonChange: function(event) {
+            if (event instanceof ButtonEvent) {
+                if (event.state)
+                    this.activeButton = event.name;
+                else
+                    this.activeButton = null;
+            }
+        },
+        StateChange: function() {
+            this.$store.commit(Mutations.PlayerStateSet, !this.isPlaying);
+        }
+    },
     computed: {
-        currentTime () {
-            return this.$store.state.player.currentTime;
+        isPlaying: function() {
+            return this.$store.state.player.isPlaying;
         }
     }
-};
+}
 </script>
 
 <style lang="sass" scoped>
