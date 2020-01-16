@@ -2,7 +2,7 @@
 	<div
 		class="time-bar"
 		@mouseenter="mouseOnBar = true"
-		@mouseleave="mouseOnBar = false, mousePressed = false"
+		@mouseleave="mouseOnBar = false, mouseDragging = false"
 		@mousemove="[OnMouseOverBar($event), TimeChange($event)]"
 		@mousedown="mouseDragging = true"
 		@mouseup="mouseDragging = false"
@@ -23,7 +23,7 @@
 			/>
 			<div
 				class="bar-current-time"
-				:style="{width: ((!mouseDragging && !isWaitingForBuffer)  ? TimeToPercentage(currentTime) : TimeToPercentage(newTime)) + '%'}"
+				:style="{width: TimeOnBar + '%'}"
 			/>
 		</div>
 	</div>
@@ -39,7 +39,8 @@ export default {
 		return {
 			mouseOnBar: false,
 			mouseDragging: false,
-			newTime: 0
+            newTime: 0,
+            currentTimeUpdated: 0
 		};
 	},
 	mixins: [playerMixin],
@@ -52,10 +53,25 @@ export default {
 			this.newTime = this.PercentageToTime(mousePositionPercentage);
 		},
 		TimeChange: function() {
-			if (this.mouseDragging)
-				PlayerEventBus.$emit("CurrentTimeChanged", this.newTime);
+			if (this.mouseDragging) {
+                this.currentTimeUpdated = this.newTime;   
+                PlayerEventBus.$emit("CurrentTimeChanged", this.newTime);
+            }
 		}
-	}
+    },
+    computed: {
+        TimeOnBar: function() {
+            if (this.mouseDragging)
+                return this.TimeToPercentage(this.newTime);
+            else
+                return this.TimeToPercentage(this.currentTimeUpdated);
+        }
+    },
+    watch: {
+        currentTime: function() {
+            this.currentTimeUpdated = this.currentTime;
+        }
+    }
 };
 </script>
 
