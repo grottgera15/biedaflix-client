@@ -1,5 +1,5 @@
 <template>
-	<div class="avatar" :style="{'background-image': 'url(' + avatarUrl + ')', width: sizeInPixels, height: sizeInPixels}" />
+	<img class="avatar" :src="avatarUrl" />
 </template>
 
 <script>
@@ -9,10 +9,6 @@ import avatars from "../components/Mixins/avatarsMixin";
 export default {
 	name: "AvatarBlock",
 	props: {
-		size: {
-			type: Number,
-			default: 256
-        },
         avatar: {
             type: Avatar,
             required: true
@@ -22,9 +18,6 @@ export default {
         avatars
     ],
 	computed: {
-		sizeInPixels: function() {
-			return this.size + "px";
-        },
         avatarUrl: function() {
             return this.GenerateAvatar(this.avatar.eyes, this.avatar.nose, this.avatar.mouth, "ffffff"); 
         }
@@ -34,8 +27,6 @@ export default {
 
 <style lang="sass" scoped>
 .avatar
-    width: 128px
-    height: 128px
     display: inline-block
     background-size: contain
     background-color: WHITE
