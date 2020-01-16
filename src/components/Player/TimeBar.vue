@@ -2,9 +2,10 @@
 	<div
 		class="time-bar"
 		@mouseenter="mouseOnBar = true"
-		@mouseleave="mouseOnBar = false"
-		@mousemove="OnMouseOverBar"
-		@click="TimeChange(newTime)"
+		@mouseleave="mouseOnBar = false, mousePressed = false"
+		@mousemove="[OnMouseOverBar($event), TimeChange($event)]"
+		@mousedown="mouseDragging = true"
+		@mouseup="mouseDragging = false"
 	>
 		<div
 			class="bar-mouse-over-popup"
@@ -20,7 +21,10 @@
 				:style="{left: TimeToPercentage(buffer.start) + '%',
                                         right: (100-TimeToPercentage(buffer.end)) + '%'}"
 			/>
-			<div class="bar-current-time" :style="{width: TimeToPercentage(currentTime) + '%'}" />
+			<div
+				class="bar-current-time"
+				:style="{width: ((!mouseDragging && !isWaitingForBuffer)  ? TimeToPercentage(currentTime) : TimeToPercentage(newTime)) + '%'}"
+			/>
 		</div>
 	</div>
 </template>
@@ -30,13 +34,14 @@ import playerMixin from "../Mixins/playerMixin.js";
 import { PlayerEventBus } from "../../PlayerEventBus.js";
 
 export default {
-    name: "TimeBar",
-    data() {
-        return {
-            mouseOnBar: false,
-            newTime: 0
-        }
-    },
+	name: "TimeBar",
+	data() {
+		return {
+			mouseOnBar: false,
+			mouseDragging: false,
+			newTime: 0
+		};
+	},
 	mixins: [playerMixin],
 	methods: {
 		OnMouseOverBar: function(event) {
@@ -46,8 +51,9 @@ export default {
 				boundingClientRect.width;
 			this.newTime = this.PercentageToTime(mousePositionPercentage);
 		},
-		TimeChange: function(newTime) {
-			PlayerEventBus.$emit("CurrentTimeChanged", newTime);
+		TimeChange: function() {
+			if (this.mouseDragging)
+				PlayerEventBus.$emit("CurrentTimeChanged", this.newTime);
 		}
 	}
 };
