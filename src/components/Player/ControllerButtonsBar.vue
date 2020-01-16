@@ -88,11 +88,17 @@ export default {
         },
         StateChange: function() {
             this.$store.commit(Mutations.PlayerStateSet, !this.isPlaying);
+        },
+        TimeSkip: function(timeChange) {
+            this.$store.commit(Mutations.CurrentTimeSet, this.currentTime + timeChange);
         }
     },
     computed: {
         isPlaying: function() {
             return this.$store.state.player.isPlaying;
+        },
+        currentTime: function() {
+            return this.$store.state.player.currentTime;
         }
     }
 }
