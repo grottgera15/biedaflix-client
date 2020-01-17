@@ -30,6 +30,5 @@ export default {
     display: inline-block
     background-size: contain
     background-color: WHITE
-    border: 1px solid #ffffff17  
     border-radius: 4px
 </style>
