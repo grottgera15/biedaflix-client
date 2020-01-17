@@ -1,6 +1,6 @@
 <template>
 	<div class="chat-window" @mouseenter="mouseOverChat = true" @mouseleave="mouseOverChat = false">
-		<div class="wrapper round-top" :class="{'round-bottom': !mouseOverChat}">
+		<div class="wrapper round-top">
 			<div class="content" ref="messagesWrapper">
 				<div class="messages" ref="messages">
 					<div
@@ -24,7 +24,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="textarea-container" v-show="mouseOverChat" :class="{'round-bottom': mouseOverChat}">
+		<div class="textarea-container round-bottom">
 			<textarea
 				maxlength="256"
 				class="input"
@@ -33,6 +33,7 @@
 				@keypress="UpdateTextAreaSize"
 				@keydown="UpdateTextAreaSize"
 				@keyup="UpdateTextAreaSize"
+                :class="{active: mouseOverChat}"
 			/>
 			<div ref="textareaCopy" v-html="textarea"></div>
 		</div>
@@ -269,9 +270,9 @@ export default {
             font-size: 10pt
             padding: 12px
             line-height: 12pt
-            background-color: #000000CC
+            background-color: #00000070
             border: unset
-            color: white
+            color: #FFFFFFCC
             min-height: 40px
             width: 100%
 
@@ -280,9 +281,14 @@ export default {
             position: absolute
             height: 100%
             resize: none
+            transition: background-color .2s ease-in-out, color .2s ease-in-out
 
             &:focus
                 outline: unset !important
+
+        .active
+            background-color: #000000CC
+            color: white
                 
         div
             visibility: hidden
