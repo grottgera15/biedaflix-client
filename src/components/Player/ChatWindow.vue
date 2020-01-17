@@ -1,6 +1,6 @@
 <template>
-	<div class="chat-window">
-		<div class="wrapper">
+	<div class="chat-window" @mouseenter="mouseOverChat = true" @mouseleave="mouseOverChat = false">
+		<div class="wrapper round-top" :class="{'round-bottom': !mouseOverChat}">
 			<div class="content" ref="messagesWrapper">
 				<div class="messages" ref="messages">
 					<div
@@ -24,9 +24,17 @@
 				</div>
 			</div>
 		</div>
-		<div class="textarea-container">
-			<textarea maxlength="512" class="input" rows="1" @keypress="UpdateTextAreaSize" @keydown="UpdateTextAreaSize" @keyup="UpdateTextAreaSize"/>
-            <div ref="textareaCopy"></div>
+		<div class="textarea-container" v-show="mouseOverChat" :class="{'round-bottom': mouseOverChat}">
+			<textarea
+				maxlength="256"
+				class="input"
+				placeholder="Wpisz wiadomość..."
+				rows="1"
+				@keypress="UpdateTextAreaSize"
+				@keydown="UpdateTextAreaSize"
+				@keyup="UpdateTextAreaSize"
+			/>
+			<div ref="textareaCopy" v-html="textarea"></div>
 		</div>
 	</div>
 </template>
@@ -53,6 +61,9 @@ export default {
 			},
 			messagesToDisplayIndexStart: 0,
 			mouseOverMessages: false,
+            mouseOverChat: false,
+            chatHeight: 40,
+            textarea: null,
 			messages: [
 				new ChatMessage(
 					"zommer128@gmail.com",
@@ -146,12 +157,13 @@ export default {
 			this.$refs.messagesWrapper.scrollTop = this.$refs.messages.clientHeight;
 		},
 		UpdateTextAreaSize: function(event) {
-			this.$refs.textareaCopy.innerHTML = event.srcElement.value.replace("/\n/g", "<br/>");
+            this.textarea = event.srcElement.value.replace("\n", "<br />");
+            this.chatHeight = event.srcElement.scrollHeight;
 			this.UpdateChatScroll();
 		}
 	},
 	mounted: function() {
-		this.$refs.messagesWrapper.scrollTop = this.$refs.messages.clientHeight;
+		this.UpdateChatScroll();
 	},
 	watch: {
 		messages: function() {
@@ -173,13 +185,21 @@ export default {
     grid-template-columns: 350px
     grid-template-rows: 1fr max-content
 
+    .round-top
+        border-top-left-radius: 8px
+        border-top-right-radius: 8px
+        overflow: hidden
+
+    .round-bottom
+        border-bottom-left-radius: 8px
+        border-bottom-right-radius: 8px
+        overflow: hidden
+
     .wrapper
         display: block
         position: relative
         overflow: hidden
         height: 100%
-        border-top-left-radius: 8px
-        border-top-right-radius: 8px
 
         .content
             position: relative
@@ -239,6 +259,7 @@ export default {
 
     .textarea-container
         position: relative
+        overflow: hidden
 
         textarea, div
             word-wrap: break-word
@@ -248,9 +269,7 @@ export default {
             font-size: 10pt
             padding: 12px
             line-height: 12pt
-            border-bottom-left-radius: 8px
-            border-bottom-right-radius: 8px
-            background-color: #000000b5
+            background-color: #000000CC
             border: unset
             color: white
             min-height: 40px
@@ -267,4 +286,6 @@ export default {
                 
         div
             visibility: hidden
+            white-space: pre-wrap
+            
 </style>
