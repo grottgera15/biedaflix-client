@@ -5,7 +5,7 @@
 		@mousemove="OnMouseMoved"
 		:class="{'hide-cursor': !visualElements.visibility}"
 	>
-		<TopMenu :visibility="visualElements.visibility" />
+		
 		<!-- <SharePopUp @close-pop-up="popups.share = false" v-show="popups.share === true"/> -->
 		<div class="waiting-screen" v-show="!isReady" />
 		<video
@@ -37,11 +37,14 @@
 				<br />consectetur adipiscing elit.
 			</p>
 		</div>
-		<ControlsMenu />
+        <TopMenu :visibility="visualElements.visibility" />
+        <ChatWindow />
+		<ControlsMenu :visibility="visualElements.visibility" />
 	</div>
 </template>
 <script>
 import ControlsMenu from "../components/Player/ControlsMenu.vue";
+import ChatWindow from "../components/Player/ChatWindow.vue";
 import TopMenu from "../components/Player/TopMenu.vue";
 // import SharePopUp from "../components/Player/SharePopUp.vue";
 
@@ -67,7 +70,8 @@ export default {
 		};
 	},
 	components: {
-		ControlsMenu,
+        ControlsMenu,
+        ChatWindow,
 		TopMenu
 		// SharePopUp
     },

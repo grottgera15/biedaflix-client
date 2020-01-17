@@ -19,7 +19,7 @@ export default {
     ],
 	computed: {
         avatarUrl: function() {
-            return this.GenerateAvatar(this.avatar.eyes, this.avatar.nose, this.avatar.mouth, "ffffff"); 
+            return this.GenerateAvatar(this.avatar, "ffffff"); 
         }
 	}
 };
@@ -32,5 +32,4 @@ export default {
     background-color: WHITE
     border: 1px solid #ffffff17  
     border-radius: 4px
-    margin: 16px 0
 </style>

@@ -12,8 +12,10 @@ export default {
                 this.$avatars.face.mouth[Math.floor(Math.random() * mouthLength)],
             )
         },
-        GenerateAvatar: function (eyes, nose, mouth, color) {
-            return `https://api.adorable.io/avatars/face/${eyes}/${nose}/${mouth}/${color}`
+        GenerateAvatar: function (avatar, color) {
+            if (avatar instanceof Avatar)
+                return `https://api.adorable.io/avatars/face/${avatar.eyes}/${avatar.nose}/${avatar.mouth}/${color}`
+            throw new TypeError();
         }
     }
 }
