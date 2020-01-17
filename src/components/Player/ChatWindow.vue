@@ -24,7 +24,10 @@
 				</div>
 			</div>
 		</div>
-        <input type="text" class = "input">
+		<div class="textarea-container">
+			<textarea maxlength="512" class="input" rows="1" @keypress="UpdateTextAreaSize" @keydown="UpdateTextAreaSize" @keyup="UpdateTextAreaSize"/>
+            <div ref="textareaCopy"></div>
+		</div>
 	</div>
 </template>
 
@@ -138,6 +141,13 @@ export default {
 				start: startIndex,
 				end: endIndex
 			};
+		},
+		UpdateChatScroll: function() {
+			this.$refs.messagesWrapper.scrollTop = this.$refs.messages.clientHeight;
+		},
+		UpdateTextAreaSize: function(event) {
+			this.$refs.textareaCopy.innerHTML = event.srcElement.value.replace("/\n/g", "<br/>");
+			this.UpdateChatScroll();
 		}
 	},
 	mounted: function() {
@@ -145,7 +155,7 @@ export default {
 	},
 	watch: {
 		messages: function() {
-			this.$refs.messagesWrapper.scrollTop = this.$refs.messages.clientHeight;
+			this.UpdateChatScroll();
 		}
 	}
 };
@@ -159,8 +169,12 @@ export default {
     height: 50%
     z-index: 10000000
     margin-right: 128px
+    display: grid
+    grid-template-columns: 350px
+    grid-template-rows: 1fr max-content
 
     .wrapper
+        display: block
         position: relative
         overflow: hidden
         height: 100%
@@ -171,7 +185,6 @@ export default {
             position: relative
             background: linear-gradient(0deg, #00000070 0%, rgba(0,0,0,0) 100%)
             overflow-y: scroll
-            width: 350px
             height: 100%
 
             &::-webkit-scrollbar
@@ -224,15 +237,34 @@ export default {
                 .message-active
                     opacity: 1
 
-    .input
-        width: calc(100% - 2 * 12px)
-        letter-spacing: 0.5px
-        border: 0
-        background-color: black
-        color: white
-        padding: 12px
-        border-bottom-left-radius: 8px
-        border-bottom-right-radius: 8px
-        &:focus
-            outline: unset !important
+    .textarea-container
+        position: relative
+
+        textarea, div
+            word-wrap: break-word
+            box-sizing: border-box
+            width: 150px
+            font-family: inherit
+            font-size: 10pt
+            padding: 12px
+            line-height: 12pt
+            border-bottom-left-radius: 8px
+            border-bottom-right-radius: 8px
+            background-color: #000000b5
+            border: unset
+            color: white
+            min-height: 40px
+            width: 100%
+
+        textarea
+            overflow: hidden
+            position: absolute
+            height: 100%
+            resize: none
+
+            &:focus
+                outline: unset !important
+                
+        div
+            visibility: hidden
 </style>
