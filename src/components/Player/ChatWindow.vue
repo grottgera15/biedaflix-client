@@ -1,25 +1,30 @@
 <template>
 	<div class="chat-window">
-		<div class="content">
-			<div class="messages">
-				<div
-					class="message"
-					v-for="(message, i) in messages"
-					:key="i"
-					:class="(i >= focusedMessages.start && i <= focusedMessages.end && mouseOverMessages ? 'message-active' : '')"
-					@mouseover="focusedMessages = getMessagesFromSameAuthor(i)"
-                    @mouseenter="mouseOverMessages = true"
-                    @mouseleave="mouseOverMessages = false"
-				>
-					<AvatarBlock
-						:avatar="avatars[1]"
-						:class="isClient(message.email) ? 'client-avatar' : 'server-avatar'"
-						v-show="!hasNextMessageSameAuthor(i)"
-					/>
-					<div :class="isClient(message.email) ? 'client-content' : 'server-content'">{{message.message}}</div>
+		<div class="wrapper">
+			<div class="content" ref="messagesWrapper">
+				<div class="messages" ref="messages">
+					<div
+						class="message"
+						v-for="(message, i) in messages"
+						:key="i"
+						:class="(i >= focusedMessages.start && i <= focusedMessages.end && mouseOverMessages ? 'message-active' : '')"
+						@mouseover="focusedMessages = getMessagesFromSameAuthor(i)"
+						@mouseenter="mouseOverMessages = true"
+						@mouseleave="mouseOverMessages = false"
+					>
+						<AvatarBlock
+							:avatar="avatars[1]"
+							:class="isClient(message.email) ? 'client-avatar' : 'server-avatar'"
+							v-show="!hasNextMessageSameAuthor(i)"
+						/>
+						<div
+							:class="isClient(message.email) ? 'client-content' : 'server-content'"
+						>{{message.message}}</div>
+					</div>
 				</div>
 			</div>
 		</div>
+        <input type="text" class = "input">
 	</div>
 </template>
 
@@ -42,8 +47,9 @@ export default {
 			focusedMessages: {
 				start: null,
 				end: null
-            },
-            mouseOverMessages: false,
+			},
+			messagesToDisplayIndexStart: 0,
+			mouseOverMessages: false,
 			messages: [
 				new ChatMessage(
 					"zommer128@gmail.com",
@@ -72,6 +78,22 @@ export default {
 				new ChatMessage(
 					"aleksander.szamalek@gmail.com",
 					"Suspendisse mi risus, maximus sit amet gravida et, dignissim quis lorem."
+				),
+				new ChatMessage(
+					"aleksander.szamalek@gmail.com",
+					"Vestibulum in orci bibendum, efficitur nunc vitae, ultrices sem."
+				),
+				new ChatMessage(
+					"zommer128@gmail.com",
+					"Etiam a nisi ut nibh molestie venenatis pulvinar a nunc."
+				),
+				new ChatMessage(
+					"aleksander.szamalek@gmail.com",
+					"Etiam vulputate, magna non consequat tempor, nulla ipsum tempus ligula, at cursus libero orci in mauris."
+				),
+				new ChatMessage(
+					"zommer128@gmail.com",
+					"Curabitur porta elementum purus xD"
 				)
 			]
 		};
@@ -117,6 +139,14 @@ export default {
 				end: endIndex
 			};
 		}
+	},
+	mounted: function() {
+		this.$refs.messagesWrapper.scrollTop = this.$refs.messages.clientHeight;
+	},
+	watch: {
+		messages: function() {
+			this.$refs.messagesWrapper.scrollTop = this.$refs.messages.clientHeight;
+		}
 	}
 };
 </script>
@@ -128,52 +158,81 @@ export default {
     top: 25%
     height: 50%
     z-index: 10000000
+    margin-right: 128px
 
-    .content
+    .wrapper
         position: relative
-        padding-right: 128px
+        overflow: hidden
+        height: 100%
+        border-top-left-radius: 8px
+        border-top-right-radius: 8px
 
-        .messages
-            height: 100%
-            padding: 4px
-            border-radius: 8px
+        .content
+            position: relative
             background: linear-gradient(0deg, #00000070 0%, rgba(0,0,0,0) 100%)
+            overflow-y: scroll
+            width: 350px
+            height: 100%
 
-            .message
-                display: grid
-                grid-template-columns: 32px 256px 32px 
-                grid-template-areas: "server text client"
-                align-items: center
-                opacity: .5
-                cursor: default
-                font-size: 10pt
-                line-height: 14pt
-                letter-spacing: 0.5px
-                text-shadow: 4px 4px 8px black
-                transition-duration: .2s
-                margin: 8px 8px
+            &::-webkit-scrollbar
+                width: 4px
 
-                .server-avatar, .client-avatar
-                    width: 100%
-                    box-shadow: #00000070 2px 2px 8px
+            &::-webkit-scrollbar-thumb
+                background: #000000AA
 
-                .server-avatar
-                    grid-area: server
+            .messages
+                width: calc(100% - 2*4px)
+                padding: 4px
+                position: relative
+                bottom: 0
+                left: 0
 
-                .client-avatar
-                    grid-area: client
+                .message
+                    display: grid
+                    grid-template-columns: 32px auto 32px 
+                    grid-template-areas: "server text client"
+                    align-items: center
+                    opacity: .5
+                    cursor: default
+                    font-size: 10pt
+                    line-height: 14pt
+                    letter-spacing: 0.5px
+                    text-shadow: 4px 4px 8px black
+                    transition-duration: .2s
+                    margin: 8px 8px
 
-                .server-content, .client-content
-                    grid-area: text
-                    margin: 0 12px
+                    .server-avatar, .client-avatar
+                        width: 100%
+                        box-shadow: #00000070 2px 2px 8px
 
-                .server-content
-                    margin-right: 32px
+                    .server-avatar
+                        grid-area: server
 
-                .client-content
-                    margin-left: 32px
+                    .client-avatar
+                        grid-area: client
 
-            .message-active
-                opacity: 1
+                    .server-content, .client-content
+                        grid-area: text
+                        margin: 0 12px
 
+                    .server-content
+                        margin-right: 32px
+
+                    .client-content
+                        margin-left: 32px
+
+                .message-active
+                    opacity: 1
+
+    .input
+        width: calc(100% - 2 * 12px)
+        letter-spacing: 0.5px
+        border: 0
+        background-color: black
+        color: white
+        padding: 12px
+        border-bottom-left-radius: 8px
+        border-bottom-right-radius: 8px
+        &:focus
+            outline: unset !important
 </style>
