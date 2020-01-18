@@ -3,7 +3,8 @@
 		class="time-bar"
 		@mouseenter="mouseOnBar = true"
 		@mouseleave="mouseOnBar = false, mouseDragging = false"
-		@mousemove="[OnMouseOverBar($event), TimeChange($event)]"
+		@mousemove="OnMouseOverBar($event)"
+        @click="TimeChange($event)"
 		@mousedown="mouseDragging = true"
 		@mouseup="mouseDragging = false"
 	>
@@ -53,26 +54,18 @@ export default {
 			this.newTime = this.PercentageToTime(mousePositionPercentage);
 		},
 		TimeChange: function() {
-			if (this.mouseDragging) {
-				this.currentTimeUpdated = this.newTime;
-				PlayerEventBus.$emit("CurrentTimeChanged", this.newTime);
-			}
+            PlayerEventBus.$emit("CurrentTimeChanged", this.newTime);
 		}
 	},
 	computed: {
 		TimeOnBar: function() {
 			if (this.mouseDragging) return this.TimeToPercentage(this.newTime);
-			else return this.TimeToPercentage(this.currentTimeUpdated);
+			else return this.TimeToPercentage(this.currentTime);
 		},
 		ThumbnailURL: function() {
 			let time = Math.round(this.newTime / 10 + 1).toString();
 			while (time.length < 4) time = "0" + time;
 			return require(`../../files/images/thumbs/thumb${time}.jpg`);
-		}
-	},
-	watch: {
-		currentTime: function() {
-			this.currentTimeUpdated = this.currentTime;
 		}
 	}
 };
