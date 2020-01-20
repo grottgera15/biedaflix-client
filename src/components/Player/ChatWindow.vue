@@ -19,7 +19,8 @@
 						/>
 						<div
 							:class="isClient(message.email) ? 'client-content' : 'server-content'"
-						>{{message.message}}</div>
+							v-html="message.message"
+						/>
 					</div>
 				</div>
 			</div>
@@ -33,7 +34,7 @@
 				@keypress="UpdateTextAreaSize"
 				@keydown="UpdateTextAreaSize"
 				@keyup="UpdateTextAreaSize"
-                :class="{active: mouseOverChat}"
+				:class="{active: mouseOverChat}"
 			/>
 			<div ref="textareaCopy" v-html="textarea"></div>
 		</div>
@@ -62,9 +63,9 @@ export default {
 			},
 			messagesToDisplayIndexStart: 0,
 			mouseOverMessages: false,
-            mouseOverChat: false,
-            chatHeight: 40,
-            textarea: null,
+			mouseOverChat: false,
+			chatHeight: 40,
+			textarea: null,
 			messages: [
 				new ChatMessage(
 					"zommer128@gmail.com",
@@ -158,8 +159,8 @@ export default {
 			this.$refs.messagesWrapper.scrollTop = this.$refs.messages.clientHeight;
 		},
 		UpdateTextAreaSize: function(event) {
-            this.textarea = event.srcElement.value.replace("\n", "<br />");
-            this.chatHeight = event.srcElement.scrollHeight;
+			this.textarea = event.srcElement.value.replace("\n", "<br />");
+			this.chatHeight = event.srcElement.scrollHeight;
 			this.UpdateChatScroll();
 		}
 	},

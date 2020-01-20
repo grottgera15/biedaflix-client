@@ -4,17 +4,16 @@
 		@mouseenter="mouseOnBar = true"
 		@mouseleave="mouseOnBar = false, mouseDragging = false"
 		@mousemove="OnMouseOverBar($event)"
-        @click="TimeChange($event)"
+		@click="TimeChange($event)"
 		@mousedown="mouseDragging = true"
 		@mouseup="mouseDragging = false"
 	>
 		<div
 			class="bar-mouse-over-popup"
 			v-show="mouseOnBar"
-			:style="{'left': (TimeToPercentage(newTime) + '%')}"
-			
-		>   
-            <div class = "time" v-html="TimeFormatted(newTime)" />
+			:style="{'left': (TimeToPercentage(mouseTime) + '%')}"
+		>
+			<div class="time" v-html="TimeFormatted(mouseTime)" />
 			<img :src="ThumbnailURL" />
 		</div>
 		<div class="bar" :class="{'bar-full-size': mouseOnBar}">
@@ -25,14 +24,15 @@
 				:style="{left: TimeToPercentage(buffer.start) + '%',
                                         right: (100-TimeToPercentage(buffer.end)) + '%'}"
 			/>
-			<div class="bar-current-time" :style="{width: TimeOnBar + '%'}" />
+			<div class="bar-current-time" :style="{width: TimeToPercentage(currentTime) + '%'}" />
 		</div>
 	</div>
 </template>
 
 <script>
+import Mutations from "../../vuex/PlayerMutations.js";
 import playerMixin from "../Mixins/playerMixin.js";
-import { PlayerEventBus } from "../../PlayerEventBus.js";
+// import { PlayerEventBus } from "../../PlayerEventBus.js";
 
 export default {
 	name: "TimeBar",
@@ -40,7 +40,7 @@ export default {
 		return {
 			mouseOnBar: false,
 			mouseDragging: false,
-			newTime: 0,
+			mouseTime: 0,
 			currentTimeUpdated: 0
 		};
 	},
@@ -51,22 +51,24 @@ export default {
 			let mousePositionPercentage =
 				(event.clientX - boundingClientRect.left) /
 				boundingClientRect.width;
-			this.newTime = this.PercentageToTime(mousePositionPercentage);
+			this.mouseTime = this.PercentageToTime(mousePositionPercentage);
 		},
 		TimeChange: function() {
-            PlayerEventBus.$emit("CurrentTimeChanged", this.newTime);
+            this.$store.commit(Mutations.NewTimeSet, this.mouseTime);
 		}
 	},
 	computed: {
-		TimeOnBar: function() {
-			if (this.mouseDragging) return this.TimeToPercentage(this.newTime);
-			else return this.TimeToPercentage(this.currentTime);
-		},
 		ThumbnailURL: function() {
-			let time = Math.round(this.newTime / 10 + 1).toString();
+			let time = Math.round(this.mouseTime / 10 + 1).toString();
 			while (time.length < 4) time = "0" + time;
 			return require(`../../files/images/thumbs/thumb${time}.jpg`);
-		}
+        },
+        CurrentTime: function() {
+            if (this.timeChangesQueue.length > 0)
+                return this.TimeToPercentage(this.timeChangesQueue[0]);
+            else
+                return this.TimeToPercentage(this.currentTime);
+        }
 	}
 };
 </script>

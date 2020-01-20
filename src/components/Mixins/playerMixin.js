@@ -37,6 +37,9 @@ export default {
         },
         buffered: function () {
             return this.$store.state.player.buffered;
+        },
+        newTime: function() {
+            return this.$store.state.player.newTime;
         }
     }
 }

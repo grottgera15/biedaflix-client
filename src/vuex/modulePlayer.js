@@ -4,6 +4,8 @@ const modulePlayer = {
     state: {
         duration: 0,
         currentTime: 0,
+        newTime: 0,
+        timeChangesQueue: [],
         isReady: false,
         isPlaying: false,
         isWaitingForBuffer: false,
@@ -22,14 +24,14 @@ const modulePlayer = {
         [PlayerMutations.BufferedSet]: function(state, buffered) {
             state.buffered = buffered;
         },
-        [PlayerMutations.CurrentTimeSet]: function(state, currentTime) {
-            state.currentTime = currentTime;
-        },
         [PlayerMutations.PlayerStateSet]: function(state, isPlaying) {
             state.isPlaying = isPlaying;
         },
         [PlayerMutations.PendingSet]: function(state, isWaitingForBuffer) {
             state.isWaitingForBuffer = isWaitingForBuffer;
+        },
+        [PlayerMutations.NewTimeSet]: function(state, newTime) {
+            state.newTime = newTime;
         }
         
     }

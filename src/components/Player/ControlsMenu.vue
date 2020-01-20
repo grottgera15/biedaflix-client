@@ -27,8 +27,7 @@ export default {
 	name: "ControlsMenu",
 	data() {
 		return {
-			mouseOnBar: false,
-			newTime: null
+			mouseOnBar: false
 		};
     },
     mixins: [
