@@ -90,7 +90,7 @@ export default {
             this.$store.commit(Mutations.PlayerStateSet, !this.isPlaying);
         },
         TimeSkip: function(timeChange) {
-            this.$store.commit(Mutations.CurrentTimeSet, this.currentTime + timeChange);
+            this.$store.commit(Mutations.NewTimeSet, this.currentTime + timeChange);
         }
     },
     computed: {

@@ -3,7 +3,7 @@
 		<transition name="slide-bottom">
 			<div class="menu" v-show="visibility">
 				<div class="wrapper">
-                    <TimeBar />
+					<TimeBar />
 					<ControllerButtonsBar />
 				</div>
 			</div>
@@ -19,8 +19,7 @@ import ButtonEvent from "../../classes/ButtonEvent.js";
 import TimeBar from "./TimeBar";
 import ControllerButtonsBar from "./ControllerButtonsBar";
 
-
-// import Mutations from "../../vuex/PlayerMutations.js";
+import Mutations from "../../vuex/PlayerMutations.js";
 import playerMixin from "../Mixins/playerMixin.js";
 
 export default {
@@ -29,13 +28,11 @@ export default {
 		return {
 			mouseOnBar: false
 		};
-    },
-    mixins: [
-        playerMixin
-    ],
+	},
+	mixins: [playerMixin],
 	components: {
-        ControllerButtonsBar,
-        TimeBar
+		ControllerButtonsBar,
+		TimeBar
 		// PlayerMenuButton,
 		// AudioBar
 	},
@@ -44,19 +41,22 @@ export default {
 			if (event.key == "ArrowLeft") this.TimeSkip(-10);
 			if (event.key == "ArrowRight") this.TimeSkip(10);
 		});
-    },
-    props: {
-        visibility: {
-            type: Boolean,
-            default: true
-        }
-    },
+	},
+	props: {
+		visibility: {
+			type: Boolean,
+			default: true
+		}
+	},
 	methods: {
 		ChangeCurrentButton: function(event) {
 			if (!(event instanceof ButtonEvent)) throw new TypeError();
 			if (event.state) this.currentButton = event.name;
 			else this.currentButton = null;
-		}
+        },
+        TimeSkip: function(timeSkip) {
+            this.$store.commit(Mutations.NewTimeSet, this.currentTime + timeSkip);
+        }
 	}
 };
 </script>
