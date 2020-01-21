@@ -1,16 +1,19 @@
+import hash from "js-hash-code"
+
 import Avatar from "../../classes/Avatar.js"
 
 export default {
     methods: {
-        GenerateRandomAvatar: function () {
+        GenerateRandomAvatar: function (seed) {
+            let parsedSeed = Math.abs(parseInt(hash(seed), 16));
             let eyesLength = this.$avatars.face.eyes.length;
             let noseLength = this.$avatars.face.nose.length;
             let mouthLength = this.$avatars.face.mouth.length;
             return new Avatar(
-                this.$avatars.face.eyes[Math.floor(Math.random() * eyesLength)],
-                this.$avatars.face.nose[Math.floor(Math.random() * noseLength)],
-                this.$avatars.face.mouth[Math.floor(Math.random() * mouthLength)],
-            )
+                this.$avatars.face.eyes[(parsedSeed % eyesLength)],
+                this.$avatars.face.nose[(parsedSeed % noseLength)],
+                this.$avatars.face.mouth[(parsedSeed % mouthLength)]
+            );
         },
         GenerateAvatar: function (avatar, color) {
             if (avatar instanceof Avatar)

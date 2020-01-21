@@ -6,7 +6,7 @@
 				<span>Rejestracja</span>
 			</div>
             <div class = "avatar-wrapper">
-            <AvatarBlock :avatar="avatar" :size="128"/>
+            <AvatarBlock :avatar="avatar"/>
             </div>
 			<TextInput v-model="user.email">Adres e-mail</TextInput>
 			<TextInput :type="'Password'">Hasło</TextInput>
@@ -46,7 +46,7 @@ export default {
     ],
     watch: {
         'user.email': function() {
-            this.avatar = this.GenerateRandomAvatar();
+            this.avatar = this.GenerateRandomAvatar(this.user.email);
         }
     }
 };
