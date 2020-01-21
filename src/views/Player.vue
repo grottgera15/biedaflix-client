@@ -13,7 +13,6 @@
 			name="media"
 			kind="captions"
 			ref="video"
-			muted
 			@timeupdate="OnTimeUpdated"
 			@durationchange="OnDurationChanged"
 			@canplay="OnCanPlay"
@@ -50,7 +49,7 @@ import TopMenu from "../components/Player/TopMenu.vue";
 
 import Mutations from "../vuex/PlayerMutations.js";
 import playerMixin from "../components/Mixins/playerMixin.js";
-import { PlayerEventBus } from "../PlayerEventBus.js";
+// import { PlayerEventBus } from "../PlayerEventBus.js";
 
 
 export default {
@@ -75,17 +74,17 @@ export default {
 		TopMenu
 		// SharePopUp
     },
-    mounted: function(){
-        PlayerEventBus.$on("CurrentTimeChanged", (newTime) => {
-            this.$refs.video.currentTime = newTime;
-        })
-    },
+    // mounted: function(){
+    //     PlayerEventBus.$on("CurrentTimeChanged", (newTime) => {
+    //         this.$refs.video.currentTime = newTime;
+    //     })
+    // },
 	methods: {
 		// Player original events
 		OnCanPlay: function() {
 			this.$store.commit(Mutations.ReadinessSet, true);
 			this.$store.commit(Mutations.PendingSet, false);
-			this.$refs.video.play();
+			// this.$refs.video.play();
 		},
 		OnCanPlayThrough: function() {
 			this.$store.commit(Mutations.PendingSet, false);
@@ -159,9 +158,18 @@ export default {
 			if (this.isPlaying) this.$refs.video.play();
 			else this.$refs.video.pause();
         },
-        currentTime: function() {
-            if (Math.abs(this.$refs.video.currentTime*100 - this.currentTime*100) > 5) 
-                this.$refs.video.currentTime = this.currentTime;
+        newTime: function() {
+            this.$refs.video.currentTime = this.newTime;
+            this.$store.commit(Mutations.CurrentTimeSet, this.newTime);
+        },
+        isReady: function() {
+            if (this.isReady)
+                this.$refs.video.play();
+            else
+                this.$refs.video.pause();
+        },
+        volume: function() {
+            this.$refs.video.volume = this.volume;
         }
 	}
 };
