@@ -32,6 +32,9 @@ export default {
         currentTime: function () {
             return this.$store.state.player.currentTime;
         },
+        volume: function() {
+            return this.$store.state.player.volume.main;
+        },
         duration: function () {
             return this.$store.state.player.duration;
         },

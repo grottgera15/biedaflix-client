@@ -3,6 +3,8 @@ export default {
     PlayerStateSet: "PlayerStateSet",
     CurrentTimeSet: "CurrentTimeSet",
     NewTimeSet: "NewTimeSet",
+    VolumeSet: "VolumeSet",
+    VolumeMute: "VolumeMute",
     AudioStateSet: "AudioStateSet",
     DurationSet: "DurationSet",
     PendingSet: "PendingSet",

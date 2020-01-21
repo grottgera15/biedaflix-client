@@ -5,7 +5,10 @@ const modulePlayer = {
         duration: 0,
         currentTime: 0,
         newTime: 0,
-        timeChangesQueue: [],
+        volume: {
+            main: 1,
+            secondary: 0
+        },
         isReady: false,
         isPlaying: false,
         isWaitingForBuffer: false,
@@ -20,6 +23,18 @@ const modulePlayer = {
         },
         [PlayerMutations.CurrentTimeSet]: function(state, currentTime) {
             state.currentTime = currentTime;
+        },
+        [PlayerMutations.VolumeSet]: function(state, volume) {
+            state.volume.main = volume;
+        },
+        [PlayerMutations.VolumeMute]: function(state) {
+            if (state.volume.main > 0) {
+                state.volume.secondary = state.volume.main;
+                state.volume.main = 0;  
+            } else {
+                state.volume.main = state.volume.secondary;
+                state.volume.secondary = 0;
+            }
         },
         [PlayerMutations.BufferedSet]: function(state, buffered) {
             state.buffered = buffered;
