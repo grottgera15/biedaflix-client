@@ -8,12 +8,18 @@ export default {
             return percentage * this.duration;
         },
         TimeFormatted: function (time) {
-            let minutesPart = Math.floor(time % 60);
-            return (
-                Math.floor(time / 60) +
-                ":" +
-                minutesPart.toLocaleString("en-US", { minimumIntegerDigits: 2 })
-            );
+            let secondsPart = Math.floor(time % 60);
+            let minutesPart = Math.floor(time / 59);
+            if (minutesPart > 59) {
+                let hoursPart = Math.floor(minutesPart / 60);
+                minutesPart = minutesPart - hoursPart * 60;
+                return `${hoursPart}:${this.TimeDigits(minutesPart)}:${this.TimeDigits(secondsPart)}`;
+            } else {
+                return `${minutesPart}:${this.TimeDigits(secondsPart)}`;
+            }
+        },
+        TimeDigits: function (time) {
+            return time.toLocaleString("en-US", {minimumIntegerDigits: 2});
         }
     },
     computed: {
