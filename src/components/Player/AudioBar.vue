@@ -1,8 +1,15 @@
 <template>
 	<transition name="audio-bar">
-		<div class="audio-bar-wrapper" v-show="visibility">
-			<div class="bar-volume" @click="ChangeVolume">
-				<div class="bar-volume-fill" :style="{width: (this.volume * 100) + '%'}"/>
+		<div
+			class="audio-bar-wrapper"
+			v-show="visibility"
+			@mousedown="mouseDown = true"
+			@mouseup="mouseDown = false"
+            @mouseleave="mouseDown = false"
+            @mousemove="ChangeVolume"
+		>
+			<div class="bar-volume">
+				<div class="bar-volume-fill" :style="{width: (this.volume * 100) + '%'}" />
 			</div>
 		</div>
 	</transition>
@@ -14,25 +21,30 @@ import playerMixin from "../Mixins/playerMixin.js";
 
 export default {
 	name: "AudioBar",
-    methods: {
-        ChangeVolume: function(event) {
-            let boundingClientRect = event.srcElement.getBoundingClientRect();
+	data: function() {
+		return {
+			mouseDown: false
+		};
+	},
+	methods: {
+		ChangeVolume: function(event) {
+            if (this.mouseDown === false) return;
+            event.preventDefault();
+			let boundingClientRect = event.srcElement.getBoundingClientRect();
 			let tempAudioVolume =
 				(event.clientX - boundingClientRect.left) /
-				boundingClientRect.width; 
-            this.$store.commit(Mutations.VolumeSet, tempAudioVolume);
-        }
-    },
-    mixins: [
-        playerMixin
-    ],
-    props: {
-        visibility: {
-            type: Boolean,
-            required: true,
-            default: true
-        }
-    }
+				boundingClientRect.width;
+			this.$store.commit(Mutations.VolumeSet, tempAudioVolume);
+		}
+	},
+	mixins: [playerMixin],
+	props: {
+		visibility: {
+			type: Boolean,
+			required: true,
+			default: true
+		}
+	}
 };
 </script>
 
@@ -52,7 +64,6 @@ export default {
     height: inherit
     width: calc(75px + 8px)
     overflow: hidden
-    margin-right: 8px
 
     .bar-volume
         float: right
