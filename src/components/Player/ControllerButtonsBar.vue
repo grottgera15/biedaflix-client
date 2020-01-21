@@ -31,8 +31,9 @@
 				@mouse-interacted-button="ActiveButtonChange"
 				@click="VolumeMute()"
 			>
-				<AudioBar :visibility="true" v-show="'audio' === activeButton"/>
+				<AudioBar :visibility="'audio' === activeButton"/>
 			</ControllerButton>
+            <TimeDisplay />
 		</div>
 		<div class="right-side">
 			<ControllerButton
@@ -60,6 +61,7 @@
 <script>
 import ControllerButton from "./ControllerButton.vue";
 import AudioBar from "./AudioBar.vue";
+import TimeDisplay from "./TimeDisplay.vue";
 
 import ButtonEvent from "../../classes/ButtonEvent.js";
 import playerMixin from "../Mixins/playerMixin.js";
@@ -74,7 +76,8 @@ export default {
 	},
 	components: {
 		ControllerButton,
-		AudioBar
+        AudioBar,
+        TimeDisplay
 	},
 	mixins: [playerMixin],
 	methods: {
@@ -86,10 +89,10 @@ export default {
 		},
 		StateChange: function() {
 			this.$store.commit(Mutations.PlayerStateSet, !this.isPlaying);
-        },
-        VolumeMute: function() {
-            this.$store.commit(Mutations.VolumeMute);
-        },
+		},
+		VolumeMute: function() {
+			this.$store.commit(Mutations.VolumeMute);
+		},
 		TimeSkip: function(timeChange) {
 			this.$store.commit(
 				Mutations.NewTimeSet,

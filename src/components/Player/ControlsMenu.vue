@@ -102,7 +102,6 @@ export default {
                         font-weight: 800
                         letter-spacing: 0.5px
 
-
                 .right
                     justify-content: right
                     grid-column-start: right
