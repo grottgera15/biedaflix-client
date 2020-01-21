@@ -52,6 +52,7 @@ export default {
     height: inherit
     width: calc(75px + 8px)
     overflow: hidden
+    margin-right: 8px
 
     .bar-volume
         float: right

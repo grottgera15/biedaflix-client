@@ -31,7 +31,7 @@
 				@mouse-interacted-button="ActiveButtonChange"
 				@click="VolumeMute()"
 			>
-				<AudioBar :visibility="true"/>
+				<AudioBar :visibility="true" v-show="'audio' === activeButton"/>
 			</ControllerButton>
 		</div>
 		<div class="right-side">
