@@ -5,7 +5,7 @@
 		@mousemove="OnMouseMoved"
 		:class="{'hide-cursor': !visualElements.visibility}"
 	>
-		
+		<SettingsPopUp/>
 		<!-- <SharePopUp @close-pop-up="popups.share = false" v-show="popups.share === true"/> -->
 		<div class="waiting-screen" v-show="!isReady" />
 		<video
@@ -13,6 +13,7 @@
 			name="media"
 			kind="captions"
 			ref="video"
+            muted
 			@timeupdate="OnTimeUpdated"
 			@durationchange="OnDurationChanged"
 			@canplay="OnCanPlay"
@@ -46,6 +47,7 @@ import ControlsMenu from "../components/Player/ControlsMenu.vue";
 import ChatWindow from "../components/Player/ChatWindow.vue";
 import TopMenu from "../components/Player/TopMenu.vue";
 // import SharePopUp from "../components/Player/SharePopUp.vue";
+import SettingsPopUp from "../components/Player/SettingsPopUp.vue";
 
 import Mutations from "../vuex/PlayerMutations.js";
 import playerMixin from "../components/Mixins/playerMixin.js";
@@ -71,7 +73,8 @@ export default {
 	components: {
         ControlsMenu,
         ChatWindow,
-		TopMenu
+        TopMenu,
+        SettingsPopUp
 		// SharePopUp
     },
     // mounted: function(){

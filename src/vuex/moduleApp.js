@@ -1,6 +1,6 @@
 const moduleApp = {
     state: { 
-        currentSource: "http://maksymilianlakomy.pl/TheGodfather.mp4#t=200"
+        currentSource: "http://maksymilianlakomy.pl/TheGodfather.mp4#t=5900"
     },
     mutations: {
     }
