@@ -9,6 +9,7 @@ const modulePlayer = {
             main: 1,
             secondary: 0
         },
+        fullscreen: false,
         isReady: false,
         isPlaying: false,
         isWaitingForBuffer: false,
@@ -47,6 +48,9 @@ const modulePlayer = {
         },
         [PlayerMutations.NewTimeSet]: function(state, newTime) {
             state.newTime = newTime;
+        },
+        [PlayerMutations.FullscreenChange]: function(state) {
+            state.fullscreen = !state.fullscreen;
         }
         
     }

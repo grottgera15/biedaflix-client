@@ -49,6 +49,9 @@ export default {
         },
         newTime: function() {
             return this.$store.state.player.newTime;
+        },
+        fullscreen: function() {
+            return this.$store.state.player.fullscreen;
         }
     }
 }

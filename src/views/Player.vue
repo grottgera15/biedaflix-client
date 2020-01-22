@@ -37,7 +37,7 @@
 			</p>
 		</div>
         <TopMenu :visibility="visualElements.visibility" />
-        <ChatWindow />
+        <ChatWindow v-show="false"/>
 		<ControlsMenu :visibility="visualElements.visibility" />
 	</div>
 </template>
@@ -170,6 +170,12 @@ export default {
         },
         volume: function() {
             this.$refs.video.volume = this.volume;
+        },
+        fullscreen: function() {
+            if (this.fullscreen)
+                this.$refs.wrapper.requestFullscreen();
+            else
+                document.exitFullscreen();
         }
 	}
 };

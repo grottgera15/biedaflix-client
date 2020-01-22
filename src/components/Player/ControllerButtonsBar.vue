@@ -53,6 +53,7 @@
 				:icon="require('../../files/menu/SVG/fullscreenButton.svg')"
 				:isFocused="'fullscreen' === activeButton"
 				@mouse-interacted-button="ActiveButtonChange"
+                @click="FullscreenChange"
 			/>
 		</div>
 	</div>
@@ -98,7 +99,10 @@ export default {
 				Mutations.NewTimeSet,
 				this.currentTime + timeChange
 			);
-		}
+        },
+        FullscreenChange: function() {
+            this.$store.commit(Mutations.FullscreenChange);
+        }
 	},
 	computed: {
 		isPlaying: function() {
