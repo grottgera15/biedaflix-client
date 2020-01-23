@@ -47,7 +47,7 @@ import ControlsMenu from "../components/Player/ControlsMenu.vue";
 import ChatWindow from "../components/Player/ChatWindow.vue";
 import TopMenu from "../components/Player/TopMenu.vue";
 // import SharePopUp from "../components/Player/SharePopUp.vue";
-import SettingsPopUp from "../components/Player/SettingsPopUp.vue";
+import SettingsPopUp from "../components/Player/PopUps/SettingsPopUp.vue";
 
 import Mutations from "../vuex/PlayerMutations.js";
 import playerMixin from "../components/Mixins/playerMixin.js";
