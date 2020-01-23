@@ -45,10 +45,11 @@ export default {
     padding: 8px 0px
 
     .state-button
+        box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4) inset
         position: relative
-        height: 6px
+        height: 9px
         width: 24px
-        border-radius: 2px
+        border-radius: 5px
         background-color: white
         cursor: pointer
 
