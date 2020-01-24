@@ -34,7 +34,7 @@ export default {
         z-index: 1000000
         display: grid
         align-items: center
-        grid-template-columns: 2fr 1fr 2fr
+        grid-template-columns: 1fr 1fr 1fr
         grid-template-areas: ". popup ."
 
         .popup
@@ -44,6 +44,7 @@ export default {
             overflow-x: hidden
             grid-area: popup
             box-shadow: 0px 5px 25px black
+            border-radius: 8px
 
             .header
                 letter-spacing: .5px
