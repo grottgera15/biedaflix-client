@@ -56,25 +56,37 @@
 					/>
 				</div>
 			</div>
-		</div>
-		<div class="synchronize" style="grid-area: sharing">
-			<div class="section-header">Wspólne oglądanie</div>Tak
+			<div class="synchronize" style="grid-area: sharing">
+				<div class="section-header">Wspólne oglądanie</div>
+				<div class="settings-wrapper">
+					<StateButton @click="sharingEnabled = !sharingEnabled">
+                        <span v-if="!sharingEnabled">Wyłączone</span>
+                        <span v-else>Włączone</span>
+					</StateButton>
+                    <DefaultInput />
+				</div>
+			</div>
 		</div>
 	</PlayerPopUp>
 </template>
 
 <script>
 import PlayerPopUp from "./PlayerPopUp.vue";
+import StateButton from "../Settings/StateButton.vue";
+import DefaultInput from "../DefaultInput.vue";
 
 export default {
 	name: "SettingsPopUp",
 	components: {
-		PlayerPopUp
+		PlayerPopUp,
+        StateButton,
+        DefaultInput
 	},
 	data: function() {
 		return {
 			currentSubtitles: 1,
-			currentQuality: 0
+            currentQuality: 0,
+            sharingEnabled: false
 		};
 	},
 	methods: {
@@ -115,7 +127,6 @@ export default {
             width: 100%
             text-align: left
             cursor: pointer
-            transition-delay: .05s
             transition-duration: .1s
 
         .active
@@ -129,6 +140,7 @@ export default {
             background-color: firebrick
             z-index: -1
             transition-duration: .1s
+            border-radius: 4px
 
 button
     display: block
