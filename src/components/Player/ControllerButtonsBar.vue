@@ -117,20 +117,21 @@ export default {
 
 <style lang="sass" scoped>
 .buttons-bar
-    display: grid
-    grid-template-columns: [left] 1fr [right] 1fr
+    display: flex
+    flex-direciton: row
+    justify-content: space-between
     height: 32px
     padding: 8px 0
 
     .left-side,
     .right-side
-        grid-column-start: left
-        grid-template-columns: repeat( auto-fit, minmax(32px, max-content) )
         grid-column-gap: 16px
-        display: grid
+        display: flex
         align-items: center
 
+    .left-side 
+        order: 0
+
     .right-side
-        justify-content: right
-        grid-column-start: right
+        order: 1
 </style>

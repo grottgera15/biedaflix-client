@@ -41,9 +41,13 @@ export default {
 
 <style lang="sass" scoped>
 .button
+    margin-right: 8px
     height: 32px
     position: relative
     cursor: pointer
+
+    &:last-child
+        margin-right: unset
 
     img 
         transition-duration: .2s
