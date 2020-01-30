@@ -2,10 +2,8 @@
 	<div class="menu-wrapper">
 		<transition name="slide-bottom">
 			<div class="menu" v-show="visibility">
-				<div class="wrapper">
 					<TimeBar />
 					<ControllerButtonsBar />
-				</div>
 			</div>
 		</transition>
 	</div>
@@ -77,34 +75,6 @@ export default {
         height: 64px
         padding: 48px 32px
         background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0) 100%)
-
-        .wrapper
-
-            .buttons
-                display: grid
-                grid-template-columns: [left] 1fr [right] 1fr
-                height: 32px
-                padding: 8px 0
-
-                .left, 
-                .right
-                    grid-column-start: left
-                    grid-template-columns: repeat( auto-fit, minmax(32px, max-content) )
-                    grid-column-gap: 16px
-                    display: grid
-                    align-items: center
-                    
-                    .current-time
-                        width: 100%
-                        opacity: 0.75
-                        font-size: 10pt
-                        cursor: default
-                        font-weight: 800
-                        letter-spacing: 0.5px
-
-                .right
-                    justify-content: right
-                    grid-column-start: right
 
 .slide-bottom-enter-active, .slide-bottom-leave-active 
     transition-duration: 0.5s
