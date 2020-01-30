@@ -95,10 +95,8 @@ export default {
             this.$refs.video.volume = audioVolume;
         },
         OnAudioButton: function(event) {
-            console.log(event);
         },
         OnPlayButton: function(event) {
-            console.log(event);
         },
 		OnCanPlay: function(event) {
 			this.video.canPlay = true;
