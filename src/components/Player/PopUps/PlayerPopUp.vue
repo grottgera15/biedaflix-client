@@ -1,8 +1,12 @@
 <template>
-	<div class="wrapper" @click="ClosePupUpOnMouseLeave">
+	<div class="wrapper" @click="ClosePopUpOnMouseLeave()">
 		<div class="popup" @mouseenter="mouseOutOfPopUp = false" @mouseleave="mouseOutOfPopUp = true">
 			<div class="header">
 				<slot name="header" />
+				<IconButton
+					:icon="require('../../../files/menu/SVG/closeButton.svg')"
+					@click="ClosePopUp()"
+				/>
 			</div>
 			<slot />
 		</div>
@@ -10,6 +14,8 @@
 </template>
 
 <script>
+import IconButton from "../../Buttons/IconButton.vue";
+
 export default {
 	name: "PlayerPopUp",
 	data() {
@@ -18,9 +24,16 @@ export default {
 		};
 	},
 	methods: {
-		ClosePupUpOnMouseLeave: function() {
-			if (this.mouseOutOfPopUp) this.$emit("close-pop-up");
-		}
+		ClosePopUpOnMouseLeave: function() {
+            if (this.mouseOutOfPopUp)
+                this.ClosePopUp();
+        },
+        ClosePopUp: function() {
+             this.$emit("close-pop-up");
+        }
+	},
+	components: {
+		IconButton
 	}
 };
 </script>
@@ -47,6 +60,10 @@ export default {
             border-radius: 8px
 
             .header
+                display: flex
+                flex-direction: row
+                justify-content: space-between
+                align-items: center
                 letter-spacing: .5px
                 font-size: 14pt
                 font-weight: 300

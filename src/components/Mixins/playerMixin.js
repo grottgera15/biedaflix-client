@@ -50,6 +50,9 @@ export default {
         newTime: function() {
             return this.$store.state.player.newTime;
         },
+        settingsPopUp: function() {
+            return this.$store.state.player.popups.settings;
+        },
         fullscreen: function() {
             return this.$store.state.player.fullscreen;
         }

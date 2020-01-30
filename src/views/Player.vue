@@ -5,7 +5,7 @@
 		@mousemove="OnMouseMoved"
 		:class="{'hide-cursor': !visualElements.visibility}"
 	>
-		<SettingsPopUp/>
+		<SettingsPopUp v-show="settingsPopUp" @close-pop-up="CloseSettingsPopUp()"/>
 		<!-- <SharePopUp @close-pop-up="popups.share = false" v-show="popups.share === true"/> -->
 		<div class="waiting-screen" v-show="!isReady" />
 		<video
@@ -64,10 +64,7 @@ export default {
 			mouse: {
 				lastMovementTime: Date.now()
 			},
-			subtitles: [],
-			popups: {
-				share: false
-			}
+			subtitles: []
 		};
 	},
 	components: {
@@ -124,6 +121,11 @@ export default {
 			this.CheckInactivity(event); // Move out
 			this.CheckBuffered(event); // Move out
 		},
+
+        // Pop-ups
+        CloseSettingsPopUp: function() {
+            this.$store.commit(Mutations.SettingsPopUpChange, false);
+        },
 
 		// Non-standard player controllers
 		OnVideoSingleClicked: function() {

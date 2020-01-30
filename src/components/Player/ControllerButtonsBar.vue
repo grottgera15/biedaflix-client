@@ -37,16 +37,11 @@
 		</div>
 		<div class="right-side">
 			<ControllerButton
-				:name="'subtitles'"
-				:icon="require('../../files/menu/SVG/subtitlesButton.svg')"
-				:isFocused="'subtitles' === activeButton"
-				@mouse-interacted-button="ActiveButtonChange"
-			/>
-			<ControllerButton
 				:name="'share'"
-				:icon="require('../../files/menu/SVG/shareButton.svg')"
+				:icon="require('../../files/menu/SVG/settingsButton.svg')"
 				:isFocused="'share' === activeButton"
 				@mouse-interacted-button="ActiveButtonChange"
+                @click="ShowSettingsPopUp()"
 			/>
 			<ControllerButton
 				:name="'fullscreen'"
@@ -99,6 +94,9 @@ export default {
 				Mutations.NewTimeSet,
 				this.currentTime + timeChange
 			);
+        },
+        ShowSettingsPopUp: function() {
+            this.$store.commit(Mutations.SettingsPopUpChange, true);
         },
         FullscreenChange: function() {
             this.$store.commit(Mutations.FullscreenChange);

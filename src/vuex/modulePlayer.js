@@ -13,7 +13,10 @@ const modulePlayer = {
         isReady: false,
         isPlaying: false,
         isWaitingForBuffer: false,
-        buffered: []
+        buffered: [],
+        popups: {
+            settings: false
+        }
     },
     mutations: {
         [PlayerMutations.ReadinessSet]: function(state, isReady) {
@@ -51,6 +54,9 @@ const modulePlayer = {
         },
         [PlayerMutations.FullscreenChange]: function(state) {
             state.fullscreen = !state.fullscreen;
+        },
+        [PlayerMutations.SettingsPopUpChange]: function(state, popUpState) {
+            state.popups.settings = popUpState;
         }
         
     }

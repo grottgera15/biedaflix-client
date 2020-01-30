@@ -9,5 +9,6 @@ export default {
     AudioStateSet: "AudioStateSet",
     DurationSet: "DurationSet",
     PendingSet: "PendingSet",
-    BufferedSet: "BufferedUpdate"
+    BufferedSet: "BufferedUpdate",
+    SettingsPopUpChange: "SettingsPopUpChange"
 }
