@@ -175,6 +175,7 @@ export default {
         },
         volume: function() {
             this.$refs.video.volume = this.volume;
+            this.$refs.video.muted = false;
         },
         fullscreen: function() {
             if (this.fullscreen)
