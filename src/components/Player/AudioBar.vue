@@ -1,31 +1,50 @@
 <template>
 	<transition name="audio-bar">
-		<div class="audio-bar-wrapper">
-			<div class="bar-volume" @click="ChangeVolume">
-				<div class="bar-volume-fill" :style="{width: (audioVolume * 100) + '%'}"/>
+		<div
+			class="audio-bar-wrapper"
+			v-show="visibility"
+			@mousedown="mouseDown = true"
+			@mouseup="mouseDown = false"
+            @mouseleave="mouseDown = false"
+            @mousemove="ChangeVolume"
+		>
+			<div class="bar-volume">
+				<div class="bar-volume-fill" :style="{width: (this.volume * 100) + '%'}" />
 			</div>
 		</div>
 	</transition>
 </template>
 
 <script>
+import Mutations from "../../vuex/PlayerMutations.js";
+import playerMixin from "../Mixins/playerMixin.js";
+
 export default {
 	name: "AudioBar",
-    methods: {
-        ChangeVolume: function(event) {
-            let boundingClientRect = event.srcElement.getBoundingClientRect();
+	data: function() {
+		return {
+			mouseDown: false
+		};
+	},
+	methods: {
+		ChangeVolume: function(event) {
+            if (this.mouseDown === false) return;
+            event.preventDefault();
+			let boundingClientRect = event.srcElement.getBoundingClientRect();
 			let tempAudioVolume =
 				(event.clientX - boundingClientRect.left) /
-				boundingClientRect.width; 
-            this.$emit("volume-change", tempAudioVolume);
-        }
-    },
-    props: {
-        audioVolume: {
-            type: Number,
-            required: true
-        }
-    }
+				boundingClientRect.width;
+			this.$store.commit(Mutations.VolumeSet, tempAudioVolume);
+		}
+	},
+	mixins: [playerMixin],
+	props: {
+		visibility: {
+			type: Boolean,
+			required: true,
+			default: true
+		}
+	}
 };
 </script>
 

@@ -1,10 +1,10 @@
 <template>
 	<transition name="slide-top">
 		<div class="menu-wrapper" v-show="visibility">
-			<div class="return-button">
+			<button class="return-button" @click="returnHome()">
 				<img src="../../files/menu/SVG/returnButton.svg" />
 				<div class="header">Wróć do przeglądania</div>
-			</div>
+			</button>
             <div class="share-info">
                 Test
             </div>
@@ -22,7 +22,12 @@ export default {
 			required: true,
 			default: false
 		}
-	}
+    },
+    methods: {
+        returnHome: function() {
+            this.$router.push("/");
+        }
+    }
 };
 </script>
 
@@ -39,6 +44,20 @@ export default {
     display: grid
     grid-template-columns: max-content 1fr max-content
     grid-template-areas: "return-button . share-info"
+
+
+    button
+        margin: 0
+        padding: 0
+        display: block
+        background: unset
+        border: unset
+        color: white
+        vertical-align: middle
+        font-family: inherit
+        height: unset
+        width: unset 
+        outline: unset
 
     .return-button
         grid-area: return-button

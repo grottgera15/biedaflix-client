@@ -1,31 +1,34 @@
 <template>
 	<div class="input">
 		<label :class="[{'label-minimalized': focused}]">
-            <slot/>
-        </label>
-		<input :type="type" @focus="Focus"/>
+			<slot />
+		</label>
+		<input :type="type" @focus="Focus" :value="value" @input="$emit('input', $event.target.value)"/>
 	</div>
 </template>
 
 <script>
 export default {
-    name: "Input",
-    data: function() {
+	name: "Input",
+	data: function() {
 		return {
-            focused: false
-        };
-    },
-    methods: {
-        Focus: function() {
-            this.focused = true;
-        }
-    },
-    props: {
-        type: {
-            type: String,
-            default: "Text"
-        }
-    }
+			focused: false
+		};
+	},
+	methods: {
+		Focus: function() {
+			this.focused = true;
+		}
+	},
+	props: {
+		value: {
+			type: String
+		},
+		type: {
+			type: String,
+			default: "Text"
+		}
+	}
 };
 </script>
 

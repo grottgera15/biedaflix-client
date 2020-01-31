@@ -5,7 +5,10 @@
 			<div class="header">
 				<span>Rejestracja</span>
 			</div>
-			<TextInput>Adres e-mail</TextInput>
+            <div class = "avatar-wrapper">
+            <AvatarBlock :avatar="avatar"/>
+            </div>
+			<TextInput v-model="user.email">Adres e-mail</TextInput>
 			<TextInput :type="'Password'">Hasło</TextInput>
 			<TextInput :type="'Password'">Powtórz hasło</TextInput>
 			<Button>Zarejestruj się</Button>
@@ -17,12 +20,35 @@
 import Button from "../components/Button.vue";
 import TextInput from "../components/TextInput.vue";
 import Logo from "../components/Logo.vue";
+
+import Avatar from "../classes/Avatar.js";
+import avatars from "../components/Mixins/avatarsMixin.js";
+import AvatarBlock from "../components/AvatarBlock.vue";
+
 export default {
+	name: "Registration",
+	data: function() {
+		return {
+			user: {
+				email: null
+			},
+			avatar: new Avatar(null, null, null)
+		};
+	},
 	components: {
 		Logo,
 		Button,
-		TextInput
-	}
+        TextInput,
+        AvatarBlock
+    },
+    mixins: [
+        avatars
+    ],
+    watch: {
+        'user.email': function() {
+            this.avatar = this.GenerateRandomAvatar(this.user.email);
+        }
+    }
 };
 </script>
 
@@ -55,7 +81,12 @@ export default {
             padding: 16px 48px
             border-bottom: 1px solid #ffffff17  
             align-items: center
-        
+
+        .avatar-wrapper
+            width: 100%
+            text-align: center
+            
+
         
 
 </style>
