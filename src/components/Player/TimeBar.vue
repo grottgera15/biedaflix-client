@@ -60,8 +60,9 @@ export default {
 	computed: {
 		ThumbnailURL: function() {
 			let time = Math.round(this.mouseTime / 10 + 1).toString();
-			while (time.length < 4) time = "0" + time;
-			return require(`../../files/images/thumbs/thumb${time}.jpg`);
+            while (time.length < 4) time = "0" + time;
+            return 0;
+			// return require(`../../files/images/thumbs/thumb${time}.jpg`);
         },
         CurrentTime: function() {
             if (this.timeChangesQueue.length > 0)
