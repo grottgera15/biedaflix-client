@@ -14,9 +14,9 @@
 </template>
 
 <script>
-import Logo from "../components/Logo.vue";
-import Button from "../components/Button.vue";
-import TextInput from "../components/TextInput.vue";
+import Logo from "@/components/Logo";
+import Button from "@/components/Forms/Buttons/Button";
+import TextInput from "@/components/Forms/Inputs/TextInput"
 
 export default {
 	data: function() {
@@ -42,7 +42,7 @@ export default {
 
 
 <style scoped lang="sass">
-@import "../styles/variables.sass"
+@import "@styles/variables"
 
 #wrapper
     margin: 24px 0

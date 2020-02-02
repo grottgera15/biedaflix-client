@@ -37,17 +37,17 @@
 				</div>
 				<div class="button-menu-left">
 					<div class="button" @click="ActivatePlayer()">
-						<img v-show="playerSettings.isPlaying" src="../files/menu/Start Button.svg" />
-						<img v-show="!playerSettings.isPlaying" src="../files/menu/Stop Button.svg" />
+						<img v-show="playerSettings.isPlaying" src="@files/menu/Start Button.svg" />
+						<img v-show="!playerSettings.isPlaying" src="@files/menu/Stop Button.svg" />
 					</div>
 					<div class="button" @click="ChangeVolume()">
-						<img v-show="playerSettings.volume > 0" src="../files/menu/audio100Button.svg" />
-						<img v-show="playerSettings.volume == 0" src="../files/menu/audioStopButton.svg" />
+						<img v-show="playerSettings.volume > 0" src="@files/menu/audio100Button.svg" />
+						<img v-show="playerSettings.volume == 0" src="@files/menu/audioStopButton.svg" />
 					</div>
 				</div>
 				<div class="button-menu-right">
 					<div class="button" @click="SetFullScreen()">
-						<img src="../files/menu/Full Screen Button.svg" />
+						<img src="@files/menu/Full Screen Button.svg" />
 					</div>
 				</div>
 			</div>
@@ -147,7 +147,6 @@ export default {
 </script>
 
 <style scoped lang="sass">
-
 .video-wrapper
     position: relative
     overflow: hidden

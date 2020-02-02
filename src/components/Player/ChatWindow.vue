@@ -42,12 +42,12 @@
 </template>
 
 <script>
-import Avatar from "../../classes/Avatar.js";
-import AvatarBlock from "../AvatarBlock.vue";
+import AvatarBlock from "@/components/AvatarBlock";
 
-import avatars from "../Mixins/avatarsMixin.js";
+import avatars from "@mixins/avatarsMixin";
 
-import ChatMessage from "../../classes/ChatMessage.js";
+import Avatar from "@classes/Avatar";
+import ChatMessage from "@classes/ChatMessage";
 
 export default {
 	name: "ChatWindow",

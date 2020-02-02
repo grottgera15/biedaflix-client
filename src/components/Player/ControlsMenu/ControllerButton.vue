@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import buttonMixin from "../Mixins/buttonMixin.js";
+import buttonMixin from "@mixins/buttonMixin";
 
 export default {
 	name: "ControllerButton",

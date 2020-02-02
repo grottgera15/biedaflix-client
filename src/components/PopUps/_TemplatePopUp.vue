@@ -4,7 +4,7 @@
 			<div class="header">
 				<slot name="header" />
 				<IconButton
-					:icon="require('../../../files/menu/SVG/closeButton.svg')"
+					:icon="require('@files/menu/SVG/closeButton.svg')"
 					@click="ClosePopUp()"
 				/>
 			</div>
@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import IconButton from "../../Buttons/IconButton.vue";
+import IconButton from "../Forms/Buttons/IconButton";
 
 export default {
-	name: "PlayerPopUp",
+	name: "TemplatePopUp",
 	data() {
 		return {
 			mouseOutOfPopUp: true

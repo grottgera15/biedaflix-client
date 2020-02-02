@@ -43,15 +43,14 @@
 	</div>
 </template>
 <script>
-import ControlsMenu from "../components/Player/ControlsMenu.vue";
-import ChatWindow from "../components/Player/ChatWindow.vue";
-import TopMenu from "../components/Player/TopMenu.vue";
-// import SharePopUp from "../components/Player/SharePopUp.vue";
-import SettingsPopUp from "../components/Player/PopUps/SettingsPopUp.vue";
+import ControlsMenu from "@/components/Player/ControlsMenu";
+import ChatWindow from "@/components/Player/ChatWindow";
+import TopMenu from "@/components/Player/TopMenu";
 
-import Mutations from "../vuex/PlayerMutations.js";
-import playerMixin from "../components/Mixins/playerMixin.js";
-// import { PlayerEventBus } from "../PlayerEventBus.js";
+import SettingsPopUp from "@/components/PopUps/SettingsPopUp";
+
+import Mutations from "@vuexMutations/PlayerMutations";
+import playerMixin from "@mixins/playerMixin";
 
 
 export default {
@@ -188,7 +187,7 @@ export default {
 </script>
 
 <style scoped lang="sass">
-@import "../styles/variables.sass"
+@import "@styles/variables"
 
 .hide-cursor 
     cursor: none

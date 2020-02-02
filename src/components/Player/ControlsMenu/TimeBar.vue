@@ -30,9 +30,8 @@
 </template>
 
 <script>
-import Mutations from "../../vuex/PlayerMutations.js";
-import playerMixin from "../Mixins/playerMixin.js";
-// import { PlayerEventBus } from "../../PlayerEventBus.js";
+import Mutations from "@vuexMutations/PlayerMutations";
+import playerMixin from "@mixins/playerMixin";
 
 export default {
 	name: "TimeBar",
@@ -75,7 +74,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "../../styles/variables.sass"  
+@import "@styles/variables"  
 
 .time-bar
     height: calc(4px + 2*12px)

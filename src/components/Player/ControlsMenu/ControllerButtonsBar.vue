@@ -3,30 +3,30 @@
 		<div class="left-side">
 			<ControllerButton
 				:name="'play'"
-				:icon="require('../../files/menu/SVG/playButton.svg')"
+				:icon="require('@files/menu/SVG/playButton.svg')"
 				:isMainIconActive="!isPlaying"
-				:secondaryIcon="require('../../files/menu/SVG/pauseButton.svg')"
+				:secondaryIcon="require('@files/menu/SVG/pauseButton.svg')"
 				:isFocused="'play' === activeButton"
 				@mouse-interacted-button="ActiveButtonChange"
 				@click="StateChange()"
 			/>
 			<ControllerButton
 				:name="'back'"
-				:icon="require('../../files/menu/SVG/leftDoubleArrowsButton.svg')"
+				:icon="require('@files/menu/SVG/leftDoubleArrowsButton.svg')"
 				:isFocused="'back' === activeButton"
 				@mouse-interacted-button="ActiveButtonChange"
 				@click="TimeSkip(-10)"
 			/>
 			<ControllerButton
 				:name="'forward'"
-				:icon="require('../../files/menu/SVG/rightDoubleArrowsButton.svg')"
+				:icon="require('@files/menu/SVG/rightDoubleArrowsButton.svg')"
 				:isFocused="'forward' === activeButton"
 				@mouse-interacted-button="ActiveButtonChange"
 				@click="TimeSkip(+10)"
 			/>
 			<ControllerButton
 				:name="'audio'"
-				:icon="require('../../files/menu/SVG/audioButton.svg')"
+				:icon="require('@files/menu/SVG/audioButton.svg')"
 				:isFocused="'audio' === activeButton"
 				@mouse-interacted-button="ActiveButtonChange"
 				@click="VolumeMute()"
@@ -38,14 +38,14 @@
 		<div class="right-side">
 			<ControllerButton
 				:name="'share'"
-				:icon="require('../../files/menu/SVG/settingsButton.svg')"
+				:icon="require('@files/menu/SVG/settingsButton.svg')"
 				:isFocused="'share' === activeButton"
 				@mouse-interacted-button="ActiveButtonChange"
                 @click="ShowSettingsPopUp()"
 			/>
 			<ControllerButton
 				:name="'fullscreen'"
-				:icon="require('../../files/menu/SVG/fullscreenButton.svg')"
+				:icon="require('@files/menu/SVG/fullscreenButton.svg')"
 				:isFocused="'fullscreen' === activeButton"
 				@mouse-interacted-button="ActiveButtonChange"
                 @click="FullscreenChange"
@@ -55,13 +55,13 @@
 </template>
 
 <script>
-import ControllerButton from "./ControllerButton.vue";
-import AudioBar from "./AudioBar.vue";
-import TimeDisplay from "./TimeDisplay.vue";
+import ControllerButton from "./ControllerButton";
+import AudioBar from "./AudioBar";
+import TimeDisplay from "./TimeDisplay";
 
-import ButtonEvent from "../../classes/ButtonEvent.js";
-import playerMixin from "../Mixins/playerMixin.js";
-import Mutations from "../../vuex/PlayerMutations.js";
+import ButtonEvent from "@classes/ButtonEvent";
+import playerMixin from "@mixins/playerMixin";
+import Mutations from "@vuexMutations/PlayerMutations";
 
 export default {
 	name: "ControllerButtonsBar",

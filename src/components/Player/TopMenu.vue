@@ -2,12 +2,12 @@
 	<transition name="slide-top">
 		<div class="menu-wrapper" v-show="visibility">
 			<button class="return-button" @click="returnHome()">
-				<img src="../../files/menu/SVG/returnButton.svg" />
+				<img src="@files/menu/SVG/returnButton.svg" />
 				<div class="header">Wróć do przeglądania</div>
 			</button>
             <div class="share-info">
                 Test
-            </div>
+            </div>  
 		</div>
 	</transition>
 </template>

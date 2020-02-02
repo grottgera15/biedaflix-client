@@ -1,4 +1,4 @@
-import PlayerMutations from "./PlayerMutations.js";
+import PlayerMutations from "@vuexMutations/PlayerMutations";
 
 const modulePlayer = {
     state: {
