@@ -28,7 +28,8 @@
 								<div class="description">{{serie.info.description}}</div>
 							</div>
 							<div class="episodes">
-								<router-link :to="{name: 'about', params: {sources: episode.sources.video, pathSubs: episode.sources.subs}}"
+                                <HomeEpisodeData :episodeData="episode"/>
+								<!-- <router-link :to="{name: 'about', params: {sources: episode.sources.video, pathSubs: episode.sources.subs}}"
 									class="episode"
 									v-for="episode in serie.episodes"
 									:key="episode.id"
@@ -45,7 +46,7 @@
 									<div class="progress-bar" v-if="episode.available">
 										<div class="progress-bar-fill" style="width: 5%" />
 									</div>
-								</router-link>
+								</router-link> -->
 							</div>
 						</div>
 					</transition>
@@ -59,18 +60,23 @@
 import Logo from "@/components/Logo";
 import MemoryStatus from "@/components/MemoryStatus";
 
+import HomeEpisodeData from "@/components/Home/HomeEpisodeData"
+import EpisodeData from "@classes/EpisodeData"
+
 import series from "@/files/series";
 
 export default {
 	data: function() {
 		return {
 			series: series,
-			activeSerie: -1
-		};
+            activeSerie: -1,
+            episode: new EpisodeData("Rozdział 1", 1, 1, "12.11.2019", false)
+        };
     },
     components: {
         Logo,
-        MemoryStatus
+        MemoryStatus,
+        HomeEpisodeData
     },
 	methods: {
 		setActive: function(id) {
@@ -85,7 +91,7 @@ export default {
 </script>
 
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 @import "@styles/fonts"
     
 $episodes-column-padding: 4px
@@ -187,7 +193,7 @@ a
                         display: grid
                         grid-template-columns: repeat(1, 1fr)
                         grid-column-gap: 8px
-                        .episode
+                        .episodec
                             position: relative
                             padding: 16px 48px
                             transition-duration: 0.5s
@@ -232,7 +238,7 @@ a
                                     background-color: white
                                     height: inherit
                                     opacity: 0.5
-                        .episode-not-available
+                        .episode-not-availablec
                             cursor: default
                             color: #ffffff4f
                             &:hover
