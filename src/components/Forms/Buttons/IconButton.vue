@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import buttonMixin from "../Mixins/buttonMixin.js";
+import buttonMixin from "@mixins/buttonMixin.js";
 
 export default {
     name: "IconButton",

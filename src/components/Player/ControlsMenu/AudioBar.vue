@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import Mutations from "../../vuex/PlayerMutations.js";
-import playerMixin from "../Mixins/playerMixin.js";
+import Mutations from "@vuexMutations/PlayerMutations";
+import playerMixin from "@mixins/playerMixin";
 
 export default {
 	name: "AudioBar",

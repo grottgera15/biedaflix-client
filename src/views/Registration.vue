@@ -17,13 +17,13 @@
 </template>
 
 <script>
-import Button from "../components/Button.vue";
-import TextInput from "../components/TextInput.vue";
-import Logo from "../components/Logo.vue";
+import Logo from "@/components/Logo";
+import Button from "@/components/Forms/Buttons/Button";
+import TextInput from "@/components/Forms/Inputs/TextInput"
+import AvatarBlock from "@/components/AvatarBlock";
 
-import Avatar from "../classes/Avatar.js";
-import avatars from "../components/Mixins/avatarsMixin.js";
-import AvatarBlock from "../components/AvatarBlock.vue";
+import Avatar from "@classes/Avatar";
+import avatarsMixin from "@mixins/avatarsMixin";
 
 export default {
 	name: "Registration",
@@ -42,7 +42,7 @@ export default {
         AvatarBlock
     },
     mixins: [
-        avatars
+        avatarsMixin
     ],
     watch: {
         'user.email': function() {
@@ -54,7 +54,7 @@ export default {
 
 
 <style scoped lang="sass">
-@import "../styles/variables.sass"
+@import "@styles/variables"
 
 #wrapper
     margin: 24px 0

@@ -10,15 +10,12 @@
 </template>
 
 <script>
-// import PlayerMenuButton from "./PlayerMenuButton.vue";
-import ButtonEvent from "../../classes/ButtonEvent.js";
-// import AudioBar from "./AudioBar.vue";
+import TimeBar from "./ControlsMenu/TimeBar";
+import ControllerButtonsBar from "./ControlsMenu/ControllerButtonsBar";
 
-import TimeBar from "./TimeBar";
-import ControllerButtonsBar from "./ControllerButtonsBar";
-
-import Mutations from "../../vuex/PlayerMutations.js";
-import playerMixin from "../Mixins/playerMixin.js";
+import ButtonEvent from "@classes/ButtonEvent";
+import playerMixin from "@mixins/playerMixin";
+import Mutations from "@vuexMutations/PlayerMutations";
 
 export default {
 	name: "ControlsMenu",
@@ -60,7 +57,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "../../styles/variables.sass"  
+@import "@styles/variables"  
 
 .menu-wrapper
     position: absolute

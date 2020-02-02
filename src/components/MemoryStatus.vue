@@ -26,28 +26,28 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-    @import "../styles/fonts.sass"
-    @import "../styles/variables.sass"
+@import "@styles/fonts"
+@import "@styles/variables"
 
-    .memory-status
-        grid-area: memory-status
-        padding: 24px
-        font-size: 8pt
-        font-weight: 700
-        letter-spacing: 0.5px
-        cursor: default
-        color: #ffffffa3
-        text-transform: uppercase
+.memory-status
+    grid-area: memory-status
+    padding: 24px
+    font-size: 8pt
+    font-weight: 700
+    letter-spacing: 0.5px
+    cursor: default
+    color: #ffffffa3
+    text-transform: uppercase
 
-        .bar
-            margin-bottom: 4px
-            background-color: #ffffffa3
+    .bar
+        margin-bottom: 4px
+        background-color: #ffffffa3
+        height: 4px
+        width: 100%
+        position: relative
+
+        .fill
+            background-color: $main-color
+            position: absolute
             height: 4px
-            width: 100%
-            position: relative
-
-            .fill
-                background-color: $main-color
-                position: absolute
-                height: 4px
 </style>

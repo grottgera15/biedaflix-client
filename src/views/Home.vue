@@ -56,9 +56,11 @@
 </template>
 
 <script>
-import series from "../files/series.json";
-import Logo from "../components/Logo.vue";
-import MemoryStatus from "../components/MemoryStatus.vue";
+import Logo from "@/components/Logo";
+import MemoryStatus from "@/components/MemoryStatus";
+
+import series from "@/files/series";
+
 export default {
 	data: function() {
 		return {
@@ -84,7 +86,7 @@ export default {
 
 
 <style scoped lang="sass">
-@import "../styles/fonts.sass"
+@import "@styles/fonts"
     
 $episodes-column-padding: 4px
 a

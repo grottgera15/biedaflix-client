@@ -1,5 +1,5 @@
 <template>
-	<PlayerPopUp @close-pop-up="$emit('close-pop-up')">
+	<TemplatePopUp @close-pop-up="$emit('close-pop-up')">
 		<template v-slot:header>Ustawienia</template>
 		<div class="settings-grid">
 			<div class="subtitles" style="grid-area: subtitles">
@@ -67,18 +67,19 @@
 				</div>
 			</div>
 		</div>
-	</PlayerPopUp>
+	</TemplatePopUp>
 </template>
 
 <script>
-import PlayerPopUp from "./PlayerPopUp.vue";
-import StateButton from "../Settings/StateButton.vue";
-import DefaultInput from "../DefaultInput.vue";
+import TemplatePopUp from "./_TemplatePopUp";
+
+import StateButton from "@/components/Forms/Buttons/StateButton";
+import DefaultInput from "@/components/Forms/Inputs/_TemplateInput";
 
 export default {
 	name: "SettingsPopUp",
 	components: {
-		PlayerPopUp,
+		TemplatePopUp,
         StateButton,
         DefaultInput
 	},

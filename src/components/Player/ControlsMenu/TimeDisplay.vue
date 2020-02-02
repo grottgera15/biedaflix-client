@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import playerMixin from "../Mixins/playerMixin.js"
+import playerMixin from "@mixins/playerMixin"
 
 export default {
     name: "TimeDisplay",

@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import Avatar from "../classes/Avatar.js";
-import avatars from "../components/Mixins/avatarsMixin";
+import Avatar from "@classes/Avatar";
+import avatarsMixin from "@mixins/avatarsMixin";
 
 export default {
 	name: "AvatarBlock",
@@ -15,7 +15,7 @@ export default {
         }
     },
     mixins: [
-        avatars
+        avatarsMixin
     ],
 	computed: {
         avatarUrl: function() {
