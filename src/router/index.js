@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import Login from '../views/Login.vue'
-import Registration from '../views/Registration.vue'
-import Player from '../views/Player.vue'
+
+import Home from '@/views/Home'
+import Login from '@/views/Login'
+import Registration from '@/views/Registration'
+import Player from '@/views/Player'
 
 Vue.use(VueRouter)
 
