@@ -81,7 +81,7 @@ a
     flex-direction: column
     min-width: 33.33%
     margin: 24px auto
-
+    
     #series-wrapper
         grid-area: main
         .series
@@ -94,6 +94,7 @@ a
                     transition-timing-function: linear
                     background-color: inherit
                     z-index: 999
+                    
 .fade-enter-to, .fade-leave 
     max-height: 1000px
     opacity: 1
