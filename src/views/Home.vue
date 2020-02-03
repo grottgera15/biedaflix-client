@@ -77,18 +77,10 @@ a
     text-decoration: unset
 
 #wrapper
-    margin: 24px 0
-    display: grid
-    grid-template-columns: 1fr 1fr 1fr
-    grid-template-areas: ". logo ."  ". memory-status ." ". main ."
-    grid-row-gap: 16px
-    @media screen and (max-width: 1600px)
-        grid-template-columns: 0.5fr 1fr 0.5fr
-    @media screen and (max-width: 1200px)
-        grid-template-columns: 0.25fr 1fr 0.25fr
-    @media screen and (max-width: 720px)
-        grid-template-columns: 1fr
-        grid-template-areas: "logo" "memory-status" "main"
+    display: flex
+    flex-direction: column
+    min-width: 33.33%
+    margin: 24px auto
 
     #series-wrapper
         grid-area: main
@@ -102,63 +94,6 @@ a
                     transition-timing-function: linear
                     background-color: inherit
                     z-index: 999
-                    @media screen and (max-width: 720px)
-                        box-shadow: 0 2px 8px #00000080
-                    
-                    .episodes
-                        display: grid
-                        grid-template-columns: repeat(1, 1fr)
-                        grid-column-gap: 8px
-                        .episodec
-                            position: relative
-                            padding: 16px 48px
-                            transition-duration: 0.5s
-                            cursor: pointer
-                            background-color: #151515
-                            border: 1px solid #ffffff17
-                            border-top: 0
-                            display: grid
-                            grid-template-columns: [date] auto [name] 2fr [addons] 1fr
-                            align-items: center
-                            grid-column-gap: 4px
-                            @media screen and (max-width: 1200px)
-                                grid-template-columns: [date] auto [name] 3fr [addons] auto
-                                border-left: 0
-                                border-right: 0
-                            &:hover
-                                padding-left: 56px
-                            .number, .title,
-                            .release-date
-                                font-size: 8pt
-                                font-weight: 700
-                                letter-spacing: 0.5px
-                                display: inline-block
-                            .number
-                                grid-column-start: date
-                            .title
-                                font-size: 10pt
-                                font-weight: 300
-                                grid-column-start: name
-                            .addons
-                                grid-column-start: addons
-                                text-align: right
-                                .release-date
-                                    display: inline-block
-                            .progress-bar
-                                width: 100%
-                                height: 2px
-                                position: absolute
-                                bottom: 0
-                                background-color: #ffffff17
-                                .progress-bar-fill
-                                    background-color: white
-                                    height: inherit
-                                    opacity: 0.5
-                        .episode-not-availablec
-                            cursor: default
-                            color: #ffffff4f
-                            &:hover
-                                padding-left: 48px
 .fade-enter-to, .fade-leave 
     max-height: 1000px
     opacity: 1
