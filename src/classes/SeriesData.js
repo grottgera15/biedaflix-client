@@ -1,12 +1,42 @@
 export default class SeriesData {
-    constructor(name, description, onGoing, logo, cover) {
+    constructor(name, description, onGoing, logoPath, bannerPath) {
         this.name = name;
         this.description = description;
-        if (typeof (onGoing) !== "boolean")
-            throw new TypeError("onGoing must by of type Boolean!");
+        this.banner = {
+            path: bannerPath
+        };
+        this.logo = {
+            path: logoPath
+        }
         this.onGoing = onGoing;
-        this.files = {};
-        this.files['logo'] = logo;
-        this.files['cover'] = cover;
+        this.seasons = {};
+    }
+
+    getBanner() {
+        return this.banner.path;
+    }
+
+    getLogo() {
+        return this.logo.path;
+    }
+
+    addSeason(seasonNumber) {
+        if (!this.seasons[seasonNumber])
+            this.seasons[seasonNumber] = [];
+        return false;
+    }
+
+    addEpisode(seasonNumber, episode) {
+        if (!this.seasons[seasonNumber]) {
+            this.addSeason(seasonNumber);
+        }
+        this.seasons[seasonNumber].push(episode);
+        return true;
+    }
+    
+    getEpisodes(seasonNumber) {
+        if (this.seasons[seasonNumber])
+            return this.seasons[seasonNumber];
+        return [];
     }
 }

@@ -59,10 +59,10 @@ export default {
         font-weight: 700
         font-family: inherit
         width: calc(100% - 2*24px)
-        background-color: #212121
+        // background-color: #212121
+        background-color: unset
         padding: 22px 24px 10px 24px
         border: 1px solid #ffffff17
-        border-radius: 4px
         color: inherit
         transition-duration: 0.5s
         cursor: pointer

@@ -3,8 +3,12 @@ import VueRouter from 'vue-router'
 
 import Home from '@/views/Home'
 import Login from '@/views/Login'
-import Registration from '@/views/Registration'
+import CreateAccount from '@/views/CreateAccount'
 import Player from '@/views/Player'
+
+import AdminSeries from "@/views/AdminSeries";
+import AdminSeriesEdit from "@/views/AdminSeriesEdit";
+import AdminEpisodeEdit from "@/views/AdminEpisodeEdit";
 
 Vue.use(VueRouter)
 
@@ -26,9 +30,24 @@ const routes = [
         component: Player
     },
     {
-        path: '/registration',
-        name: 'registration',
-        component: Registration
+        path: '/createAccount',
+        name: 'createAccount',
+        component: CreateAccount
+    },
+    {
+        path: '/adminSeries',
+        name: 'adminSeries',
+        component: AdminSeries
+    }, 
+    {
+        path: '/adminSeriesEdit',
+        name: 'adminSeriesEdit',
+        component: AdminSeriesEdit
+    },
+    {
+        path: '/adminEpisodeEdit',
+        name: 'adminEpisodeEdit',
+        component: AdminEpisodeEdit
     }
 ]
 

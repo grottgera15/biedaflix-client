@@ -1,12 +1,12 @@
 <template>
 	<form autocomplete="off">
 		<div class="header">
-			<span>Zaloguj się</span>
+			<span>Utwórz konto</span>
 		</div>
-
-		<TextInput>Adres e-mail</TextInput>
+		<TextInput v-model="user.email">Adres e-mail</TextInput>
 		<TextInput :type="'Password'">Hasło</TextInput>
-		<Button>Zaloguj się</Button>
+		<TextInput :type="'Password'">Powtórz hasło</TextInput>
+		<Button>Zarejestruj się</Button>
 	</form>
 </template>
 
@@ -15,22 +15,17 @@ import Button from "@/components/Forms/Buttons/Button";
 import TextInput from "@/components/Forms/Inputs/TextInput";
 
 export default {
+	name: "Registration",
 	data: function() {
 		return {
-			labelsClicked: {
-				email: false,
-				password: false
+			user: {
+				email: null
 			}
 		};
 	},
 	components: {
 		Button,
 		TextInput
-	},
-	methods: {
-		MinimalizeLabel(event) {
-			this.labelsClicked[event.target.id] = true;
-		}
 	}
 };
 </script>
@@ -38,7 +33,6 @@ export default {
 
 <style scoped lang="sass">
 @import "@styles/variables"
-
 form
     margin: 8px 48px
 
@@ -52,5 +46,6 @@ form
 
     button
         margin-top: 8px
+
 
 </style>

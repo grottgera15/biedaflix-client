@@ -1,7 +1,5 @@
 <template>
 	<div id="wrapper">
-		<Logo />
-		<MemoryStatus />
 		<div id="series-wrapper">
 			<div class="series">
 				<div class="serie">
@@ -21,8 +19,6 @@
 </template>
 
 <script>
-import Logo from "@/components/Logo";
-import MemoryStatus from "@/components/MemoryStatus";
 
 import HomeSeriesBar from "@/components/Home/HomeSeriesBar";
 import HomeSeriesCover from "@/components/Home/HomeSeriesCover";
@@ -49,8 +45,6 @@ export default {
 		};
 	},
 	components: {
-		Logo,
-        MemoryStatus,
         HomeSeriesBar,
 		HomeSeriesCover,
 		HomeEpisodeData
@@ -80,7 +74,6 @@ a
     display: flex
     flex-direction: column
     min-width: 33.33%
-    margin: 24px auto
     
     #series-wrapper
         grid-area: main

@@ -21,7 +21,7 @@ button
     border: unset
     letter-spacing: 0.5px
     font-weight: 700
-    font-family: Finherit
+    font-family: inherit
     vertical-align: middle   
     color: white
     cursor: pointer
