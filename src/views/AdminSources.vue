@@ -33,7 +33,7 @@ export default {
         },
         loadSources() {
             axios
-                .get("http://api.biedaflix.pl/api/streamingSource", {
+                .get("http://api.biedaflix.pl/streamingSource", {
                     withCredentials: true
                 })
                 .then(res => {

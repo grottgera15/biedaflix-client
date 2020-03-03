@@ -31,7 +31,7 @@ export default {
 	methods: {
 		loadSeries() {
 			axios
-				.get("http://api.biedaflix.pl/api/series", {
+				.get("http://api.biedaflix.pl/series", {
 					withCredentials: true
 				})
 				.then(res => {

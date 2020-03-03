@@ -34,10 +34,10 @@ export default {
 			this.user[event.target.id] = true;
 		},
 		login() {
-			console.log(`login start`);
+			// console.log(`login start`);
 			axios
 				.post(
-					"http://api.biedaflix.pl/api/login",
+					"http://api.biedaflix.pl/login",
 					JSON.stringify(this.user),
 					{
 						headers: {

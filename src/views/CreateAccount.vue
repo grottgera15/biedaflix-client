@@ -30,7 +30,7 @@ export default {
 			console.log(`register start`);
 			axios
 				.post(
-					"http://api.biedaflix.pl/api/register",
+					"http://api.biedaflix.pl/register",
 					JSON.stringify(this.user),
 					{
 						headers: {

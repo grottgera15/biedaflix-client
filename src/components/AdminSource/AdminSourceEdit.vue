@@ -58,7 +58,7 @@ export default {
             let formData = new FormData();
             formData.append("name", this.source.name);
             formData.append("logo", this.source._logo.file);
-            axios.post("http://api.biedaflix.pl/api/streamingSource", formData, {
+            axios.post("http://api.biedaflix.pl/streamingSource", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 },
