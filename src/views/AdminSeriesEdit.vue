@@ -3,59 +3,78 @@
 		<form v-on:submit.prevent>
 			<div class="page-title">
 				<h2>Szczegóły serialu</h2>
-				<button>Cofnij zmiany</button>
-				<button>Zapisz</button>
+				<div class="page-title__buttons-right">
+					<button>Cofnij zmiany</button>
+					<button>Zapisz</button>
+				</div>
 			</div>
-			<label>
-				Tytuł (pole wymagane)
-				<input type="text" placeholder="Dodaj tytuł" v-model="serieData.name" />
-			</label>
+			<AdminTextInput
+				:id="`name`"
+				:label="`Tytuł`"
+				v-model="serieData.name"
+				:placeholder="`Dodaj tytuł serialu`"
+				:required="true"
+				:validated="nameValidation"
+			/>
 			<div class="series-cover">
 				<div class="series-cover__logo">
 					<img :src="serieData.getLogo()" />
 				</div>
 				<div class="series-cover__background">
-					<video autoplay muted loop>
-						<source :src="serieData.getBanner()" type="video/mp4" />
+					<video autoplay muted loop ref="video" :src="serieData.getBanner()">
 					</video>
 				</div>
 				<div class="series-cover__description">
 					<span v-html="serieData.description" />
 				</div>
 			</div>
-			<label>
-				Opis serialu (pole wymagane)
-				<textarea
-					rows="4"
-					cols="50"
-					placeholder="Opisz serial dla użytkowników"
-					v-model="serieData.description"
-				/>
-			</label>
-			<label>
-				Logo serialu
-				<input type="file" id="file" @change="previewFiles($event)" ref="logo" />
-			</label>
-			<label>
-				Wideo okładka serialu
-				<input type="file" id="file" ref="background" />
-			</label>
-			<label>
-				Widoczność
-				<select>
-					<option>Publiczny</option>
-					<option>Niedostępny</option>
-				</select>
-			</label>
-			<label>
-				Status
-				<select>
-					<option>Zapowiedziany</option>
-					<option>Trwający</option>
-					<option>Zakończony</option>
-				</select>
-			</label>
+			<AdminTextArea
+				:id="`description`"
+				:label="`Opis serialu`"
+				v-model="serieData.description"
+				:placeholder="`Opisz serial dla użytkowników`"
+				:required="true"
+				:validated="descriptionValidation"
+			/>
+			<AdminFileInput
+				:id="`logoFile`"
+				:label="`Logo serialu`"
+				v-model="serieData.logo.path"
+				:required="true"
+			/>
+			<AdminFileInput
+				:id="`logoFile`"
+				:label="`Wideo okładka serialu`"
+				v-model="serieData.banner.path"
+				:required="true"
+			/>
+			<AdminSelect 
+				:id="`visibility`"
+				:label="`Widoczność`"
+				:options="{
+					unavailable: `Niedostępny`,
+					available: `Dostępny`
+				}"
+				v-model="serieData.availability"
+			/>
+			<AdminSelect 
+				:id="`status`"
+				:label="`Status`"
+				:options="{
+					announced: `Zapowiedziany`,
+					ongoing: `Trwający`,
+					ended: 'Zakończony'
+				}"
+				v-model="serieData.status"
+			/>
 		</form>
+		<div class="page-title">
+			<h2>Sezony i odcinki</h2>
+			<div class="page-title__buttons-right">
+				<button>Cofnij zmiany</button>
+				<button>Zapisz</button>
+			</div>
+		</div>
 		<button @click="loadFromIMDB()">Załaduj odcinki z IMDB</button>
 		<form v-on:submit.prevent class="serie-seasons">
 			<ol class="serie-seasons__list">
@@ -93,6 +112,11 @@ import Button from "@/components/Forms/Buttons/Button";
 import SeriesData from "@classes/SeriesData.js";
 import EpisodeData from "../classes/EpisodeData.js";
 
+import AdminTextInput from "@/components/Forms/Admin/AdminTextInput";
+import AdminFileInput from "@/components/Forms/Admin/AdminFileInput";
+import AdminTextArea from "@/components/Forms/Admin/AdminTextArea";
+import AdminSelect from "@/components/Forms/Admin/AdminSelect";
+
 import Axios from "axios";
 
 export default {
@@ -102,19 +126,38 @@ export default {
 			serieData: new SeriesData(
 				"The Mandalorian",
 				"Samotny łowca głów przemierza najdalsze zakątki galaktyki, z dala od władzy Nowej Republiki.",
-				false,
+				"available",
+				"ended",
 				require("@files/images/logos/theMandalorian.png"),
 				require("@files/images/theMandalorian.mp4")
 			),
 			currentSeason: 1
 		};
 	},
+	mounted() {
+		if (this.$route.query.serie === undefined)
+			this.serieData = new SeriesData("", "", "unavailable", "announced", undefined, undefined);
+	},
 	components: {
-		Button
+		Button,
+		AdminTextInput,
+		AdminFileInput,
+		AdminTextArea,
+		AdminSelect
 	},
 	computed: {
 		seasons() {
 			return this.serieData.seasons;
+		},
+		nameValidation() {
+			if (this.serieData.name.length <= 0)
+				return false;
+			return true;
+		},
+		descriptionValidation() {
+			if (this.serieData.description.length <= 0) 
+				return false;
+			return true;
 		}
 	},
 	methods: {
@@ -165,6 +208,16 @@ export default {
     .page-title
         display: flex
         flex-direction: row
+        align-items: center
+        justify-content: space-between
+        border-bottom: 1px solid white
+        margin-bottom: 24px
+
+        &__buttons-right
+            button
+                margin-left: 4px
+            :last-child()
+                margin-left: unset
 
     .series-cover
         height: 350px
@@ -209,9 +262,6 @@ export default {
                 object-fit: cover
                 height: 100%
                 width: 100%
-            
-    button
-        margin-top: 8px
 
     .serie-seasons
         &__list
@@ -256,28 +306,5 @@ export default {
                 display: grid
                 grid-template-columns: 10% 50% 20% 20%
                 grid-template-areas: "order title availability date"
-            
 
-input
-    letter-spacing: 0.5px
-    font-weight: 500
-    font-family: inherit
-    background-color: unset
-    border: 0
-    border-bottom: 1px solid #ffffff17
-    color: inherit
-    width: calc(100% - 2 * 24px)
-    padding: 10px 12px
-    outline: unset !important
-    cursor: unset !important
-
-textarea
-    width: 100%
-    min-height: 100px
-    font-family: inherit
-    resize: none
-    outline: none
-    color: inherit
-    background: unset
-    border: unset
 </style>

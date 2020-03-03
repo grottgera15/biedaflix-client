@@ -1,22 +1,37 @@
 export default class SeriesData {
-    constructor(name, description, onGoing, logoPath, bannerPath) {
+    constructor(name, description, availability, status, logoPath, bannerPath) {
         this.name = name;
         this.description = description;
         this.banner = {
+            file: undefined,
             path: bannerPath
         };
         this.logo = {
+            file: undefined,
             path: logoPath
         }
-        this.onGoing = onGoing;
+        this.availability = availability;
+        this.status = status;
         this.seasons = {};
     }
 
+    setBanner(path) {
+        this.banner.path = path;
+    }
+
     getBanner() {
+        if (this.banner.file instanceof File) 
+            return URL.createObjectURL(this.banner.file);
         return this.banner.path;
     }
 
+    setLogo(path) {
+        this.logo.path = path;
+    }
+
     getLogo() {
+        if (this.logo.file instanceof File) 
+            return URL.createObjectURL(this.logo.file);
         return this.logo.path;
     }
 

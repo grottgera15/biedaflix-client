@@ -5,60 +5,42 @@
 				<div class="name">Mandalorian</div>
 				<div class="episodes">8 / 8</div>
 				<div class="status">Zakończony</div>
-                <router-link to="AdminSeriesEdit"><button>Edytuj</button></router-link>
-			</li>
-			<li>
-				<div class="name">What We Do in the Shadows</div>
-				<div class="episodes">10 / 10</div>
-				<div class="status">Zakończony</div>
-                <button>Edytuj</button>
-			</li>
-            <li>
-				<div class="name">Pennyworth</div>
-				<div class="episodes">10 / 10</div>
-				<div class="status">Zakończony</div>
-                <button>Edytuj</button>
-			</li>
-            <li>
-				<div class="name">Godfather of Harlem</div>
-				<div class="episodes">10 / 10</div>
-				<div class="status">Zakończony</div>
-                <button>Edytuj</button>
-			</li>
-            <li>
-				<div class="name">Star Trek: Picard</div>
-				<div class="episodes">2 / 10</div>
-				<div class="status">W trakcie</div>
-                <button>Edytuj</button>
-			</li>
-			<li>
-				<div class="name">Beastars</div>
-				<div class="episodes">12 / 12</div>
-				<div class="status">Zakończony</div>
-                <button>Edytuj</button>
-			</li>
-			<li>
-				<div class="name">Dorohedoro</div>
-				<div class="episodes">8 / 12</div>
-				<div class="status">W trakcie</div>
-                <button>Edytuj</button>
+				<router-link to="AdminSeriesEdit">
+					<button>Edytuj</button>
+				</router-link>
 			</li>
 		</ul>
-		<Button>Dodaj nowy serial</Button>
+		<router-link :to="{path: 'adminSeriesEdit'}">
+			<Button>Dodaj nowy serial</Button>
+		</router-link>
 	</div>
 </template>
 
 <script>
 import Button from "@/components/Forms/Buttons/Button";
+import axios from "axios";
 
 export default {
 	name: "AdminSeries",
+	mounted() {
+		this.loadSeries();
+	},
 	data: function() {
-		return {
-			user: {
-				email: null
-			}
-		};
+		return {};
+	},
+	methods: {
+		loadSeries() {
+			axios
+				.get("http://api.biedaflix.pl/api/series", {
+					withCredentials: true
+				})
+				.then(res => {
+					console.log(res.data);
+				})
+				.catch(err => {
+					throw err;
+				});
+		}
 	},
 	components: {
 		Button

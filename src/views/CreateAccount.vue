@@ -1,27 +1,50 @@
 <template>
-	<form autocomplete="off">
+	<form v-on:submit.prevent>
 		<div class="header">
 			<span>Utwórz konto</span>
 		</div>
 		<TextInput v-model="user.email">Adres e-mail</TextInput>
-		<TextInput :type="'Password'">Hasło</TextInput>
-		<TextInput :type="'Password'">Powtórz hasło</TextInput>
-		<Button>Zarejestruj się</Button>
+		<TextInput v-model="user.password" :type="'Password'">Hasło</TextInput>
+		<TextInput v-model="user.password" :type="'Password'">Powtórz hasło</TextInput>
+		<Button @click="register()">Zarejestruj się</Button>
 	</form>
 </template>
 
 <script>
 import Button from "@/components/Forms/Buttons/Button";
 import TextInput from "@/components/Forms/Inputs/TextInput";
+import axios from "axios";
 
 export default {
 	name: "Registration",
 	data: function() {
 		return {
 			user: {
-				email: null
+				email: null,
+				password: null
 			}
 		};
+	},
+	methods: {
+		register() {
+			console.log(`register start`);
+			axios
+				.post(
+					"http://api.biedaflix.pl/api/register",
+					JSON.stringify(this.user),
+					{
+						headers: {
+							"content-type": "application/json"
+						}
+					}
+				)
+				.then(res => {
+					console.log(res);
+				})
+				.catch(err => {
+					throw err;
+				});
+		}
 	},
 	components: {
 		Button,

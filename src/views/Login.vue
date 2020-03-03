@@ -1,12 +1,12 @@
 <template>
-	<form autocomplete="off">
+	<form v-on:submit.prevent >
 		<div class="header">
 			<span>Zaloguj się</span>
 		</div>
 
-		<TextInput>Adres e-mail</TextInput>
-		<TextInput :type="'Password'">Hasło</TextInput>
-		<Button>Zaloguj się</Button>
+		<TextInput v-model="user.email">Adres e-mail</TextInput>
+		<TextInput v-model="user.password" :type="'Password'">Hasło</TextInput>
+		<Button @click="login()">Zaloguj się</Button>
 	</form>
 </template>
 
@@ -14,12 +14,14 @@
 import Button from "@/components/Forms/Buttons/Button";
 import TextInput from "@/components/Forms/Inputs/TextInput";
 
+import axios from "axios";
+
 export default {
 	data: function() {
 		return {
-			labelsClicked: {
-				email: false,
-				password: false
+			user: {
+				email: null,
+				password: null
 			}
 		};
 	},
@@ -29,7 +31,27 @@ export default {
 	},
 	methods: {
 		MinimalizeLabel(event) {
-			this.labelsClicked[event.target.id] = true;
+			this.user[event.target.id] = true;
+		},
+		login() {
+			console.log(`login start`);
+			axios
+				.post(
+					"http://api.biedaflix.pl/api/login",
+					JSON.stringify(this.user),
+					{
+						headers: {
+							"content-type": "application/json",
+						},
+						withCredentials: true
+					}
+				)
+				.then(res => {
+					console.log(res);
+				})
+				.catch(err => {
+					throw err;
+				});
 		}
 	}
 };

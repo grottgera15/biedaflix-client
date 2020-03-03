@@ -9,6 +9,7 @@ import Player from '@/views/Player'
 import AdminSeries from "@/views/AdminSeries";
 import AdminSeriesEdit from "@/views/AdminSeriesEdit";
 import AdminEpisodeEdit from "@/views/AdminEpisodeEdit";
+import AdminSources from "@/views/AdminSources";
 
 Vue.use(VueRouter)
 
@@ -48,6 +49,11 @@ const routes = [
         path: '/adminEpisodeEdit',
         name: 'adminEpisodeEdit',
         component: AdminEpisodeEdit
+    },
+    {
+        path: '/adminSources',
+        name: 'adminSources',
+        component: AdminSources
     }
 ]
 

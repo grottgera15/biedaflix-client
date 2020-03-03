@@ -16,7 +16,7 @@ export default class EpisodeData {
         this.subtitles = { ...this.subtitles, ...subtitles};
     }
 
-    containLanguage(language) {
+    containLanguage(language) { 
         if (Object.keys(this.subtitles).includes(language, 0))
             return true;
         return false;

@@ -8,5 +8,9 @@ module.exports = {
             config.resolve.alias.set("@mixins", path.resolve("src/components/Mixins")),
             config.resolve.alias.set("@vuexMutations", path.resolve("src/vuex/mutations")),
             config.resolve.alias.set("@files", path.resolve("src/files"))
+    },
+    devServer: {
+        host: 'biedaflix.pl',
+        port: 80
     }
 };

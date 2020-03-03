@@ -7,6 +7,7 @@
             <li><button>Profil</button></li>
             <li><button>Użytkownicy</button></li>
             <li><router-link to="adminSeries"><button>Seriale</button></router-link></li>
+            <li><router-link to="adminSources"><button>Źródła</button></router-link></li>
         </ul>
     </nav>
 </template>
