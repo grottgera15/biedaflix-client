@@ -48,7 +48,7 @@ export default {
         },
         changeFile(event) {
             if (event.target.files[0])
-                this.source._logo.file = event.target.files[0];
+                this.source.file = event.target.files[0];
         },
         validateName(name) {
             if (name.length <= 0) return false;
@@ -57,7 +57,7 @@ export default {
         save() {
             let formData = new FormData();
             formData.append("name", this.source.name);
-            formData.append("logo", this.source._logo.file);
+            formData.append("logo", this.source.file);
             axios.post("http://api.biedaflix.pl/streamingSource", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"

@@ -1,20 +1,15 @@
 export default class SourceData {
-    
-    constructor(name, logo) {
-        this.id = undefined;
-        this.name = name;
-        this._logo = logo;
-    }
 
-    static CreateFromDatabase(id, name, logo) {
-        let sourceData = new SourceData(name, logo);
-        sourceData.id = id;
-        return sourceData;
+    constructor({id, name, file, path}) {
+        this.id = id;
+        this.name = name;
+        this.file = file;
+        this.path = path;
     }
 
     get logo() {
-        if (this._logo instanceof File)
-            return URL.createObjectURL(this._logo);
-        return this._logo;
+        if (this.file instanceof File)
+            return URL.createObjectURL(this.file);
+        return this.path;
     }
 }

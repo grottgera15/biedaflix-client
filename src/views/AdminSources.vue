@@ -22,7 +22,7 @@ export default {
     name: "AdminSources",
     methods: {
         addSource() {
-            this.sources.push(new SourceData("", undefined));
+            this.sources.push(new SourceData({name: ""}));
         }
     },
     components: {
