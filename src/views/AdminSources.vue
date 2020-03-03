@@ -13,43 +13,25 @@
 import AdminSourceEdit from "@/components/AdminSource/AdminSourceEdit";
 
 import Button from "@/components/Forms/Buttons/Button";
-import axios from "axios";
 
 import SourceData from "@classes/SourceData.js";
 
+import loadSourcesMixin from "@mixins/loadSources.js";
+
 export default {
     name: "AdminSources",
-    mounted() {
-        this.loadSources();
-    },
-    data: function() {
-        return {
-            sources: []
-        };
-    },
     methods: {
         addSource() {
             this.sources.push(new SourceData("", undefined));
-        },
-        loadSources() {
-            axios
-                .get("http://api.biedaflix.pl/streamingSource", {
-                    withCredentials: true
-                })
-                .then(res => {
-                    for (let source of res.data) {
-                        this.sources.push(SourceData.CreateFromDatabase(source.id, source.name, source.resourcePath));
-                    }
-                })
-                .catch(err => {
-                    throw err;
-                });
         }
     },
     components: {
         Button,
         AdminSourceEdit
-    }
+    },
+    mixins: [
+        loadSourcesMixin
+    ]
 };
 </script>
 
