@@ -37,9 +37,8 @@ export default {
                     withCredentials: true
                 })
                 .then(res => {
-                    console.log(res.data);
                     for (let source of res.data) {
-                        this.sources.push(new SourceData(source.name, source.resourcePath));
+                        this.sources.push(SourceData.CreateFromDatabase(source.id, source.name, source.resourcePath));
                     }
                 })
                 .catch(err => {
