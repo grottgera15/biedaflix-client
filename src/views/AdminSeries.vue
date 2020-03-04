@@ -1,14 +1,17 @@
 <template>
 	<div class="content">
 		<ul>
-			<li>
-				<div class="name">Mandalorian</div>
-				<div class="episodes">8 / 8</div>
-				<div class="status">Zakończony</div>
+			<li 
+				v-for="(serie, i) in series"
+				:key="i"
+			>
+				<div class="name">{{serie.name}}</div>
+				<div class="episodes">0 / 8</div>
+				<div class="status">{{serie.onGoing}}</div>
 				<router-link to="AdminSeriesEdit">
 					<button>Edytuj</button>
 				</router-link>
-			</li>
+			</li> 
 		</ul>
 		<router-link :to="{path: 'adminSeriesEdit'}">
 			<Button>Dodaj nowy serial</Button>
@@ -26,7 +29,9 @@ export default {
 		this.loadSeries();
 	},
 	data: function() {
-		return {};
+		return {
+			series: undefined
+		};
 	},
 	methods: {
 		loadSeries() {
@@ -36,6 +41,7 @@ export default {
 				})
 				.then(res => {
 					console.log(res.data);
+					this.series = res.data;
 				})
 				.catch(err => {
 					throw err;

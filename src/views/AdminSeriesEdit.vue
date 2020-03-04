@@ -5,7 +5,7 @@
 				<h2>Szczegóły serialu</h2>
 				<div class="page-title__buttons-right">
 					<button>Cofnij zmiany</button>
-					<button>Zapisz</button>
+					<button @click="saveSerie()">Zapisz</button>
 				</div>
 			</div>
 			<AdminTextInput
@@ -18,10 +18,10 @@
 			/>
 			<div class="series-cover">
 				<div class="series-cover__logo">
-					<img :src="serieData.getLogo()" />
+					<img :src="serieData.logo" />
 				</div>
 				<div class="series-cover__background">
-					<video autoplay muted loop ref="video" :src="serieData.getBanner()">
+					<video autoplay muted loop ref="video" :src="serieData.banner">
 					</video>
 				</div>
 				<div class="series-cover__description">
@@ -39,13 +39,13 @@
 			<AdminFileInput
 				:id="`logoFile`"
 				:label="`Logo serialu`"
-				v-model="serieData.logo.path"
+				v-model="serieData.logo"
 				:required="true"
 			/>
 			<AdminFileInput
 				:id="`logoFile`"
 				:label="`Wideo okładka serialu`"
-				v-model="serieData.banner.path"
+				v-model="serieData.banner"
 				:required="true"
 			/>
 			<AdminSelect 
@@ -66,6 +66,12 @@
 					ended: 'Zakończony'
 				}"
 				v-model="serieData.status"
+			/>
+			<AdminSelect 
+				:id="`source`"
+				:label="`Źródło`"
+				:options="sourcesSelectObject"
+				v-model="serieData.sourceId"
 			/>
 		</form>
 		<div class="page-title">
@@ -117,27 +123,25 @@ import AdminFileInput from "@/components/Forms/Admin/AdminFileInput";
 import AdminTextArea from "@/components/Forms/Admin/AdminTextArea";
 import AdminSelect from "@/components/Forms/Admin/AdminSelect";
 
-import Axios from "axios";
+import loadSourcesMixin from "@mixins/loadSources.js";
+
+import axios from "axios";
 
 export default {
 	name: "AdminSeriesEdit",
 	data: function() {
 		return {
-			serieData: new SeriesData(
-				"The Mandalorian",
-				"Samotny łowca głów przemierza najdalsze zakątki galaktyki, z dala od władzy Nowej Republiki.",
-				"available",
-				"ended",
-				require("@files/images/logos/theMandalorian.png"),
-				require("@files/images/theMandalorian.mp4")
-			),
-			currentSeason: 1
+			serieData: undefined,
+			currentSeason: 0
 		};
 	},
-	mounted() {
+	created() {
 		if (this.$route.query.serie === undefined)
-			this.serieData = new SeriesData("", "", "unavailable", "announced", undefined, undefined);
+			this.serieData = new SeriesData({});
 	},
+	mixins: [
+		loadSourcesMixin
+	],
 	components: {
 		Button,
 		AdminTextInput,
@@ -165,8 +169,27 @@ export default {
 			console.log(event.target.files);
 			this.test = URL.createObjectURL(event.target.files[0]);
 		},
+		saveSerie: function() {
+			let formData = new FormData();
+			formData.append("name", this.serieData.name);
+			formData.append("description", this.serieData.description);
+			formData.append("sourceId", this.serieData.sourceId);
+			formData.append("onGoing", true);
+			formData.append("banner", this.serieData.bannerFile);
+			formData.append("logo", this.serieData.logoFile);
+			axios.post(`http://api.biedaflix.pl/series`, formData, {
+				headers: {
+					"Content-Type": "multipart/form-data"
+				},
+				withCredentials: true
+			}).then((res) => {
+				console.log(res);
+			}).catch((err) => {
+				throw err;
+			})
+		},
 		loadFromIMDB: function() {
-			Axios.get(
+			axios.get(
 				`http://www.omdbapi.com/?apikey=27bf7fe6&t=${this.serieData.name}&r=json&type=series&Season=${this.currentSeason}`,
 				{}
 			).then((res, err) => {

@@ -1,38 +1,53 @@
 export default class SeriesData {
-    constructor(name, description, availability, status, logoPath, bannerPath) {
+    constructor({name, description, availability, status, logo, banner, sourceId}) {
         this.name = name;
+        if (!this.name)
+            this.name = ""
         this.description = description;
-        this.banner = {
-            file: undefined,
-            path: bannerPath
-        };
-        this.logo = {
-            file: undefined,
-            path: logoPath
-        }
+        if (!this.description)
+            this.description = ""
+        this._banner = banner;
+        this._logo = logo;
         this.availability = availability;
+        if (!this.availability)
+            this.availability = "unavailable"
         this.status = status;
+        if (!this.status)
+            this.status = "ended"
+        this.sourceId = sourceId;
         this.seasons = {};
     }
 
-    setBanner(path) {
-        this.banner.path = path;
+    get bannerFile() {
+        if (this._banner instanceof File)
+            return this._banner;
+        return undefined;
     }
 
-    getBanner() {
-        if (this.banner.file instanceof File) 
-            return URL.createObjectURL(this.banner.file);
-        return this.banner.path;
+    get banner() {
+        if (this._banner instanceof File)
+            return URL.createObjectURL(this._banner);
+        return this._banner;
     }
 
-    setLogo(path) {
-        this.logo.path = path;
+    set banner(value) {
+        this._banner = value;
     }
 
-    getLogo() {
-        if (this.logo.file instanceof File) 
-            return URL.createObjectURL(this.logo.file);
-        return this.logo.path;
+    get logoFile() {
+        if (this._logo instanceof File)
+            return this._logo;
+        return undefined;
+    }
+
+    get logo() {
+        if (this._logo instanceof File) 
+            return URL.createObjectURL(this._logo);
+        return this._logo;
+    }
+
+    set logo(value) {
+        this._logo = value;
     }
 
     addSeason(seasonNumber) {
