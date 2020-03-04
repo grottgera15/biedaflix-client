@@ -1,0 +1,39 @@
+<template>
+    <button class="button" @click="$emit(`click`, $event)" :disabled="disabled">
+        <slot />
+    </button>
+</template>
+
+<script>
+import TemplateButtonMixin from "./_TemplateButtonMixin.js";
+
+export default {
+    name: "TemplateButton",
+    mixins: [TemplateButtonMixin]
+};
+</script>
+
+<style scoped lang="sass">
+@import "@styles/variables"
+
+.button
+    font-weight: 700
+    font-size: .8em
+    letter-spacing: .05em
+    font-family: inherit     
+    color: $white-color
+    border: 1px solid $main-color
+    background-color: $main-color
+    cursor: pointer
+
+    &:hover
+        border: 1px solid $second-color
+        background-color: $second-color
+    &:disabled
+        color: $bright-dark-color
+        background-color: $second-white-color
+        border: 1px solid $second-white-color
+
+    &:focus
+        outline: unset !important
+</style>

@@ -25,7 +25,7 @@ button
     vertical-align: middle   
     color: white
     cursor: pointer
-    transition-duration: 0.2s
+    transition-duration: .2s
     opacity: 0.65
 
     &:hover

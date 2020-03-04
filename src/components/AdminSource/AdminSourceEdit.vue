@@ -11,23 +11,22 @@
         <br />
         <div class="source-edit__logo" v-show="source.logo != undefined">
             <img :src="source.logo" />
-            <button @click="chooseFile()">Edytuj</button>
+            <v-small-button @click="chooseFile()">Edytuj</v-small-button>
         </div>
         <div class="source-edit__upload" v-show="source.logo === undefined">
-            <button @click="chooseFile()">Dodaj</button>
-            <input
-                type="file"
-                ref="hiddenFileInput"
-                @change="changeFile($event)"
-            />
+            <v-small-button @click="chooseFile()">Dodaj</v-small-button>
         </div>
-        <button @click="save()">Zapisz</button>
+        <v-small-button @click="save()">Zapisz</v-small-button>
+
+        <input type="file" class="hidden-input" ref="hiddenFileInput" @change="changeFile($event)" />
     </form>
 </template>
 
 <script>
 import SourceData from "@classes/SourceData.js";
 import AdminTextInput from "@/components/Forms/Admin/AdminTextInput";
+
+import SmallButton from "@/components/Forms/Buttons/SmallButton";
 
 import axios from "axios";
 
@@ -40,15 +39,15 @@ export default {
         }
     },
     components: {
-        AdminTextInput
+        AdminTextInput,
+        "v-small-button": SmallButton
     },
     methods: {
         chooseFile() {
             this.$refs.hiddenFileInput.click();
         },
         changeFile(event) {
-            if (event.target.files[0])
-                this.source.file = event.target.files[0];
+            if (event.target.files[0]) this.source.file = event.target.files[0];
         },
         validateName(name) {
             if (name.length <= 0) return false;
@@ -58,16 +57,19 @@ export default {
             let formData = new FormData();
             formData.append("name", this.source.name);
             formData.append("logo", this.source.file);
-            axios.post("http://api.biedaflix.pl/streamingSource", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                },
-                withCredentials: true
-            }).then((res) => {
-                console.log (res);
-            }).catch((err) => {
-                throw err;
-            })
+            axios
+                .post("http://api.biedaflix.pl/streamingSource", formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    },
+                    withCredentials: true
+                })
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    throw err;
+                });
         }
     }
 };
@@ -99,21 +101,8 @@ export default {
             bottom: 4px 
 
     &__upload
-        input
-            width: .1px
-            height: .1px
 
-    button
-        font-size: inherit
-        font-family: inherit
-        color: white
-        border: unset
-        outline: none
-        padding: 4px 16px        
-        background-color: $main-color
-        margin: 0
-        text-transform: uppercase
-        font-weight: 700
-        font-size: 8pt
-        cursor: pointer
+.hidden-input
+    width: .1px
+    height: .1px
 </style>

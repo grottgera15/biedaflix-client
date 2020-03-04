@@ -6,12 +6,12 @@
 
 		<TextInput v-model="user.email">Adres e-mail</TextInput>
 		<TextInput v-model="user.password" :type="'Password'">Hasło</TextInput>
-		<Button @click="login()">Zaloguj się</Button>
+		<v-full-width-button @click="login()">Zaloguj się</v-full-width-button>
 	</form>
 </template>
 
 <script>
-import Button from "@/components/Forms/Buttons/Button";
+import FullWidthButton from "@/components/Forms/Buttons/FullWidthButton";
 import TextInput from "@/components/Forms/Inputs/TextInput";
 
 import axios from "axios";
@@ -26,7 +26,7 @@ export default {
 		};
 	},
 	components: {
-		Button,
+		"v-full-width-button": FullWidthButton,
 		TextInput
 	},
 	methods: {

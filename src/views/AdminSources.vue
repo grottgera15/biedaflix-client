@@ -5,14 +5,14 @@
                 <AdminSourceEdit :source="source"/>
             </li>
         </ul>
-        <Button @click="addSource()">Dodaj nowe źródło</Button>
+        <v-normal-button @click="addSource()">Dodaj nowe źródło</v-normal-button>
     </div>
 </template>
 
 <script>
 import AdminSourceEdit from "@/components/AdminSource/AdminSourceEdit";
 
-import Button from "@/components/Forms/Buttons/Button";
+import NormalButton from "@/components/Forms/Buttons/NormalButton";
 
 import SourceData from "@classes/SourceData.js";
 
@@ -26,7 +26,7 @@ export default {
         }
     },
     components: {
-        Button,
+        "v-normal-button": NormalButton,
         AdminSourceEdit
     },
     mixins: [

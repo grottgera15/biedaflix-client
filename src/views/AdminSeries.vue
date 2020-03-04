@@ -14,13 +14,13 @@
 			</li> 
 		</ul>
 		<router-link :to="{path: 'adminSeriesEdit'}">
-			<Button>Dodaj nowy serial</Button>
+			<v-normal-button>Dodaj nowy serial</v-normal-button>
 		</router-link>
 	</div>
 </template>
 
 <script>
-import Button from "@/components/Forms/Buttons/Button";
+import NormalButton from "@/components/Forms/Buttons/NormalButton";
 import axios from "axios";
 
 export default {
@@ -49,7 +49,7 @@ export default {
 		}
 	},
 	components: {
-		Button
+		"v-normal-button": NormalButton
 	}
 };
 </script>

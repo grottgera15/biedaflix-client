@@ -33,7 +33,7 @@
                     <input type="file" id="file" ref="background" />
                 </li>
             </ul>
-			<Button>Zapisz zmiany</Button>
+			<v-normal-button>Zapisz zmiany</v-normal-button>
 		</form>
 	</div>
 </template>
@@ -41,7 +41,7 @@
 <script>
 import EpisodeData from "../classes/EpisodeData.js";
 
-import Button from "@/components/Forms/Buttons/Button";
+import NormalButton from "@/components/Forms/Buttons/NormalButton";
 
 export default {
 	name: "AdminEpisodeEdit",
@@ -76,7 +76,7 @@ export default {
         }
     },
 	components: {
-		Button
+		"v-normal-button": NormalButton
 	}
 };
 </script>

@@ -6,12 +6,12 @@
 		<TextInput v-model="user.email">Adres e-mail</TextInput>
 		<TextInput v-model="user.password" :type="'Password'">Hasło</TextInput>
 		<TextInput v-model="user.password" :type="'Password'">Powtórz hasło</TextInput>
-		<Button @click="register()">Zarejestruj się</Button>
+		<v-normal-button @click="register()">Zarejestruj się</v-normal-button>
 	</form>
 </template>
 
 <script>
-import Button from "@/components/Forms/Buttons/Button";
+import NormalButton from "@/components/Forms/Buttons/NormalButton";
 import TextInput from "@/components/Forms/Inputs/TextInput";
 import axios from "axios";
 
@@ -47,7 +47,7 @@ export default {
 		}
 	},
 	components: {
-		Button,
+		"v-normal-button": NormalButton,
 		TextInput
 	}
 };

@@ -107,13 +107,13 @@
 					<span>{{episode.releaseDate}}</span>
 				</li>
 			</ol>
-			<Button>Dodaj nowy odcinek</Button>
+			<v-normal-button>Dodaj nowy odcinek</v-normal-button>
 		</div>
 	</div>
 </template>
 
 <script>
-import Button from "@/components/Forms/Buttons/Button";
+import NormalButton from "@/components/Forms/Buttons/NormalButton";
 
 import SeriesData from "@classes/SeriesData.js";
 import EpisodeData from "../classes/EpisodeData.js";
@@ -143,7 +143,7 @@ export default {
 		loadSourcesMixin
 	],
 	components: {
-		Button,
+		"v-normal-button": NormalButton,
 		AdminTextInput,
 		AdminFileInput,
 		AdminTextArea,
