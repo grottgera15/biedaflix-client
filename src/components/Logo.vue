@@ -12,8 +12,10 @@ export default {
 
 <style lang="sass" scoped>
 @import "@styles/fonts"
+@import "@styles/variables"
 
 .logo
+    color: $white-color
     grid-area: logo
     font-family: Big Noodle Titling
     font-size: 64px

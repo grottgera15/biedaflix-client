@@ -36,12 +36,12 @@ export default {
     font-weight: 700
     letter-spacing: 0.5px
     cursor: default
-    color: #ffffffa3
+    color: $second-white-color
     text-transform: uppercase
 
     .bar
         margin-bottom: 4px
-        background-color: #ffffffa3
+        background-color: $second-white-color
         height: 4px
         width: 100%
         position: relative

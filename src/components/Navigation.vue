@@ -19,12 +19,14 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import "@styles/variables"
+
 nav
     ul
         list-style: none
         padding-inline-start: 0
         margin: unset
-        border-left: 1px solid #ffffff17
+        border-left: 1px solid $bright-dark-color
         display: flex
         flex-direction: column
         padding: 12px 8px
@@ -37,7 +39,7 @@ nav
                 padding: 12px 0
                 text-align: left
                 background-color: unset
-                color: #ffffffa3
+                color: $second-white-color
                 cursor: pointer
                 outline: unset
                 font-size: 8pt
@@ -47,6 +49,6 @@ nav
                 letter-spacing: .5px
 
                 &:hover
-                    color: white
+                    color: $white-color
                     margin-left: 4px
 </style>
