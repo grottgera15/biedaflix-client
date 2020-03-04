@@ -6,7 +6,7 @@
                     <HomeSeriesBar :seriesData="serieNew"/>
 					<transition name="fade">
 						<div class="info">
-							<HomeSeriesCover :seriesData="serieNew"/>
+							<v-serie-banner :seriesData="serieNew"/>
 							<div class="episodes">
 								<HomeEpisodeData :episodeData="episode" />
 							</div>
@@ -21,7 +21,7 @@
 <script>
 
 import HomeSeriesBar from "@/components/Home/HomeSeriesBar";
-import HomeSeriesCover from "@/components/Home/HomeSeriesCover";
+import SerieBanner from "@/components/Serie/SerieBanner";
 import SerieData from "@classes/SerieData";
 
 import HomeEpisodeData from "@/components/Home/HomeEpisodeData";
@@ -46,7 +46,7 @@ export default {
 	},
 	components: {
         HomeSeriesBar,
-		HomeSeriesCover,
+		"v-serie-banner": SerieBanner,
 		HomeEpisodeData
 	},
 	methods: {

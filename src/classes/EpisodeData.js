@@ -1,5 +1,5 @@
 export default class EpisodeData {
-    constructor(name, seasonNumber, episodeNumber, available, releaseDate) {
+    constructor({name, seasonNumber, episodeNumber, available, releaseDate}) {
         this.name = name;
         this.episodeNumber = episodeNumber;
         this.seasonNumber = seasonNumber;

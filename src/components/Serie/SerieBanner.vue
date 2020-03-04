@@ -1,14 +1,14 @@
 <template>
-	<div class="series-cover">
-		<div class="series-cover__logo" v-if="seriesData.files.logo">
-			<img :src="seriesData.files.logo" />
+	<div class="serie-banner" v-show="banner && logo">
+		<div class="serie-banner__logo">
+			<img :src="logo" />
 		</div>
-		<div class="series-cover__background">
-			<video autoplay muted loop>
-				<source :src="seriesData.files.cover" type="video/mp4" />
+		<div class="serie-banner__background">
+			<video autoplay muted loop :src="banner">
+				<source type="video/mp4" />
 			</video>
 		</div>
-		<div class="series-cover__description">{{seriesData.description}}</div>
+		<div class="serie-banner__description">{{serieData.description}}</div>
 	</div>
 </template>
 
@@ -16,18 +16,26 @@
 import SerieData from "@classes/SerieData";
 
 export default {
-	name: "HomeSeriesDisplay",
+	name: "SerieBanner",
 	props: {
-		seriesData: {
+		serieData: {
 			type: SerieData,
 			required: true
 		}
-	}
+    },
+    computed: {
+        logo: function() {
+            return this.serieData.logo;
+        },
+        banner: function() {
+            return this.serieData.banner;
+        }
+    }
 };
 </script>
 
 <style lang="sass" scoped>
-.series-cover
+.serie-banner
     height: 350px
     position: relative
 
@@ -42,7 +50,7 @@ export default {
             opacity: 1
 
     &__description
-        padding: 24px 48px
+        padding: 1.5em 3em
         position: absolute
         bottom: 0
         overflow: hidden
@@ -54,7 +62,7 @@ export default {
         position: absolute
         z-index:-999
         background-size: cover
-        opacity: 0.75
+        opacity: .75
         background-position: top center
         width: 100%
         height: 350px
@@ -62,12 +70,12 @@ export default {
         &:before
             content: ""
             width: 100%
-            height: 350px
+            height: 100%
             position: absolute
             background: linear-gradient(50deg, rgba(21,21,21,1) 0%, rgba(21,21,21,0) 100%)
 
         video
             object-fit: cover
-            min-height: 100%
+            height: 100%
             width: 100%
 </style>

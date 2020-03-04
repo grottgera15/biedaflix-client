@@ -1,52 +1,40 @@
 <template>
     <form v-on:submit.prevent>
-        <div class="page-title">
-            <h2>Szczegóły serialu</h2>
-            <div class="page-title__buttons-right">
-                <v-small-button :disabled="true">Cofnij zmiany</v-small-button>
-                <v-small-button @click="saveSerie()">Zapisz</v-small-button>
-            </div>
-        </div>
-        <v-admin-text-input
+        <v-text-input
             :id="`name`"
             :label="`Tytuł`"
             v-model="serieData.name"
             :placeholder="`Dodaj tytuł serialu`"
             :required="true"
-            :validated="nameValidation"
+            :validated="simpleTextValidation(`name`, serieData.name)"
         />
-        <div class="series-cover">
-            <div class="series-cover__logo">
-                <img :src="serieData.logo" />
-            </div>
-            <div class="series-cover__background">
-                <video autoplay muted loop ref="video" :src="serieData.banner"></video>
-            </div>
-            <div class="series-cover__description">
-                <span v-html="serieData.description" />
-            </div>
-        </div>
-        <v-admin-text-area
+        <v-serie-banner
+            :serieData="serieData"
+        />
+        <v-text-area
             :id="`description`"
             :label="`Opis serialu`"
             v-model="serieData.description"
             :placeholder="`Opisz serial dla użytkowników`"
             :required="true"
-            :validated="descriptionValidation"
+            :validated="simpleTextValidation(`description`, serieData.description)"
         />
-        <v-admin-file-input
+        <v-file-input
             :id="`logoFile`"
             :label="`Logo serialu`"
             v-model="serieData.logo"
             :required="true"
+            :validated="fileTypeValidation(`logo`, serieData._logo, `image`)"
         />
-        <v-admin-file-input
-            :id="`logoFile`"
+        <v-file-input
+            :id="`bannerFile`"
             :label="`Wideo okładka serialu`"
             v-model="serieData.banner"
             :required="true"
+            :validated="fileTypeValidation(`banner`, serieData._banner, `video`)"
         />
-        <v-admin-select
+        <button :disabled="fullValidation()">Validation test</button>
+        <!-- <v-select
             :id="`visibility`"
             :label="`Widoczność`"
             :options="{
@@ -55,7 +43,7 @@
 				}"
             v-model="serieData.availability"
         />
-        <v-admin-select
+        <v-select
             :id="`status`"
             :label="`Status`"
             :options="{
@@ -65,30 +53,54 @@
 				}"
             v-model="serieData.status"
         />
-        <v-admin-select
+        <v-select
             :id="`source`"
             :label="`Źródło`"
             :options="sourcesSelectObject"
             v-model="serieData.sourceId"
-        />
+        /> -->
     </form>
 </template>
 
 <script>
-
-import SmallButton from "@/components/Forms/Buttons/SmallButton";
+import SerieBanner from "@/components/Serie/SerieBanner";
 
 import AdminTextInput from "@/components/Forms/Admin/AdminTextInput";
 import AdminFileInput from "@/components/Forms/Admin/AdminFileInput";
 import AdminTextArea from "@/components/Forms/Admin/AdminTextArea";
-import AdminSelect from "@/components/Forms/Admin/AdminSelect";
+// import AdminSelect from "@/components/Forms/Admin/AdminSelect";
 
 import SerieData from "@classes/SerieData";
 
 export default {
     name: "AdminSerieEdit",
     data() {
-        return {};
+        return {
+            validation: {}
+        };
+    },
+    methods: {
+        simpleTextValidation(fieldName, text) {
+            let result;
+            if (text.length > 0)
+                result = true;
+            else
+                result = false;
+            this.validation[`${fieldName}_simpleText`] = result;
+            return result;
+        },
+        fileTypeValidation(fieldName, file, type) {
+            let result;
+            if (file instanceof File) 
+                result = file.type.startsWith(type);
+            else 
+                result = false;   
+            this.validation[fieldName + "_type"] = result;
+            return result;
+        },
+        fullValidation() {
+            return Object.values(this.validation).includes(false, 0);
+        }
     },
     props: {
         serieData: {
@@ -97,12 +109,12 @@ export default {
         }
     },
     components: {
-        "v-small-button": SmallButton,
-        "v-admin-text-input": AdminTextInput,
-        "v-admin-file-input": AdminFileInput,
-        "v-admin-text-area": AdminTextArea,
-        "v-admin-select": AdminSelect
-    }
+        "v-serie-banner": SerieBanner,
+        "v-text-input": AdminTextInput,
+        "v-file-input": AdminFileInput,
+        "v-text-area": AdminTextArea,
+        // "v-select": AdminSelect
+    },
 };
 </script>
 

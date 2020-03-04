@@ -46,7 +46,7 @@ export default {
     mixins: [AdminTemplateInputMixin],
     props: {
 		value: {
-            type: File,
+            type: [File, String],
             required: false
 		}
     }
