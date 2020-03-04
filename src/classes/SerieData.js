@@ -1,4 +1,4 @@
-export default class SeriesData {
+export default class SerieData {
     constructor({name, description, availability, status, logo, banner, sourceId}) {
         this.name = name;
         if (!this.name)

@@ -10,7 +10,7 @@ import Login from '@/views/Login'
 import CreateAccount from '@/views/CreateAccount'
 
 import AdminSeries from "@/views/AdminSeries";
-import AdminSeriesEdit from "@/views/AdminSeriesEdit";
+import AdminSerie from "@/views/AdminSerie";
 import AdminEpisodeEdit from "@/views/AdminEpisodeEdit";
 import AdminSources from "@/views/AdminSources";
 
@@ -49,9 +49,9 @@ const routes = [
                 component: AdminSeries
             },
             {
-                path: '/adminSeriesEdit',
-                name: 'adminSeriesEdit',
-                component: AdminSeriesEdit
+                path: '/adminSerie',
+                name: 'adminSerie',
+                component: AdminSerie
             },
             {
                 path: '/adminEpisodeEdit',

@@ -8,12 +8,12 @@
 				<div class="name">{{serie.name}}</div>
 				<div class="episodes">0 / 8</div>
 				<div class="status">{{serie.onGoing}}</div>
-				<router-link to="AdminSeriesEdit">
+				<router-link to="AdminSerie">
 					<button>Edytuj</button>
 				</router-link>
 			</li> 
 		</ul>
-		<router-link :to="{path: 'adminSeriesEdit'}">
+		<router-link :to="{path: 'adminSerie'}">
 			<v-normal-button>Dodaj nowy serial</v-normal-button>
 		</router-link>
 	</div>

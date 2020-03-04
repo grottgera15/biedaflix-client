@@ -22,7 +22,7 @@
 
 import HomeSeriesBar from "@/components/Home/HomeSeriesBar";
 import HomeSeriesCover from "@/components/Home/HomeSeriesCover";
-import SeriesData from "@classes/SeriesData";
+import SerieData from "@classes/SerieData";
 
 import HomeEpisodeData from "@/components/Home/HomeEpisodeData";
 import EpisodeData from "@classes/EpisodeData";
@@ -35,7 +35,7 @@ export default {
 			series: series,
 			activeSerie: -1,
 			episode: new EpisodeData("Rozdział 1", 1, 1, "12.11.2019", true),
-			serieNew: new SeriesData(
+			serieNew: new SerieData(
 				"Mandalorian",
                 "Samotny łowca głów przemierza najdalsze zakątki galaktyki, z dala od władzy Nowej Republiki.",
                 true,

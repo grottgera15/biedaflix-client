@@ -13,13 +13,13 @@
 </template>
 
 <script>
-import SeriesData from "@classes/SeriesData";
+import SerieData from "@classes/SerieData";
 
 export default {
 	name: "HomeSeriesDisplay",
 	props: {
 		seriesData: {
-			type: SeriesData,
+			type: SerieData,
 			required: true
 		}
 	}

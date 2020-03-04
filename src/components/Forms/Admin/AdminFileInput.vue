@@ -6,13 +6,13 @@
 		:required="required"
 		:validated="validated"
 	>
-		<button
+		<v-small-button
 			class="input-wrapper__file"
 			:id="id"
             @click="chooseFile()"
 		>
             Wybierz plik
-        </button>
+        </v-small-button>
         <input 
             type="file"
             style="display: none"
@@ -27,10 +27,13 @@
 import AdminTemplateInput from "./_AdminTemplateInput";
 import AdminTemplateInputMixin from "@mixins/_AdminTemplateInputMixin.js";
 
+import SmallButton from "@/components/Forms/Buttons/SmallButton";
+
 export default {
 	name: "AdminFileInput",
 	components: {
-		AdminTemplateInput
+        AdminTemplateInput,
+        "v-small-button": SmallButton
     },
     methods: {
         chooseFile() {
@@ -51,21 +54,5 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "@styles/variables"
-
-.input-wrapper__file
-    margin-top: 8px
-    display: block
-    cursor: pointer
-    letter-spacing: .5px
-    font-family: inherit
-    resize: none
-    outline: none
-    color: white !important
-    background: $main-color
-    border: unset
-    font-size: 9pt
-    padding: 4px 8px
-    
 
 </style>

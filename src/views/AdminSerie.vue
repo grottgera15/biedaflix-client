@@ -1,91 +1,20 @@
 <template>
 	<div class="content">
-		<form v-on:submit.prevent>
-			<div class="page-title">
-				<h2>Szczegóły serialu</h2>
-				<div class="page-title__buttons-right">
-					<button>Cofnij zmiany</button>
-					<button @click="saveSerie()">Zapisz</button>
-				</div>
-			</div>
-			<AdminTextInput
-				:id="`name`"
-				:label="`Tytuł`"
-				v-model="serieData.name"
-				:placeholder="`Dodaj tytuł serialu`"
-				:required="true"
-				:validated="nameValidation"
-			/>
-			<div class="series-cover">
-				<div class="series-cover__logo">
-					<img :src="serieData.logo" />
-				</div>
-				<div class="series-cover__background">
-					<video autoplay muted loop ref="video" :src="serieData.banner">
-					</video>
-				</div>
-				<div class="series-cover__description">
-					<span v-html="serieData.description" />
-				</div>
-			</div>
-			<AdminTextArea
-				:id="`description`"
-				:label="`Opis serialu`"
-				v-model="serieData.description"
-				:placeholder="`Opisz serial dla użytkowników`"
-				:required="true"
-				:validated="descriptionValidation"
-			/>
-			<AdminFileInput
-				:id="`logoFile`"
-				:label="`Logo serialu`"
-				v-model="serieData.logo"
-				:required="true"
-			/>
-			<AdminFileInput
-				:id="`logoFile`"
-				:label="`Wideo okładka serialu`"
-				v-model="serieData.banner"
-				:required="true"
-			/>
-			<AdminSelect 
-				:id="`visibility`"
-				:label="`Widoczność`"
-				:options="{
-					unavailable: `Niedostępny`,
-					available: `Dostępny`
-				}"
-				v-model="serieData.availability"
-			/>
-			<AdminSelect 
-				:id="`status`"
-				:label="`Status`"
-				:options="{
-					announced: `Zapowiedziany`,
-					ongoing: `Trwający`,
-					ended: 'Zakończony'
-				}"
-				v-model="serieData.status"
-			/>
-			<AdminSelect 
-				:id="`source`"
-				:label="`Źródło`"
-				:options="sourcesSelectObject"
-				v-model="serieData.sourceId"
-			/>
-		</form>
+		<AdminSerieEdit 
+			:serieData="serieData"
+		/>
 		<div class="page-title">
 			<h2>Sezony i odcinki</h2>
 			<div class="page-title__buttons-right">
-				<button>Cofnij zmiany</button>
-				<button>Zapisz</button>
+				<v-small-button>Cofnij zmiany</v-small-button>
+				<v-small-button>Zapisz</v-small-button>
 			</div>
 		</div>
-		<button @click="loadFromIMDB()">Załaduj odcinki z IMDB</button>
+		<v-small-button @click="loadFromIMDB()">Załaduj odcinki z IMDB</v-small-button>
 		<form v-on:submit.prevent class="serie-seasons">
 			<ol class="serie-seasons__list">
 				<li v-for="(season, i) in seasons" :key="i">
-					<button>Sezon {{i}}</button>
+					<v-small-button>Sezon {{i}}</v-small-button>
 				</li>
 			</ol>
 		</form>
@@ -113,22 +42,25 @@
 </template>
 
 <script>
-import NormalButton from "@/components/Forms/Buttons/NormalButton";
+import AdminSerieEdit from "@/components/AdminSerie/AdminSerieEdit";
 
-import SeriesData from "@classes/SeriesData.js";
+import NormalButton from "@/components/Forms/Buttons/NormalButton";
+import SmallButton from "@/components/Forms/Buttons/SmallButton";
+
+import SerieData from "@classes/SerieData.js";
 import EpisodeData from "../classes/EpisodeData.js";
 
-import AdminTextInput from "@/components/Forms/Admin/AdminTextInput";
-import AdminFileInput from "@/components/Forms/Admin/AdminFileInput";
-import AdminTextArea from "@/components/Forms/Admin/AdminTextArea";
-import AdminSelect from "@/components/Forms/Admin/AdminSelect";
+// import AdminTextInput from "@/components/Forms/Admin/AdminTextInput";
+// import AdminFileInput from "@/components/Forms/Admin/AdminFileInput";
+// import AdminTextArea from "@/components/Forms/Admin/AdminTextArea";
+// import AdminSelect from "@/components/Forms/Admin/AdminSelect";
 
 import loadSourcesMixin from "@mixins/loadSources.js";
 
 import axios from "axios";
 
 export default {
-	name: "AdminSeriesEdit",
+	name: "AdminSerie",
 	data: function() {
 		return {
 			serieData: undefined,
@@ -137,17 +69,19 @@ export default {
 	},
 	created() {
 		if (this.$route.query.serie === undefined)
-			this.serieData = new SeriesData({});
+			this.serieData = new SerieData({});
 	},
 	mixins: [
 		loadSourcesMixin
 	],
 	components: {
 		"v-normal-button": NormalButton,
-		AdminTextInput,
-		AdminFileInput,
-		AdminTextArea,
-		AdminSelect
+		"v-small-button": SmallButton,
+		AdminSerieEdit
+		// AdminTextInput,
+		// AdminFileInput,
+		// AdminTextArea,
+		// AdminSelect
 	},
 	computed: {
 		seasons() {
