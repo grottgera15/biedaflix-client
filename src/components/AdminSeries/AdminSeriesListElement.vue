@@ -3,8 +3,10 @@
         <div class="series-list__element__name">{{serieData.name}}</div>
         <div class="series-list__element__episodes">0 / 8</div>
         <div class="series-list__element__status">{{serieData.onGoing}}</div>
-        <router-link to="AdminSerie">
-            <button>Edytuj</button>
+        <router-link :to="{path: `adminSerie`, query: {
+            id: serieData.id
+        }}">
+            <v-small-button>Edytuj</v-small-button>
         </router-link>
     </li>
 </template>
@@ -12,8 +14,13 @@
 <script>
 import SerieData from "@classes/SerieData";
 
+import SmallButton from "@/components/Forms/Buttons/SmallButton";
+
 export default {
     name: "AdminSeriesListElement",
+    components: {
+        "v-small-button": SmallButton
+    },
     props: {
         serieData: {
             type: SerieData,

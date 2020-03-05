@@ -8,9 +8,7 @@
             :required="true"
             :validated="simpleTextValidation(`name`, serieData.name)"
         />
-        <v-serie-banner
-            :serieData="serieData"
-        />
+        <v-serie-banner :serieData="serieData" />
         <v-text-area
             :id="`description`"
             :label="`Opis serialu`"
@@ -19,20 +17,22 @@
             :required="true"
             :validated="simpleTextValidation(`description`, serieData.description)"
         />
-        <v-file-input
-            :id="`logoFile`"
-            :label="`Logo serialu`"
-            v-model="serieData.logo"
-            :required="true"
-            :validated="fileTypeValidation(`logo`, serieData._logo, `image`)"
-        />
-        <v-file-input
-            :id="`bannerFile`"
-            :label="`Wideo okładka serialu`"
-            v-model="serieData.banner"
-            :required="true"
-            :validated="fileTypeValidation(`banner`, serieData._banner, `video`)"
-        />
+        <v-inline>
+            <v-file-input
+                :id="`logoFile`"
+                :label="`Logo serialu`"
+                v-model="serieData.logo"
+                :required="true"
+                :validated="fileTypeValidation(`logo`, serieData._logo, `image`)"
+            />
+            <v-file-input
+                :id="`bannerFile`"
+                :label="`Wideo okładka serialu`"
+                v-model="serieData.banner"
+                :required="true"
+                :validated="fileTypeValidation(`banner`, serieData._banner, `video`)"
+            />
+        </v-inline>
         <button :disabled="fullValidation()">Validation test</button>
         <!-- <v-select
             :id="`visibility`"
@@ -58,7 +58,7 @@
             :label="`Źródło`"
             :options="sourcesSelectObject"
             v-model="serieData.sourceId"
-        /> -->
+        />-->
     </form>
 </template>
 
@@ -69,6 +69,8 @@ import AdminTextInput from "@/components/Forms/Admin/AdminTextInput";
 import AdminFileInput from "@/components/Forms/Admin/AdminFileInput";
 import AdminTextArea from "@/components/Forms/Admin/AdminTextArea";
 // import AdminSelect from "@/components/Forms/Admin/AdminSelect";
+
+import AdminInline from "@/components/Admin/AdminInline";
 
 import SerieData from "@classes/SerieData";
 
@@ -83,18 +85,13 @@ export default {
         }
     },
     components: {
+        "v-inline": AdminInline,
         "v-serie-banner": SerieBanner,
         "v-text-input": AdminTextInput,
         "v-file-input": AdminFileInput,
-        "v-text-area": AdminTextArea,
+        "v-text-area": AdminTextArea
         // "v-select": AdminSelect
     },
-    mixins: [
-        validationMixin
-    ]
+    mixins: [validationMixin]
 };
 </script>
-
-<style lang="sass" scoped>
-
-</style>

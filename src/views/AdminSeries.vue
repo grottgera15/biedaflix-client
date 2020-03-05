@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import SerieData from "@classes/SerieData";
+
 import AdminSeriesList from "@/components/AdminSeries/AdminSeriesList";
 import AdminSectionHeader from "@/components/Admin/AdminSectionHeader";
 
@@ -33,7 +35,17 @@ export default {
                 })
                 .then(res => {
                     console.log(res.data);
-                    this.seriesData = res.data;
+                    for (let serie of res.data) {
+                        this.seriesData.push(
+                            new SerieData({
+                                id: serie.id,
+                                name: serie.name,
+                                description: serie.description,
+                                banner: serie.banner,
+                                logo: serie.logo
+                            })
+                        );
+                    }
                 })
                 .catch(err => {
                     throw err;

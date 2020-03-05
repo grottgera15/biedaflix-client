@@ -1,26 +1,19 @@
 <template>
-	<AdminTemplateInput
-		:id="id"
-		:label="label"
-		:value="value"
-		:required="required"
-		:validated="validated"
-	>
-		<v-small-button
-			class="input-wrapper__file"
-			:id="id"
-            @click="chooseFile()"
-		>
-            Wybierz plik
-        </v-small-button>
-        <input 
+    <AdminTemplateInput
+        :id="id"
+        :label="label"
+        :value="value"
+        :required="required"
+        :validated="validated"
+    >
+        <v-small-button class="input-wrapper__file" :id="id" @click="chooseFile()">Wybierz plik</v-small-button>
+        <input
             type="file"
             style="display: none"
             ref="hiddenFileInput"
-			@change="fileChoosen($event)"
-            
+            @change="fileChoosen($event)"
         />
-	</AdminTemplateInput>
+    </AdminTemplateInput>
 </template>
 
 <script>
@@ -30,8 +23,8 @@ import AdminTemplateInputMixin from "@mixins/_AdminTemplateInputMixin.js";
 import SmallButton from "@/components/Forms/Buttons/SmallButton";
 
 export default {
-	name: "AdminFileInput",
-	components: {
+    name: "AdminFileInput",
+    components: {
         AdminTemplateInput,
         "v-small-button": SmallButton
     },
@@ -40,19 +33,20 @@ export default {
             this.$refs.hiddenFileInput.click();
         },
         fileChoosen(event) {
-            this.$emit('input', event.target.files[0]);
+            this.$emit("input", event.target.files[0]);
         }
     },
     mixins: [AdminTemplateInputMixin],
     props: {
-		value: {
+        value: {
             type: [File, String],
             required: false
-		}
+        }
     }
 };
 </script>
 
 <style lang="sass" scoped>
-
+.input-wrapper__file
+    display: block
 </style>

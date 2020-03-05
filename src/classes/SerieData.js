@@ -1,5 +1,6 @@
 export default class SerieData {
-    constructor({name, description, availability, status, logo, banner, sourceId}) {
+    constructor({id, name, description, availability, status, logo, banner, sourceId}) {
+        this.id = id;
         this.name = name;
         if (!this.name)
             this.name = ""
