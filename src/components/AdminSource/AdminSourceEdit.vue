@@ -1,5 +1,17 @@
 <template>
-    <form v-on:submit.prevent>
+    <form class="source-edit">
+        {{source.name}}
+        <div class="source-edit__logo">
+            <img :src="source.logo" />
+        </div>
+        <input
+            type="file"
+            class="hidden-input"
+            ref="hiddenFileInput"
+            @change="changeFile($event)"
+        />
+    </form>
+    <!-- <form v-on:submit.prevent>
         <AdminTextInput
             v-model="source.name"
             :label="`Nazwa`"
@@ -19,14 +31,14 @@
         <v-small-button @click="save()">Zapisz</v-small-button>
 
         <input type="file" class="hidden-input" ref="hiddenFileInput" @change="changeFile($event)" />
-    </form>
+    </form>-->
 </template>
 
 <script>
 import SourceData from "@classes/SourceData.js";
-import AdminTextInput from "@/components/Forms/Admin/AdminTextInput";
+// import AdminTextInput from "@/components/Forms/Admin/AdminTextInput";
 
-import SmallButton from "@/components/Forms/Buttons/SmallButton";
+// import SmallButton from "@/components/Forms/Buttons/SmallButton";
 
 import axios from "axios";
 
@@ -39,8 +51,8 @@ export default {
         }
     },
     components: {
-        AdminTextInput,
-        "v-small-button": SmallButton
+        // AdminTextInput,
+        // "v-small-button": SmallButton
     },
     methods: {
         chooseFile() {
@@ -79,21 +91,25 @@ export default {
 @import "@styles/variables"
 
 .source-edit
+    display: flex
+    flex-direction: row
+    align-items: center
     padding: 16px 24px
     font-size: 10pt
     font-weight: 300
     color: #ffffffa3
     border-bottom: 2px solid #ffffff17
+    height: 75px
 
     &__logo
-        height: 100px
-        width: fit-content
-        margin: auto
-        position: relative
+        max-width: 150px
+        max-height: 75px
+        height: auto
+        width: auto
+        float: right
 
         img
-            height: 100%
-            text-align: center
+            width: 100%
 
         button
             position: absolute
@@ -103,6 +119,7 @@ export default {
     &__upload
 
 .hidden-input
+    visibility: hidden
     width: .1px
     height: .1px
 </style>
