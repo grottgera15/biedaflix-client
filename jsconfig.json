@@ -12,7 +12,7 @@
                 "./src/classes/*"
             ],
             "@mixins/*": [
-                "./src/components/mixins/*"
+                "./src/mixins/*"
             ],
             "@vuexMutations/*": [
                 "./src/vuex/mutations/*"
