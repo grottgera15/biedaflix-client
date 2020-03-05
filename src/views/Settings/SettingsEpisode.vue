@@ -39,12 +39,12 @@
 </template>
 
 <script>
-import EpisodeData from "../classes/EpisodeData.js";
+import EpisodeData from "@classes/EpisodeData";
 
 import NormalButton from "@/components/Forms/Buttons/NormalButton";
 
 export default {
-	name: "AdminEpisodeEdit",
+	name: "SettingsEpisodeEdit",
 	data: function() {
 		return {
             languages: {

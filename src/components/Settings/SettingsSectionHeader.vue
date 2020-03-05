@@ -6,7 +6,7 @@
 
 <script>
 export default {
-    name: "AdminSectionHeader"
+    name: "SettingsSectionHeader"
 };
 </script>
 

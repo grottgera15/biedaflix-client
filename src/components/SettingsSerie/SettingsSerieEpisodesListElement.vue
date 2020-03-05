@@ -6,7 +6,7 @@
 import EpisodeData from "@classes/EpisodeData";
 
 export default {
-    name: "AdminSerieEpisodesListElement",
+    name: "SettingsSerieEpisodesListElement",
     data: function() {
         return {};
     },

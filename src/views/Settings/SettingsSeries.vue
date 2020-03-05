@@ -11,14 +11,14 @@
 <script>
 import SerieData from "@classes/SerieData";
 
-import AdminSeriesList from "@/components/AdminSeries/AdminSeriesList";
-import AdminSectionHeader from "@/components/Admin/AdminSectionHeader";
+import SettingsSeriesList from "@/components/SettingsSeries/SettingsSeriesList";
+import SettingsSectionHeader from "@/components/Settings/SettingsSectionHeader";
 
 import NormalButton from "@/components/Forms/Buttons/NormalButton";
 import axios from "axios";
 
 export default {
-    name: "AdminSeries",
+    name: "SettingsSeries",
     mounted() {
         this.loadSeries();
     },
@@ -54,8 +54,8 @@ export default {
     },
     components: {
         "v-normal-button": NormalButton,
-        "v-series-list": AdminSeriesList,
-        "v-section-header": AdminSectionHeader
+        "v-series-list": SettingsSeriesList,
+        "v-section-header": SettingsSectionHeader
     }
 };
 </script>

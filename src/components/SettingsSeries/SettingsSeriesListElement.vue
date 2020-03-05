@@ -17,7 +17,7 @@ import SerieData from "@classes/SerieData";
 import SmallButton from "@/components/Forms/Buttons/SmallButton";
 
 export default {
-    name: "AdminSeriesListElement",
+    name: "SettingsSeriesListElement",
     components: {
         "v-small-button": SmallButton
     },

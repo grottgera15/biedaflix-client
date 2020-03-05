@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import AdminSourceEdit from "@/components/AdminSource/AdminSourceEdit";
-import AdminSectionHeader from "@/components/Admin/AdminSectionHeader";
+import SettingsSourcesListElement from "@/components/SettingsSources/SettingsSourcesListElement";
+import SettingsSectionHeader from "@/components/Settings/SettingsSectionHeader";
 
 import NormalButton from "@/components/Forms/Buttons/NormalButton";
 
@@ -21,7 +21,7 @@ import SourceData from "@classes/SourceData.js";
 import loadSourcesMixin from "@mixins/loadSources.js";
 
 export default {
-    name: "AdminSources",
+    name: "SettingsSources",
     methods: {
         addSource() {
             this.sources.push(new SourceData({name: ""}));
@@ -29,8 +29,8 @@ export default {
     },
     components: {
         "v-normal-button": NormalButton,
-        "v-section-header": AdminSectionHeader,
-        "v-source-edit": AdminSourceEdit
+        "v-section-header": SettingsSectionHeader,
+        "v-source-edit": SettingsSourcesListElement
     },
     mixins: [
         loadSourcesMixin

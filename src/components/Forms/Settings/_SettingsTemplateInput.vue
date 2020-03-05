@@ -6,17 +6,17 @@
 </template>
 
 <script>
-import AdminTemplateInputMixin from "@mixins/_AdminTemplateInputMixin.js";
+import SettingsTemplateInputMixin from "@mixins/_SettingsTemplateInputMixin.js";
 
 export default {
-    name: "AdminTemplateInput",
+    name: "SettingsTemplateInput",
     computed: {
         labelMixed() {
             if (this.required === true) return `${this.label} <i>(wymagane)</i>`;
             return this.label;
         }
     },
-    mixins: [AdminTemplateInputMixin]
+    mixins: [SettingsTemplateInputMixin]
 };
 </script>
 

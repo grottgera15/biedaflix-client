@@ -9,10 +9,10 @@ import Home from '@/views/Home'
 import Login from '@/views/Login'
 import CreateAccount from '@/views/CreateAccount'
 
-import AdminSeries from "@/views/AdminSeries";
-import AdminSerie from "@/views/AdminSerie";
-import AdminEpisodeEdit from "@/views/AdminEpisodeEdit";
-import AdminSources from "@/views/AdminSources";
+import SettingsSeries from "@/views/Settings/SettingsSeries";
+import SettingsSerie from "@/views/Settings/SettingsSerie";
+import SettingsEpisode from "@/views/Settings/SettingsEpisode";
+import SettingsSources from "@/views/Settings/SettingsSources";
 
 Vue.use(VueRouter)
 
@@ -43,24 +43,24 @@ const routes = [
                 component: CreateAccount
             },
             {
-                path: '/adminSeries',
-                name: 'adminSeries',
-                component: AdminSeries
+                path: 'settings/series',
+                name: 'SettingsSeries',
+                component: SettingsSeries
             },
             {
-                path: '/adminSerie',
-                name: 'adminSerie',
-                component: AdminSerie
+                path: 'settings/serie',
+                name: 'SettingsSerie',
+                component: SettingsSerie
             },
             {
-                path: '/adminEpisodeEdit',
-                name: 'adminEpisodeEdit',
-                component: AdminEpisodeEdit
+                path: 'settings/episode',
+                name: 'SettingsEpisode',
+                component: SettingsEpisode
             },
             {
-                path: '/adminSources',
-                name: 'adminSources',
-                component: AdminSources
+                path: 'settings/sources',
+                name: 'SettingsSources',
+                component: SettingsSources
             }
         ]
     }

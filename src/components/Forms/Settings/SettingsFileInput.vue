@@ -1,5 +1,5 @@
 <template>
-    <AdminTemplateInput
+    <SettingsTemplateInput
         :id="id"
         :label="label"
         :value="value"
@@ -13,19 +13,19 @@
             ref="hiddenFileInput"
             @change="fileChoosen($event)"
         />
-    </AdminTemplateInput>
+    </SettingsTemplateInput>
 </template>
 
 <script>
-import AdminTemplateInput from "./_AdminTemplateInput";
-import AdminTemplateInputMixin from "@mixins/_AdminTemplateInputMixin.js";
+import SettingsTemplateInput from "./_SettingsTemplateInput";
+import SettingsTemplateInputMixin from "@mixins/_SettingsTemplateInputMixin.js";
 
 import SmallButton from "@/components/Forms/Buttons/SmallButton";
 
 export default {
-    name: "AdminFileInput",
+    name: "SettingsFileInput",
     components: {
-        AdminTemplateInput,
+        SettingsTemplateInput,
         "v-small-button": SmallButton
     },
     methods: {
@@ -36,7 +36,7 @@ export default {
             this.$emit("input", event.target.files[0]);
         }
     },
-    mixins: [AdminTemplateInputMixin],
+    mixins: [SettingsTemplateInputMixin],
     props: {
         value: {
             type: [File, String],

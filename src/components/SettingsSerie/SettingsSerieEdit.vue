@@ -65,19 +65,19 @@
 <script>
 import SerieBanner from "@/components/Serie/SerieBanner";
 
-import AdminTextInput from "@/components/Forms/Admin/AdminTextInput";
-import AdminFileInput from "@/components/Forms/Admin/AdminFileInput";
-import AdminTextArea from "@/components/Forms/Admin/AdminTextArea";
-// import AdminSelect from "@/components/Forms/Admin/AdminSelect";
+import SettingsTextInput from "@/components/Forms/Settings/SettingsTextInput";
+import SettingsFileInput from "@/components/Forms/Settings/SettingsFileInput";
+import SettingsTextArea from "@/components/Forms/Settings/SettingsTextArea";
+// import SettingsSelect from "@/components/Forms/Settings/SettingsSelect";
 
-import AdminInline from "@/components/Admin/AdminInline";
+import SettingsInline from "@/components/Settings/SettingsInline";
 
 import SerieData from "@classes/SerieData";
 
 import validationMixin from "@mixins/validationMixin";
 
 export default {
-    name: "AdminSerieEdit",
+    name: "SettingsSerieEdit",
     props: {
         serieData: {
             type: SerieData,
@@ -85,12 +85,12 @@ export default {
         }
     },
     components: {
-        "v-inline": AdminInline,
+        "v-inline": SettingsInline,
         "v-serie-banner": SerieBanner,
-        "v-text-input": AdminTextInput,
-        "v-file-input": AdminFileInput,
-        "v-text-area": AdminTextArea
-        // "v-select": AdminSelect
+        "v-text-input": SettingsTextInput,
+        "v-file-input": SettingsFileInput,
+        "v-text-area": SettingsTextArea
+        // "v-select": SettingsSelect
     },
     mixins: [validationMixin]
 };

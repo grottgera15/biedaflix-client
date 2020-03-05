@@ -29,7 +29,7 @@
 import SerieData from "@classes/SerieData.js";
 
 export default {
-    name: "AdminSerieEpisodesList",
+    name: "SettingsSerieEpisodesList",
     props: {
         serieData: {
             type: SerieData,

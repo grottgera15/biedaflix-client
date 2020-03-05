@@ -10,7 +10,7 @@
 import SerieData from "@classes/SerieData.js";
 
 export default {
-    name: "AdminSerieSeasonsList",
+    name: "SettingsSerieSeasonsList",
     props: {
         serieData: {
             type: SerieData,

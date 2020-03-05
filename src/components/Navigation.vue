@@ -6,8 +6,8 @@
             <li><router-link to="createAccount"><button>Zarejestruj się</button></router-link></li>
             <li><button>Profil</button></li>
             <li><button>Użytkownicy</button></li>
-            <li><router-link to="adminSeries"><button>Seriale</button></router-link></li>
-            <li><router-link to="adminSources"><button>Źródła</button></router-link></li>
+            <li><router-link to="/settings/series"><button>Seriale</button></router-link></li>
+            <li><router-link to="/settings/sources"><button>Źródła</button></router-link></li>
         </ul>
     </nav>
 </template>

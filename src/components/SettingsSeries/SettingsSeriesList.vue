@@ -9,12 +9,12 @@
 </template>
 
 <script>
-import AdminSeriesListElement from "./AdminSeriesListElement";
+import SettingsSeriesListElement from "./SettingsSeriesListElement";
 
 export default {
-    name: "AdminSeriesList",
+    name: "SettingsSeriesList",
     components: {
-        "v-series-list-element": AdminSeriesListElement
+        "v-series-list-element": SettingsSeriesListElement
     },
     props: {
         seriesData: {

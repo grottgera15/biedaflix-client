@@ -12,7 +12,7 @@
         />
     </form>
     <!-- <form v-on:submit.prevent>
-        <AdminTextInput
+        <SettingsTextInput
             v-model="source.name"
             :label="`Nazwa`"
             :id="`name`"
@@ -36,14 +36,14 @@
 
 <script>
 import SourceData from "@classes/SourceData.js";
-// import AdminTextInput from "@/components/Forms/Admin/AdminTextInput";
+// import SettingsTextInput from "@/components/Forms/Settings/SettingsTextInput";
 
 // import SmallButton from "@/components/Forms/Buttons/SmallButton";
 
 import axios from "axios";
 
 export default {
-    name: "AdminSourceEdit",
+    name: "SettingsSourcesListElement",
     props: {
         source: {
             type: SourceData,
@@ -51,7 +51,7 @@ export default {
         }
     },
     components: {
-        // AdminTextInput,
+        // SettingsTextInput,
         // "v-small-button": SmallButton
     },
     methods: {

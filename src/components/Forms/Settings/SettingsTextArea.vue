@@ -1,5 +1,5 @@
 <template>
-	<AdminTemplateInput
+	<SettingsTemplateInput
 		:id="id"
 		:label="label"
 		:value="value"
@@ -13,17 +13,17 @@
 			:value="value"
 			@input="$emit('input', $event.target.value)"
 		/>
-	</AdminTemplateInput>
+	</SettingsTemplateInput>
 </template>
 
 <script>
-import AdminTemplateInput from "./_AdminTemplateInput";
-import AdminTemplateInputMixin from "@mixins/_AdminTemplateInputMixin.js";
+import SettingsTemplateInput from "./_SettingsTemplateInput";
+import SettingsTemplateInputMixin from "@mixins/_SettingsTemplateInputMixin.js";
 
 export default {
-	name: "AdminTextArea",
+	name: "SettingsTextArea",
 	components: {
-		AdminTemplateInput
+		SettingsTemplateInput
 	},
 	props: { 
 		value: {
@@ -35,7 +35,7 @@ export default {
 			required: false
 		}
 	},
-	mixins: [AdminTemplateInputMixin]
+	mixins: [SettingsTemplateInputMixin]
 };
 </script>
 

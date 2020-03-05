@@ -2,28 +2,30 @@
     <div class="content">
         <v-section-header>Szczegóły serialu</v-section-header>
         <v-serie-edit :serieData="serieData" />
-        <v-section-header>Sezony i odcinki</v-section-header>
-        <!-- <v-serie-seasons-list :serieData="serieData" />
-        <v-serie-episodes-list :serieData="serieData" /> -->
+        <div v-if="$route.query.id">
+            <v-section-header>Sezony i odcinki</v-section-header>
+            <!-- <v-serie-seasons-list :serieData="serieData" />
+            <v-serie-episodes-list :serieData="serieData" />-->
+        </div>
     </div>
 </template>
 
 <script>
-import AdminSectionHeader from "@/components/Admin/AdminSectionHeader.vue";
+import SettingsSectionHeader from "@/components/Settings/SettingsSectionHeader.vue";
 
-import AdminSerieEdit from "@/components/AdminSerie/AdminSerieEdit";
-// import AdminSerieSeasonsList from "@/components/AdminSerie/AdminSerieSeasonsList";
-// import AdminSerieEpisodesList from "@/components/AdminSerie/AdminSerieEpisodesList";
+import SettingsSerieEdit from "@/components/SettingsSerie/SettingsSerieEdit";
+// import SettingsSerieSeasonsList from "@/components/SettingsSerie/SettingsSerieSeasonsList";
+// import SettingsSerieEpisodesList from "@/components/SettingsSerie/SettingsSerieEpisodesList";
 
 import SerieData from "@classes/SerieData.js";
-import EpisodeData from "../classes/EpisodeData.js";
+import EpisodeData from "@classes/EpisodeData.js";
 
 import loadSourcesMixin from "@mixins/loadSources.js";
 
 import axios from "axios";
 
 export default {
-    name: "AdminSerie",
+    name: "SettingsSerie",
     data: function() {
         return {
             serieData: undefined,
@@ -36,10 +38,10 @@ export default {
     },
     mixins: [loadSourcesMixin],
     components: {
-        "v-section-header": AdminSectionHeader,
-        "v-serie-edit": AdminSerieEdit,
-        // "v-serie-seasons-list": AdminSerieSeasonsList,
-        // "v-serie-episodes-list": AdminSerieEpisodesList
+        "v-section-header": SettingsSectionHeader,
+        "v-serie-edit": SettingsSerieEdit
+        // "v-serie-seasons-list": SettingsSerieSeasonsList,
+        // "v-serie-episodes-list": SettingsSerieEpisodesList
     },
     computed: {
         seasons() {

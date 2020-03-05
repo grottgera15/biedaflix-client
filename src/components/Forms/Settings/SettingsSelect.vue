@@ -1,5 +1,5 @@
 <template>
-	<AdminTemplateInput
+	<SettingsTemplateInput
 		:id="id"
 		:label="label"
 		:value="value"
@@ -9,17 +9,17 @@
 		<select :value="value" @input="$emit('input', $event.target.value)">
 			<option v-for="(option, i) in options" :key="i" :value="i">{{option}}</option>
 		</select>
-	</AdminTemplateInput>
+	</SettingsTemplateInput>
 </template>
 
 <script>
-import AdminTemplateInput from "./_AdminTemplateInput";
-import AdminTemplateInputMixin from "@mixins/_AdminTemplateInputMixin.js";
+import SettingsTemplateInput from "./_SettingsTemplateInput";
+import SettingsTemplateInputMixin from "@mixins/_SettingsTemplateInputMixin.js";
 
 export default {
-	name: "AdminSelect",
+	name: "SettingsSelect",
 	components: {
-		AdminTemplateInput
+		SettingsTemplateInput
     },
     props: {
 		value: {
@@ -31,7 +31,7 @@ export default {
             required: true
         }
     },
-	mixins: [AdminTemplateInputMixin]
+	mixins: [SettingsTemplateInputMixin]
 };
 </script>
 
