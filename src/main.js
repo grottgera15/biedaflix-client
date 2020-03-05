@@ -4,8 +4,6 @@ import App from './App.vue'
 import router from './router'
 import axios from "axios"
 
-import auth from './auth';
-
 Vue.config.productionTip = false
 
 Vue.use(Vuex);
@@ -24,8 +22,6 @@ export const store = new Vuex.Store({
         // user: moduleUser
     }
 })
-
-auth.auth();
 
 new Vue({
   router,
