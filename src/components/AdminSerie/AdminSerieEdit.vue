@@ -72,36 +72,10 @@ import AdminTextArea from "@/components/Forms/Admin/AdminTextArea";
 
 import SerieData from "@classes/SerieData";
 
+import validationMixin from "@mixins/validationMixin";
+
 export default {
     name: "AdminSerieEdit",
-    data() {
-        return {
-            validation: {}
-        };
-    },
-    methods: {
-        simpleTextValidation(fieldName, text) {
-            let result;
-            if (text.length > 0)
-                result = true;
-            else
-                result = false;
-            this.validation[`${fieldName}_simpleText`] = result;
-            return result;
-        },
-        fileTypeValidation(fieldName, file, type) {
-            let result;
-            if (file instanceof File) 
-                result = file.type.startsWith(type);
-            else 
-                result = false;   
-            this.validation[fieldName + "_type"] = result;
-            return result;
-        },
-        fullValidation() {
-            return Object.values(this.validation).includes(false, 0);
-        }
-    },
     props: {
         serieData: {
             type: SerieData,
@@ -115,6 +89,9 @@ export default {
         "v-text-area": AdminTextArea,
         // "v-select": AdminSelect
     },
+    mixins: [
+        validationMixin
+    ]
 };
 </script>
 
