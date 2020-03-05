@@ -1,8 +1,6 @@
 <template>
     <div class="section-header">
-        <h2>
-            <slot />
-        </h2>
+        <slot />
     </div>
 </template>
 
@@ -13,11 +11,17 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import "@styles/variables"
+
 .section-header
     display: flex
     flex-direction: row
     align-items: center
     justify-content: space-between
-    border-bottom: 1px solid white
-    margin-bottom: 24px
+    border-bottom: 1px solid $bright-dark-color
+    margin-bottom: 1.5em
+    padding-bottom: 1em
+    font-size: 1.25em
+    letter-spacing: .04em
+    font-weight: 300
 </style>

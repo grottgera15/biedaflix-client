@@ -1,8 +1,9 @@
 <template>
-    <div class="content">
+    <div>
+        <v-section-header>Źródła</v-section-header>
         <ul class="sources-list">
             <li class="source-edit" v-for="(source, i) in sources" :key="i">
-                <AdminSourceEdit :source="source"/>
+                <v-source-edit :source="source"/>
             </li>
         </ul>
         <v-normal-button @click="addSource()">Dodaj nowe źródło</v-normal-button>
@@ -11,6 +12,7 @@
 
 <script>
 import AdminSourceEdit from "@/components/AdminSource/AdminSourceEdit";
+import AdminSectionHeader from "@/components/Admin/AdminSectionHeader";
 
 import NormalButton from "@/components/Forms/Buttons/NormalButton";
 
@@ -27,7 +29,8 @@ export default {
     },
     components: {
         "v-normal-button": NormalButton,
-        AdminSourceEdit
+        "v-section-header": AdminSectionHeader,
+        "v-source-edit": AdminSourceEdit
     },
     mixins: [
         loadSourcesMixin
