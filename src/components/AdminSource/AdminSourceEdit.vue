@@ -70,7 +70,7 @@ export default {
             formData.append("name", this.source.name);
             formData.append("logo", this.source.file);
             axios
-                .post("http://api.biedaflix.pl/streamingSource", formData, {
+                .post(`${process.env.VUE_APP_API_PATH}/streamingSource`, formData, {
                     headers: {
                         "Content-Type": "multipart/form-data"
                     },

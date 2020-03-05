@@ -64,7 +64,7 @@ export default {
             formData.append("banner", this.serieData.bannerFile);
             formData.append("logo", this.serieData.logoFile);
             axios
-                .post(`http://api.biedaflix.pl/series`, formData, {
+                .post(`${process.env.VUE_APP_API_PATH}/series`, formData, {
                     headers: {
                         "Content-Type": "multipart/form-data"
                     },

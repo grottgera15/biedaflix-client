@@ -13,7 +13,7 @@ export default {
     methods: {
         loadSources() {
             axios
-                .get("http://api.biedaflix.pl/streamingSource", {
+                .get(`${process.env.VUE_APP_API_PATH}/streamingSource`, {
                     withCredentials: true
                 })
                 .then(res => {

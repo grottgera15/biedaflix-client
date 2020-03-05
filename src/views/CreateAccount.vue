@@ -4,6 +4,7 @@
 			<span>Utwórz konto</span>
 		</div>
 		<TextInput v-model="user.email">Adres e-mail</TextInput>
+		<TextInput v-model="user.username">Nazwa użytkownika</TextInput>
 		<TextInput v-model="user.password" :type="'Password'">Hasło</TextInput>
 		<TextInput v-model="user.password" :type="'Password'">Powtórz hasło</TextInput>
 		<v-normal-button @click="register()">Zarejestruj się</v-normal-button>
@@ -21,6 +22,7 @@ export default {
 		return {
 			user: {
 				email: null,
+				username: null,
 				password: null
 			}
 		};
@@ -30,7 +32,7 @@ export default {
 			console.log(`register start`);
 			axios
 				.post(
-					"http://api.biedaflix.pl/register",
+					`${process.env.VUE_APP_API_PATH}/register`,
 					JSON.stringify(this.user),
 					{
 						headers: {

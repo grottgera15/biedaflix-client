@@ -4,7 +4,7 @@ import cookie from "js-cookie";
 async function login({ login, password }) {
     if (login === undefined || password === undefined)
         throw new ReferenceError("You need to provide login and password to login function!");
-    axios.post(`http://api.biedaflix.pl/login`, JSON.stringify({ login, password }), {
+    axios.post(`${process.env.VUE_APP_API_PATH}/login`, JSON.stringify({ login, password }), {
         header: {
             'content-type': 'application/json'
         }, withCredentials: true
@@ -21,7 +21,7 @@ async function login({ login, password }) {
 }
 
 async function auth() {
-    axios.post(`http://api.biedaflix.pl/refreshToken`, {}, {
+    axios.post(`${process.env.VUE_APP_API_PATH}/refreshToken`, {}, {
         withCredentials: true
     }).then(response => {
         if (response.status === 200) {

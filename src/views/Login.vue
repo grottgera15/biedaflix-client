@@ -4,7 +4,7 @@
 			<span>Zaloguj się</span>
 		</div>
 
-		<TextInput v-model="user.email">Adres e-mail</TextInput>
+		<TextInput v-model="user.email">Adres e-mail / nazwa użytkownika</TextInput>
 		<TextInput v-model="user.password" :type="'Password'">Hasło</TextInput>
 		<v-full-width-button @click="login()">Zaloguj się</v-full-width-button>
 	</form>
@@ -37,7 +37,7 @@ export default {
 			// console.log(`login start`);
 			axios
 				.post(
-					"http://api.biedaflix.pl/login",
+					`${process.env.VUE_APP_API_PATH}/login`,
 					JSON.stringify(this.user),
 					{
 						headers: {
