@@ -10,7 +10,8 @@ async function login({ login, password }) {
         }, withCredentials: true
     }).then(response => {
         if (response.status === 200) {
-            refreshToken();
+            auth();
+            return response.status;
         } else {
             return response.status;
         }
@@ -20,12 +21,12 @@ async function login({ login, password }) {
     })
 }
 
-async function auth() {
+async function refreshToken() {
     axios.post(`${process.env.VUE_APP_API_PATH}/refreshToken`, {}, {
         withCredentials: true
     }).then(response => {
         if (response.status === 200) {
-            refreshToken();
+            auth();
         } else {
             return response.status;
         }
@@ -35,14 +36,14 @@ async function auth() {
     });
 }
 
-async function refreshToken() {
+async function auth() {
     if (!cookie.get('jwt_token') ||
         !cookie.get('jwt_token_expiry') ||
         new Date(cookie.get('jwt_token_expiry')) >= Date.now()) {
-        auth();
+        refreshToken();
     } else {
         setTimeout(async () => {
-            auth();
+            refreshToken();
         }, new Date(cookie.get('jwt_token_expiry')) - Date.now() - 6000);
     }
 }
