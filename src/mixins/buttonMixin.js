@@ -1,4 +1,4 @@
-import ButtonEvent from "../../classes/ButtonEvent.js"
+import ButtonEvent from "@classes/ButtonEvent.js"
 
 export default {
     methods: {

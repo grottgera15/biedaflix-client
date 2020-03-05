@@ -1,6 +1,6 @@
 import hash from "js-hash-code"
 
-import Avatar from "../../classes/Avatar.js"
+import Avatar from "@classes/Avatar.js"
 
 export default {
     methods: {
