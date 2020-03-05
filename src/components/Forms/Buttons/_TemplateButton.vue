@@ -29,10 +29,12 @@ export default {
     &:hover
         border: 1px solid $second-color
         background-color: $second-color
+        
     &:disabled
-        color: $bright-dark-color
+        color: $dark-color
         background-color: $second-white-color
         border: 1px solid $second-white-color
+        cursor: default
 
     &:focus
         outline: unset !important
