@@ -2,7 +2,7 @@
     <div>
         <v-section-header>Seriale</v-section-header>
         <v-series-list :seriesData="seriesData" />
-        <router-link :to="{path: 'adminSerie'}">
+        <router-link :to="{path: 'serie'}">
             <v-normal-button>Dodaj nowy serial</v-normal-button>
         </router-link>
     </div>

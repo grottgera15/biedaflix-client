@@ -33,8 +33,19 @@ export default {
         };
     },
     created() {
-        if (this.$route.query.serie === undefined)
+        if (this.$route.query.id === undefined)
             this.serieData = new SerieData({});
+        else
+            axios
+                .get(
+                    `${process.env.VUE_APP_API_PATH}/serie?${this.$route.query.id}`
+                )
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    throw err;
+                });
     },
     mixins: [loadSourcesMixin],
     components: {

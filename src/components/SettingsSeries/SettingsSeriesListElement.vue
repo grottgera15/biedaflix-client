@@ -3,7 +3,7 @@
         <div class="series-list__element__name">{{serieData.name}}</div>
         <div class="series-list__element__episodes">0 / 8</div>
         <div class="series-list__element__status">{{serieData.onGoing}}</div>
-        <router-link :to="{path: `adminSerie`, query: {
+        <router-link :to="{path: `serie`, query: {
             id: serieData.id
         }}">
             <v-small-button>Edytuj</v-small-button>
