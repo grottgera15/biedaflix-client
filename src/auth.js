@@ -1,7 +1,9 @@
 import axios from "axios";
 import cookie from "js-cookie";
 
-async function login({ login, password }) {
+import router from "./router";
+
+async function login({ login, password, successPath = '/'}) {
     if (login === undefined || password === undefined)
         throw new ReferenceError("You need to provide login and password to login function!");
     axios.post(`${process.env.VUE_APP_API_PATH}/login`, { login, password }, {
@@ -9,15 +11,12 @@ async function login({ login, password }) {
             'content-type': 'application/json'
         }, withCredentials: true
     }).then(response => {
-        if (response.status === 200) {
-            auth();
-            return response.status;
-        } else {
-            return response.status;
-        }
+        auth();
+        router.push(successPath);
+        return response.status;
     }).catch(error => {
         console.error('Internal client error or network problems!', error);
-        return error;
+        return {error, status: error.status};
     })
 }
 
@@ -25,14 +24,11 @@ async function refreshToken() {
     axios.post(`${process.env.VUE_APP_API_PATH}/refreshToken`, {}, {
         withCredentials: true
     }).then(response => {
-        if (response.status === 200) {
-            auth();
-        } else {
-            return response.status;
-        }
+        auth();
+        return response.status;
     }).catch(error => {
         console.error('Internal client error or network problems!', error);
-        return error;
+        return {error, status: error.status};
     });
 }
 
