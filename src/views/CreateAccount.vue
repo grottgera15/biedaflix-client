@@ -33,7 +33,7 @@ export default {
 			axios
 				.post(
 					`${process.env.VUE_APP_API_PATH}/register`,
-					JSON.stringify(this.user),
+					this.user,
 					{
 						headers: {
 							"content-type": "application/json"

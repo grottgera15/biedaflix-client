@@ -4,23 +4,24 @@
 			<span>Zaloguj się</span>
 		</div>
 
-		<TextInput v-model="user.email">Adres e-mail / nazwa użytkownika</TextInput>
+		<TextInput v-model="user.login">Adres e-mail / nazwa użytkownika</TextInput>
 		<TextInput v-model="user.password" :type="'Password'">Hasło</TextInput>
 		<v-full-width-button @click="login()">Zaloguj się</v-full-width-button>
 	</form>
 </template>
 
 <script>
+import auth from "@/auth";
+
 import FullWidthButton from "@/components/Forms/Buttons/FullWidthButton";
 import TextInput from "@/components/Forms/Inputs/TextInput";
 
-import axios from "axios";
 
 export default {
 	data: function() {
 		return {
 			user: {
-				email: null,
+				login: null,
 				password: null
 			}
 		};
@@ -34,24 +35,7 @@ export default {
 			this.user[event.target.id] = true;
 		},
 		login() {
-			// console.log(`login start`);
-			axios
-				.post(
-					`${process.env.VUE_APP_API_PATH}/login`,
-					JSON.stringify(this.user),
-					{
-						headers: {
-							"content-type": "application/json",
-						},
-						withCredentials: true
-					}
-				)
-				.then(res => {
-					console.log(res);
-				})
-				.catch(err => {
-					throw err;
-				});
+			auth.login({login: this.user.login, password: this.user.password});
 		}
 	}
 };

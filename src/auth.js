@@ -4,7 +4,7 @@ import cookie from "js-cookie";
 async function login({ login, password }) {
     if (login === undefined || password === undefined)
         throw new ReferenceError("You need to provide login and password to login function!");
-    axios.post(`${process.env.VUE_APP_API_PATH}/login`, JSON.stringify({ login, password }), {
+    axios.post(`${process.env.VUE_APP_API_PATH}/login`, { login, password }, {
         header: {
             'content-type': 'application/json'
         }, withCredentials: true
@@ -39,12 +39,14 @@ async function refreshToken() {
 async function auth() {
     if (!cookie.get('jwt_token') ||
         !cookie.get('jwt_token_expiry') ||
-        new Date(cookie.get('jwt_token_expiry')) >= Date.now()) {
-        refreshToken();
+        new Date(cookie.get('jwt_token_expiry')) >= Date.now() - 6000) {
+        console.log("quick refresh");
+        await refreshToken();
     } else {
         setTimeout(async () => {
-            refreshToken();
-        }, new Date(cookie.get('jwt_token_expiry')) - Date.now() - 6000);
+            console.log("quick-refresh");
+            await refreshToken();
+        }, cookie.get('jwt_token_expiry') - Date.now() - 6000);
     }
 }
 

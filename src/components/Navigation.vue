@@ -2,8 +2,8 @@
     <nav>
         <ul>
             <li><router-link to="/"><button>Biedaflix</button></router-link></li>
-            <li><router-link to="login"><button>Zaloguj się</button></router-link></li>
-            <li><router-link to="createAccount"><button>Zarejestruj się</button></router-link></li>
+            <li><router-link to="/login"><button>Zaloguj się</button></router-link></li>
+            <li><router-link to="/createAccount"><button>Zarejestruj się</button></router-link></li>
             <li><button>Profil</button></li>
             <li><button>Użytkownicy</button></li>
             <li><router-link to="/settings/series"><button>Seriale</button></router-link></li>
