@@ -46,6 +46,8 @@ async function auth() {
         console.log("quick refresh");
         await refreshToken();
     } else {
+        if (!store.getters.user)
+            updateUser();
         setTimeout(async () => {
             console.log("quick-refresh");
             await refreshToken();
