@@ -1,4 +1,4 @@
 export default {
-    SetRefreshToken: "SetRefreshToken",
-    CancelRefreshToken: "CancelRefreshToken"
+    SetUser: "SetUser",
+    DeleteUser: "DeleteUser"
 }

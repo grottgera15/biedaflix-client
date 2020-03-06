@@ -164,7 +164,7 @@ export default {
         },
         newTime: function() {
             this.$refs.video.currentTime = this.newTime;
-            this.$store.commit(Mutations.CurrentTimeSet, this.newTime);
+			this.$store.commit(Mutations.CurrentTimeSet, this.newTime);
         },
         isReady: function() {
             if (this.isReady)
