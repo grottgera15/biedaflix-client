@@ -18,7 +18,7 @@ export default {
                 })
                 .then(res => {
                     for (let source of res.data) {
-                        this.sources.push(new SourceData({ id: source.id, name: source.name, path: source.resourcePath }));
+                        this.sources.push(new SourceData({ id: source.id, name: source.name, path: source.path }));
                     }
                 })
                 .catch(err => {

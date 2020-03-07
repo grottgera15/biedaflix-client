@@ -1,10 +1,10 @@
 <template>
-    <ul class="list">
+    <ul class="settings-roles-list">
         <li
-            class="list__role-name"
+            class="settings-roles-list__role-name"
             v-for="data in array"
             :key="data.id"
-            :class="{'list__role-name--selected': (selected === data.id)}"
+            :class="{'settings-roles-list__role-name--selected': (selected === data.id)}"
             @click="$emit('click', data.id)"
         >{{data.name}}</li>
     </ul>
@@ -30,7 +30,7 @@ export default {
 <style lang="sass" scoped>
 @import "@styles/variables"
 
-.list
+.settings-roles-list
     list-style: none
     margin: 0
     padding: 0

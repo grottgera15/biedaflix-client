@@ -24,12 +24,13 @@ export default {
 @import "@styles/variables"
 
 .input-wrapper
-    border-bottom: 1px solid #ffffff17
+    border-bottom: 1px solid $bright-dark-color
     padding: .5em
     margin: .5em 0
     transition-duration: .2s
     &__label
         font-size: .9em
+        color: $white-color
 
 .input-wrapper--requirement-error
     border-color: $main-color
