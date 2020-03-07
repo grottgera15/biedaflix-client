@@ -5,6 +5,7 @@
             <li v-show="hasAccess() === false"><router-link to="/login"><button>Zaloguj się</button></router-link></li>
             <li v-show="hasAccess() === false"><router-link to="/  createAccount"><button>Zarejestruj się</button></router-link></li>
             <li v-show="hasAccess()"><button>Profil</button></li>
+            <li v-show="hasAccess('ADMINISTRATE_USERS')"><router-link to="/settings/roles"><button>Role</button></router-link></li>
             <li v-show="hasAccess('ADMINISTRATE_USERS')"><router-link to="/settings/users"><button>Użytkownicy</button></router-link></li>
             <li v-show="hasAccess('ADMINISTRATE_SERIES')"><router-link to="/settings/series"><button>Seriale</button></router-link></li>
             <li v-show="hasAccess('ADMINISTRATE_SOURCES')"><router-link to="/settings/sources"><button>Źródła</button></router-link></li>
