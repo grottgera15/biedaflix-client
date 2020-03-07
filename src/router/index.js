@@ -13,6 +13,7 @@ import SettingsSeries from "@/views/Settings/SettingsSeries";
 import SettingsSerie from "@/views/Settings/SettingsSerie";
 import SettingsEpisode from "@/views/Settings/SettingsEpisode";
 import SettingsSources from "@/views/Settings/SettingsSources";
+import SettingsUsers from "@/views/Settings/SettingsUsers";
 
 Vue.use(VueRouter)
 
@@ -41,6 +42,11 @@ const routes = [
                 path: '/createAccount',
                 name: 'createAccount',
                 component: CreateAccount
+            },
+            {
+                path: 'settings/users',
+                name: 'SettingsUsers',
+                component: SettingsUsers
             },
             {
                 path: 'settings/series',

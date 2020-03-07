@@ -1,16 +1,14 @@
 <template>
     <div>
         <v-section-header>Źródła</v-section-header>
-        <ul class="sources-list">
-            <li class="source-edit" v-for="(source, i) in sources" :key="i">
-                <v-source-edit :source="source"/>
-            </li>
-        </ul>
+        <v-list :array="sources" :component="listComponent" />
         <v-normal-button @click="addSource()">Dodaj nowe źródło</v-normal-button>
     </div>
 </template>
 
 <script>
+import SettingsList from "@/components/Settings/SettingsList";
+
 import SettingsSourcesListElement from "@/components/SettingsSources/SettingsSourcesListElement";
 import SettingsSectionHeader from "@/components/Settings/SettingsSectionHeader";
 
@@ -22,6 +20,11 @@ import loadSourcesMixin from "@mixins/loadSources.js";
 
 export default {
     name: "SettingsSources",
+    data: function(){
+        return {
+            listComponent: SettingsSourcesListElement
+        }
+    },
     methods: {
         addSource() {
             this.sources.push(new SourceData({name: ""}));
@@ -30,7 +33,7 @@ export default {
     components: {
         "v-normal-button": NormalButton,
         "v-section-header": SettingsSectionHeader,
-        "v-source-edit": SettingsSourcesListElement
+        "v-list": SettingsList
     },
     mixins: [
         loadSourcesMixin

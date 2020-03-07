@@ -1,10 +1,10 @@
 <template>
     <li class="series-list__element">
-        <div class="series-list__element__name">{{serieData.name}}</div>
+        <div class="series-list__element__name">{{data.name}}</div>
         <div class="series-list__element__episodes">0 / 8</div>
-        <div class="series-list__element__status">{{serieData.onGoing}}</div>
+        <div class="series-list__element__status">{{data.onGoing}}</div>
         <router-link :to="{path: `serie`, query: {
-            id: serieData.id
+            id: data.id
         }}">
             <v-small-button>Edytuj</v-small-button>
         </router-link>
@@ -22,7 +22,7 @@ export default {
         "v-small-button": SmallButton
     },
     props: {
-        serieData: {
+        data: {
             type: SerieData,
             required: true
         }

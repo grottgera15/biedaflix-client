@@ -1,8 +1,8 @@
 <template>
     <form class="source-edit">
-        {{source.name}}
+        {{data.name}}
         <div class="source-edit__logo">
-            <img :src="source.logo" />
+            <img :src="data.logo" />
         </div>
         <input
             type="file"
@@ -45,7 +45,7 @@ import axios from "axios";
 export default {
     name: "SettingsSourcesListElement",
     props: {
-        source: {
+        data: {
             type: SourceData,
             required: true
         }

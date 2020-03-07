@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-section-header>Seriale</v-section-header>
-        <v-series-list :seriesData="seriesData" />
+        <v-list :array="seriesData" :component="listComponent" />
         <router-link :to="{path: 'serie'}">
             <v-normal-button>Dodaj nowy serial</v-normal-button>
         </router-link>
@@ -11,7 +11,9 @@
 <script>
 import SerieData from "@classes/SerieData";
 
-import SettingsSeriesList from "@/components/SettingsSeries/SettingsSeriesList";
+import SettingsList from "@/components/Settings/SettingsList";
+import SettingsSeriesListElement from "@/components/SettingsSeries/SettingsSeriesListElement";
+
 import SettingsSectionHeader from "@/components/Settings/SettingsSectionHeader";
 
 import NormalButton from "@/components/Forms/Buttons/NormalButton";
@@ -24,7 +26,8 @@ export default {
     },
     data: function() {
         return {
-            seriesData: []
+            seriesData: [],
+            listComponent: SettingsSeriesListElement
         };
     },
     methods: {
@@ -54,7 +57,7 @@ export default {
     },
     components: {
         "v-normal-button": NormalButton,
-        "v-series-list": SettingsSeriesList,
+        "v-list": SettingsList,
         "v-section-header": SettingsSectionHeader
     }
 };

@@ -13,7 +13,7 @@ export default {
     methods: {
         loadSources() {
             axios
-                .get(`${process.env.VUE_APP_API_PATH}/streamingSource`, {
+                .get(`${process.env.VUE_APP_API_PATH}/streamingSources`, {
                     withCredentials: true
                 })
                 .then(res => {
