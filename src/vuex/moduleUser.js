@@ -21,7 +21,7 @@ const moduleAuth = {
             for (let operation of operations) {
                 operationsObject[operation] = false;
                 for (let role of state.user.roles) {
-                    if (role.allowedOperations.includes(operation)) {
+                    if (role.operations[operation] === true) {
                         operationsObject[operation] = true;
                         break;
                     }

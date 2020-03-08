@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+        <v-dialog-wrapper />
         <div class="top">
             <Logo />
             <MemoryStatus />
@@ -14,6 +15,8 @@
 </template>
 
 <script>
+import DialogWrapper from "@/components/Dialog/DialogWrapper";
+
 import Logo from "@/components/Logo";
 import Navigation from "@/components/Navigation";
 import MemoryStatus from "@/components/MemoryStatus";
@@ -23,7 +26,8 @@ export default {
 	components: {
 		Logo,
 		Navigation,
-		MemoryStatus
+        MemoryStatus,
+        "v-dialog-wrapper": DialogWrapper
 	}};
 </script>
 

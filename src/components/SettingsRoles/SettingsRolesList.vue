@@ -1,10 +1,10 @@
 <template>
     <ul class="settings-roles-list">
         <li
-            class="settings-roles-list__role-name"
+            class="settings-roles-list__role-badge"
             v-for="data in array"
             :key="data.id"
-            :class="{'settings-roles-list__role-name--selected': (selected === data.id)}"
+            :class="{'settings-roles-list__role-badge--selected': (selected === data.id)}"
             @click="$emit('click', data.id)"
         >{{data.name}}</li>
     </ul>
@@ -36,7 +36,7 @@ export default {
     padding: 0
     display: flex
 
-    &__role-name
+    &__role-badge
         cursor: pointer
         font-size: .75em
         padding: .1em 1em
@@ -48,6 +48,6 @@ export default {
     &:nth-last-child(1)
         margin-right: unset !important
 
-    &__role-name--selected
+    &__role-badge--selected
         border: 1px solid $main-color
 </style>

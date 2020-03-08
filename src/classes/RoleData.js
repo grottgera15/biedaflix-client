@@ -2,6 +2,7 @@ import axios from "axios";
 import operationsEnum from "@/enums/operations";
 
 export default class RoleData {
+
     constructor({ id, name, allowedOperations }) {
         this.id = id;
         this.name = name;
@@ -12,6 +13,12 @@ export default class RoleData {
             else
                 this.operations[operation] = false;
         }
+    }
+
+    equals(roleData) {
+        if (this.id === roleData.id)
+            return true;
+        return false;
     }
 
     static loadRoles() {

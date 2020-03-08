@@ -22,13 +22,14 @@ export default {
     letter-spacing: .05em
     font-family: inherit     
     color: $white-color
-    border: 1px solid $main-color
-    background-color: $main-color
+    border: 1px solid $second-color
+    background-color: $second-color
     cursor: pointer
+    transition-duration: .2s
 
     &:hover
-        border: 1px solid $second-color
-        background-color: $second-color
+        border: 1px solid $main-color
+        background-color: $main-color
         
     &:disabled
         color: $dark-color
