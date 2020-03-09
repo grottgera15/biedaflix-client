@@ -23,9 +23,6 @@ export default {
         }
     },
     computed: {
-        source: function () {
-            return this.$store.state.app.currentSource;
-        },
         isReady: function () {
             return this.$store.state.player.isReady;
         },

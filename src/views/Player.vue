@@ -13,7 +13,6 @@
 			name="media"
 			kind="captions"
 			ref="video"
-            muted
 			@timeupdate="OnTimeUpdated"
 			@durationchange="OnDurationChanged"
 			@canplay="OnCanPlay"
@@ -25,7 +24,7 @@
 			@click="OnVideoSingleClicked"
 			:class="{'video-buffering' : this.isWaitingForBuffer}"
 		>
-			<source :src="source" type="video/mp4" />Your browser does not support the video tag.
+			<source :src="videoSource" type="video/mp4" />Your browser does not support the video tag.
 		</video>
 		<div
 			class="subtitles-wrapper"
@@ -38,8 +37,8 @@
 			</p>
 		</div>
         <TopMenu :visibility="visualElements.visibility" />
-        <ChatWindow v-show="false"/>
-		<ControlsMenu :visibility="visualElements.visibility" />
+        <ChatWindow v-if="false"/>
+		<ControlsMenu :visibility="visualElements.visibility"  :episodeData="episodeData"/>
 	</div>
 </template>
 <script>
@@ -51,12 +50,15 @@ import SettingsPopUp from "@/components/PopUps/SettingsPopUp";
 
 import Mutations from "@vuexMutations/PlayerMutations";
 import playerMixin from "@mixins/playerMixin";
+import EpisodeData from '@classes/EpisodeData';
 
 
 export default {
 	name: "Player",
 	data: function() {
 		return {
+			currentSource: 1080,
+			episodeData: {},
 			visualElements: {
 				visibility: false
 			},
@@ -65,6 +67,12 @@ export default {
 			},
 			subtitles: []
 		};
+	},
+	async created() {
+		if (this.$route.query.id === undefined)
+			this.$router.push("/");
+		this.episodeData = await EpisodeData.loadEpisode({episodeId: this.$route.query.id});
+		this.$store.commit(Mutations.ReadinessSet, true);
 	},
 	components: {
         ControlsMenu,
@@ -152,6 +160,11 @@ export default {
 				});
 			}
 			this.$store.commit(Mutations.BufferedSet, bufferedArray);
+		}
+	},
+	computed: {
+		videoSource() {
+			return this.episodeData.videoSources[this.currentSource];
 		}
 	},
 	mixins: [

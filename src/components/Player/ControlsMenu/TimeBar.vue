@@ -32,6 +32,7 @@
 <script>
 import Mutations from "@vuexMutations/PlayerMutations";
 import playerMixin from "@mixins/playerMixin";
+import EpisodeData from '../../../classes/EpisodeData';
 
 export default {
 	name: "TimeBar",
@@ -42,7 +43,13 @@ export default {
 			mouseTime: 0,
 			currentTimeUpdated: 0
 		};
-	},
+    },
+    props: {
+        episodeData: {
+            type: EpisodeData,
+            required: true
+        }
+    },
 	mixins: [playerMixin],
 	methods: {
 		OnMouseOverBar: function(event) {
@@ -58,10 +65,10 @@ export default {
 	},
 	computed: {
 		ThumbnailURL: function() {
-			let time = Math.round(this.mouseTime / 10 + 1).toString();
-            while (time.length < 4) time = "0" + time;
-            return 0;
-			// return require(`../../files/images/thumbs/thumb${time}.jpg`);
+
+            let time = Math.round(this.mouseTime / 10).toString();
+            console.log(time);
+            return this.episodeData.thumbs[time].path;
         },
         CurrentTime: function() {
             if (this.timeChangesQueue.length > 0)
