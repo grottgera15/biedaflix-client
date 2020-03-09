@@ -33,7 +33,7 @@ export default {
     methods: {
         loadSeries() {
             axios
-                .get(`${process.env.VUE_APP_API_PATH}/allSeries`, {
+                .get(`${process.env.VUE_APP_API_PATH}/series`, {
                     withCredentials: true
                 })
                 .then(res => {

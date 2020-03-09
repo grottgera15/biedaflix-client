@@ -29,7 +29,7 @@ export default class EpisodeData {
     static saveEpisode(episode) {
         return new Promise(resolve => {
             if (episode.id === undefined) {
-                axios.post(`${process.env.VUE_APP_API_PATH}/episode`, episode, {
+                axios.post(`${process.env.VUE_APP_API_PATH}/episodes`, episode, {
                     headers: {
                         "content-type": "application/json"
                     },

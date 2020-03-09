@@ -39,7 +39,7 @@ export default class SeriesData {
 
     static loadSeries(seriesId, includeSeasons = false) {
         return new Promise(resolve => {
-            axios.get(`${process.env.VUE_APP_API_PATH}/series?id=${seriesId}&showSeasons=${includeSeasons}`, {
+            axios.get(`${process.env.VUE_APP_API_PATH}/series/${seriesId}?showSeasons=${includeSeasons}`, {
                 withCredentials: true
             }).then(response => {
                 resolve(new SeriesData(response.data));

@@ -32,7 +32,7 @@ export default {
 			console.log(`register start`);
 			axios
 				.post(
-					`${process.env.VUE_APP_API_PATH}/register`,
+					`${process.env.VUE_APP_API_PATH}/users`,
 					this.user,
 					{
 						headers: {

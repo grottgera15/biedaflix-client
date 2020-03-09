@@ -3,7 +3,7 @@
         <v-dialog-wrapper />
         <div class="top">
             <Logo />
-            <MemoryStatus />
+            <!-- <MemoryStatus /> -->
         </div>
         <div class="navigation">
             <Navigation />
@@ -19,14 +19,14 @@ import DialogWrapper from "@/components/Dialog/DialogWrapper";
 
 import Logo from "@/components/Logo";
 import Navigation from "@/components/Navigation";
-import MemoryStatus from "@/components/MemoryStatus";
+// import MemoryStatus from "@/components/MemoryStatus";
 
 export default {
     name: "Main",
 	components: {
 		Logo,
 		Navigation,
-        MemoryStatus,
+        // MemoryStatus,
         "v-dialog-wrapper": DialogWrapper
 	}};
 </script>

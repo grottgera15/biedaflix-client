@@ -28,7 +28,7 @@ export default {
     },
     created() {
         axios
-            .get(`${process.env.VUE_APP_API_PATH}/administrateUsers`, {
+            .get(`${process.env.VUE_APP_API_PATH}/admin/users`, {
                 withCredentials: true
             })
             .then(result => {

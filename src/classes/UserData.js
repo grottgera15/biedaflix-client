@@ -27,7 +27,7 @@ export default class UserData {
     static saveAdministrateUser(userData) {
         if (userData.id != undefined)
             return new Promise((resolve) => {
-                axios.put(`${process.env.VUE_APP_API_PATH}/administrateUser?id=${userData.id}`, JSON.stringify({
+                axios.put(`${process.env.VUE_APP_API_PATH}/admin/users/${userData.id}`, JSON.stringify({
                     accepted: userData.accepted,
                     roles: userData.rolesId
                 }), {
@@ -46,7 +46,7 @@ export default class UserData {
         if (userData.id === undefined)
             return;
         return new Promise((resolve) => {
-            axios.delete(`${process.env.VUE_APP_API_PATH}/administrateUser?id=${userData.id}`, {
+            axios.delete(`${process.env.VUE_APP_API_PATH}/users/${userData.id}`, {
                 withCredentials: true
             }).then(() => {
                 resolve(undefined);
