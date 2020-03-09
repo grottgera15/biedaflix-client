@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import SerieData from "@classes/SerieData";
+import SeriesData from "@classes/SeriesData";
 
 import SettingsList from "@/components/Settings/SettingsList";
 import SettingsSeriesListElement from "@/components/SettingsSeries/SettingsSeriesListElement";
@@ -33,14 +33,14 @@ export default {
     methods: {
         loadSeries() {
             axios
-                .get(`${process.env.VUE_APP_API_PATH}/series`, {
+                .get(`${process.env.VUE_APP_API_PATH}/allSeries`, {
                     withCredentials: true
                 })
                 .then(res => {
                     console.log(res.data);
                     for (let serie of res.data) {
                         this.seriesData.push(
-                            new SerieData({
+                            new SeriesData({
                                 id: serie.id,
                                 name: serie.name,
                                 description: serie.description,

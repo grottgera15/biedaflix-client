@@ -7,13 +7,13 @@
 </template>
 
 <script>
-import SerieData from "@classes/SerieData.js";
+import SeriesData from "@classes/SeriesData.js";
 
 export default {
     name: "SettingsSerieSeasonsList",
     props: {
-        serieData: {
-            type: SerieData,
+        SeriesData: {
+            type: SeriesData,
             required: true
         }
     }

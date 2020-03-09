@@ -6,13 +6,13 @@
 </template>
 
 <script>
-import SerieData from "@classes/SerieData";
+import SeriesData from "@classes/SeriesData";
 
 export default {
     name: "HomeSeriesBar",
     props: {
         seriesData: {
-            type: SerieData,
+            type: SeriesData,
             required: true
         }
     }

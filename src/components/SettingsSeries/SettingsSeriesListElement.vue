@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import SerieData from "@classes/SerieData";
+import SeriesData from "@classes/SeriesData";
 
 import SmallButton from "@/components/Forms/Buttons/SmallButton";
 
@@ -23,7 +23,7 @@ export default {
     },
     props: {
         data: {
-            type: SerieData,
+            type: SeriesData,
             required: true
         }
     }

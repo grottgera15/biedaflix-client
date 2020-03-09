@@ -10,7 +10,7 @@
                     <span>Data</span>
                 </header>
                 <li
-                    v-for="episode in serieData.getEpisodes(currentSeason)"
+                    v-for="episode in SeriesData.getEpisodes(currentSeason)"
                     :key="episode.episodeNumber"
                     class="serie-episodes__list__episode serie-episodes__list--grid"
                 >
@@ -26,13 +26,13 @@
 </template>
 
 <script>
-import SerieData from "@classes/SerieData.js";
+import SeriesData from "@classes/SeriesData.js";
 
 export default {
     name: "SettingsSerieEpisodesList",
     props: {
-        serieData: {
-            type: SerieData,
+        SeriesData: {
+            type: SeriesData,
             required: true
         }
     }

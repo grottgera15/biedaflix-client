@@ -8,27 +8,27 @@
 				<source type="video/mp4" />
 			</video>
 		</div>
-		<div class="serie-banner__description">{{serieData.description}}</div>
+		<div class="serie-banner__description">{{seriesData.description}}</div>
 	</div>
 </template>
 
 <script>
-import SerieData from "@classes/SerieData";
+import SeriesData from "@classes/SeriesData";
 
 export default {
 	name: "SerieBanner",
 	props: {
-		serieData: {
-			type: SerieData,
+		seriesData: {
+			type: SeriesData,
 			required: true
 		}
     },
     computed: {
         logo: function() {
-            return this.serieData.logo;
+            return this.seriesData.logo.file ? this.seriesData.logo.file : this.seriesData.logo.path;
         },
         banner: function() {
-            return this.serieData.banner;
+            return this.seriesData.banner.file ? this.seriesData.banner.file : this.seriesData.banner.path;
         }
     }
 };

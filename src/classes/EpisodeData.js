@@ -1,11 +1,15 @@
+import axios from "axios";
+
 export default class EpisodeData {
-    constructor({name, seasonNumber, episodeNumber, available, releaseDate}) {
+    constructor({name, seriesId, id, seasonNumber, episodeNumber, releaseDate, magnetLink}) {
         this.name = name;
-        this.episodeNumber = episodeNumber;
+        this.id = id;
+        this.seriesId = seriesId;
         this.seasonNumber = seasonNumber;
-        this.available = available;
+        this.episodeNumber = episodeNumber;
         this.releaseDate = releaseDate;
         this.subtitles = {};
+        this.magnetLink = magnetLink;
     }
 
     fullNumber () {
@@ -20,5 +24,22 @@ export default class EpisodeData {
         if (Object.keys(this.subtitles).includes(language, 0))
             return true;
         return false;
+    }
+
+    static saveEpisode(episode) {
+        return new Promise(resolve => {
+            if (episode.id === undefined) {
+                axios.post(`${process.env.VUE_APP_API_PATH}/episode`, episode, {
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    withCredentials: true
+                }).then(response => {
+                    resolve(response.data);
+                }).catch(error => {
+                    throw error;
+                });
+            }
+        });
     }
 }

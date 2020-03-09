@@ -3,22 +3,18 @@
 		<form v-on:submit.prevent spellcheck="false">
 			<h2>Wyświetlanie</h2>
 			<br />Tytuł odcinka
-			<input type="text" :placeholder="`Odcinek 1`"/>
+			<input type="text" :placeholder="`Odcinek 1`" v-model="episodeData.name"/>
 			<br />Data premiery
-			<input type="date" />
+			<input type="date" v-model="episodeData.releaseDate"/>
 			<br />Sezon
-			<input type="number" min="1" max="99" />
+			<input type="number" min="1" max="99" v-model="episodeData.seasonNumber"/>
 			<br />Numer odcinka
-			<input type="number" min="1" max="99" />
+			<input type="number" min="1" max="99" v-model="episodeData.episodeNumber"/>
 			<br />Widoczność
 			<br />
-			<select>
-				<option>Publiczny</option>
-				<option>Niedostępny</option>
-			</select>
 			<h2>Plik wideo</h2>
             Magnet link
-			<br/><textarea placeholder = "Wklej magnet link"></textarea>
+			<br/><textarea placeholder = "Wklej magnet link" v-model="episodeData.magnetLink"></textarea>
 			<h2>Napisy</h2>
             <div v-show="Object.keys(availableLanguages).length > 0">
             <select ref="availableLanguages">
@@ -33,7 +29,7 @@
                     <input type="file" id="file" ref="background" />
                 </li>
             </ul>
-			<v-normal-button>Zapisz zmiany</v-normal-button>
+			<v-normal-button @click="saveEpisode()">Zapisz zmiany</v-normal-button>
 		</form>
 	</div>
 </template>
@@ -52,10 +48,13 @@ export default {
                 PL: "Polski",
                 ENG: "Angielski"
             },
-            episodeData: new EpisodeData("Chapter 1: The Mandalorian", 1, 1, false, "2019-11-12")
+            episodeData: new EpisodeData({name: "Chapter 1: The Mandalorian", seasonNumber: 1, episodeNumber: 1, releaseDate: "2019-11-12", seriesId: this.$route.query.seriesId})
         };
     },
     methods: {
+        saveEpisode() {
+            EpisodeData.saveEpisode(this.episodeData);
+        },
         addSubtitles() {
             let subtitleIndex = this.$refs.availableLanguages.selectedIndex;
             let subtitleHash = this.$refs.availableLanguages.options[subtitleIndex].value;
