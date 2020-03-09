@@ -37,7 +37,6 @@ export default {
                     withCredentials: true
                 })
                 .then(res => {
-                    console.log(res.data);
                     for (let serie of res.data) {
                         this.seriesData.push(
                             new SeriesData({

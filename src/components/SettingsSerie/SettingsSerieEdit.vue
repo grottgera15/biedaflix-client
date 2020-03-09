@@ -93,7 +93,6 @@ export default {
     },
     async created() {
         this.sources = await SourceData.loadSources();
-        console.log(this.sources);
     },
     computed: {
         sourcesSelect() {

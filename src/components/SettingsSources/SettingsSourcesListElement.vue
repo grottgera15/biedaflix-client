@@ -77,7 +77,7 @@ export default {
                     withCredentials: true
                 })
                 .then(res => {
-                    console.log(res);
+                    res;
                 })
                 .catch(err => {
                     throw err;

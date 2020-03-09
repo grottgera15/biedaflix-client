@@ -33,7 +33,6 @@ export default {
             })
             .then(result => {
                 for (let user of result.data) {
-                    console.log(user);
                     this.users.push(new UserData(user));
                 }
             })

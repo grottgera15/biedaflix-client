@@ -67,7 +67,6 @@ export default {
         availableLanguages() {
             let availableLanguages = {};
             for (let language in this.languages) {
-                console.log (language);
                 if (!this.episodeData.containLanguage(language)) {
                     availableLanguages[language] = this.languages[language];
                 }

@@ -29,7 +29,6 @@ export default {
 	},
 	methods: {
 		register() {
-			console.log(`register start`);
 			axios
 				.post(
 					`${process.env.VUE_APP_API_PATH}/users`,
@@ -41,7 +40,7 @@ export default {
 					}
 				)
 				.then(res => {
-					console.log(res);
+					res;
 				})
 				.catch(err => {
 					throw err;
