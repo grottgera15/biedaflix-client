@@ -25,16 +25,13 @@ export default {
             required: true
         }
     },
-    mounted() {
-        this.$emit('events', ['save-source', 'delete-source']);
-    },
     components: {
         "v-text-input": SettingsTextInput,
         "v-small-button": SmallButton
     },
     computed: {
         logo() {
-            return this.data.logo.file
+            return this.data.logo.file instanceof File
                 ? URL.createObjectURL(this.data.logo.file)
                 : this.data.logo.path;
         },
@@ -47,8 +44,10 @@ export default {
             this.$refs.hiddenFileInput.click();
         },
         changeFile(event) {
-            if (event.target.files[0])
-                this.data.logo.file = event.target.files[0];
+            if (!event.target.files[0]) 
+                return;
+            this.data.logo.file = event.target.files[0];
+            this.$forceUpdate();
         },
         validateName(name) {
             if (name.length <= 0) return false;

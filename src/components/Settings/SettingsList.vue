@@ -8,7 +8,7 @@
             class="list__element"
             :class="{'list__element--not-selected': (activeElement !== undefined && activeElement !== (data.id ? data.id : i))}"
         >
-            <component :is="component" ref="component" :data="data" @events="registerEvents($event, i)" />
+            <component :is="component" v-on="$listeners" :data="data"/>
         </li>
     </ul>
 </template>
@@ -24,13 +24,6 @@ export default {
     methods: {
         changeActiveElement(key) {
             this.activeElement = key;
-        },
-        registerEvents(event, i) {
-            event.forEach(event => {
-                this.$refs.component[i].$on(event, (payload) => {
-                    this.$emit(event, payload);
-                })
-            });
         }
     },
     props: {
