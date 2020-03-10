@@ -5,10 +5,10 @@
             :key="data.id ? data.id : i"
             @mouseenter="changeActiveElement(data.id ? data.id : i)"
             @mouseleave="changeActiveElement(undefined)"
-            class= "list__element"
+            class="list__element"
             :class="{'list__element--not-selected': (activeElement !== undefined && activeElement !== (data.id ? data.id : i))}"
         >
-            <component :is="component" :data="data" />
+            <component :is="component" ref="component" :data="data" @events="registerEvents($event, i)" />
         </li>
     </ul>
 </template>
@@ -24,6 +24,13 @@ export default {
     methods: {
         changeActiveElement(key) {
             this.activeElement = key;
+        },
+        registerEvents(event, i) {
+            event.forEach(event => {
+                this.$refs.component[i].$on(event, (payload) => {
+                    this.$emit(event, payload);
+                })
+            });
         }
     },
     props: {

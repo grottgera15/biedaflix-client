@@ -25,6 +25,9 @@ export default {
             required: true
         }
     },
+    mounted() {
+        this.$emit('events', ['save-source', 'delete-source']);
+    },
     components: {
         "v-text-input": SettingsTextInput,
         "v-small-button": SmallButton
@@ -52,13 +55,10 @@ export default {
             return true;
         },
         async saveSource() {
-            let response = await SourceData.saveSource(this.data);
-            this.$emit("updated-data", response);
+            this.$emit("save-source", this.data);
         },
         async deleteSource() {
-            let response = await SourceData.deleteSource(this.data.id);
-            if (response)
-                this.$emit("deleted-data");
+            this.$emit("delete-source", this.data);
         }
     }
 };
