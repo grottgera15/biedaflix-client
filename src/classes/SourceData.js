@@ -24,12 +24,12 @@ export default class SourceData {
 
     static async saveSource(source) {
         if (!source.id)
-            return await this._saveSource(source);
+            return await this._createSource(source);
         else
             return await this._updateSource(source);
     }
 
-    static async _saveSource(source) {
+    static async _createSource(source) {
         let formData = new FormData();
         formData.append("name", source.name);
         formData.append("logo", source.logo.file);

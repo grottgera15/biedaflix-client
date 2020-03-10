@@ -39,32 +39,74 @@ export default class SeriesData {
         return [];
     }
 
-    static loadSeries({seriesId, apiParams}) {
-        return new Promise(resolve => {
-            let apiParamsPath = apiParams ? Api.paramsToPath(apiParams) : ""
-            axios.get(`${process.env.VUE_APP_API_PATH}/series/${seriesId}?${apiParamsPath}`, {
-                withCredentials: true
-            }).then(response => {
-                resolve(this.createSeriesFromJSON(response.data));
-            }).catch(error => {
-                throw error;
-            })
-        })
+    static async loadSeries({ seriesId, apiParams = { showSeasons: undefined } }) {
+        const apiParamsPath = apiParams ? Api.paramsToPath(apiParams) : '';
+        const response = await axios.get(`${process.env.VUE_APP_API_PATH}/series/${seriesId}?${apiParamsPath}`, {
+            withCredentials: true
+        });
+        if (response.status === 200)
+            return this.createSeriesFromJSON(response.data);
+        else
+            throw new Error(`Something went wrong on loading series ${seriesId}!`, response);
     }
 
-    static loadAllSeries({apiParams}) {
-        return new Promise(resolve => {
-            let apiParamsPath = apiParams ? Api.paramsToPath(apiParams) : ""
-            axios.get(`${process.env.VUE_APP_API_PATH}/series?${apiParamsPath}`, {
-                withCredentials: true
-            }).then(response => {
-                let seriesList = [];
-                for (let series of response.data) {
-                    seriesList.push(this.createSeriesFromJSON(series));
-                }
-                resolve(seriesList);
-            })
-        })
+    static async loadAllSeries({ apiParams = { showSeasons: undefined, status: undefined, sourceId: undefined } }) {
+        const apiParamsPath = apiParams ? Api.paramsToPath(apiParams) : '';
+        const response = await axios.get(`${process.env.VUE_APP_API_PATH}/series?${apiParamsPath}`, {
+            withCredentials: true
+        });
+        if (response.status === 200) {
+            const seriesList = []
+            response.data.forEach(series => seriesList.push(this.createSeriesFromJSON(series)));
+            return seriesList;
+        } else
+            throw new Error(`Something went wrong on loading all series!`, response);
+
+    }
+
+    static async saveSeries(form, { seriesId }) {
+        if (!seriesId)
+            return await this._createSeries(form);
+        else
+            return await this._saveSeries(form, seriesId);
+    }
+
+    static async _createSeries(form) {
+        const formData = new FormData(form);
+        const response = await axios.post(`${process.env.VUE_APP_API_PATH}/series`, formData, {
+            headers: {
+                'content-type': 'multiplart/form-data'
+            },
+            withCredentials: true
+        });
+        if (response.status === 201)
+            return this.createSeriesFromJSON(response.data);
+        else
+            throw new Error('Something went wrong on creating series!', response);
+    }
+
+    static async _saveSeries(form, seriesId) {
+        const formData = new FormData(form);
+        const response = await axios.patch(`${process.env.VUE_APP_API_PATH}/series/${seriesId}`, formData, {
+            headers: {
+                'content-type': 'multiplart/form-data'
+            },
+            withCredentials: true
+        });
+        if (response.status === 200)
+            return this.createSeriesFromJSON(response.data);
+        else
+            throw new Error(`Something went wrong on updating series ${seriesId}!`, response);
+    }
+
+    static async deleteSeries(seriesId) {
+        const response = await axios.delete(`${process.env.VUE_APP_API_PATH}/series/${seriesId}`, {
+            withCredentials: true
+        });
+        if (response.status === 204)
+            return true;
+        else
+            throw new Error(`Something went wrong on deleting series ${seriesId}`, response);
     }
 
     static createSeriesFromJSON(data) {
@@ -75,30 +117,7 @@ export default class SeriesData {
                 series.addEpisode(season, episode);
             }
         }
-        return series; 
+        return series;
     }
 
-    static saveSerie(serie) {
-        return new Promise(resolve => {
-            if (serie.id === undefined) {
-                let formData = new FormData();
-                formData.append("name", serie.name);
-                formData.append("description", serie.description);
-                formData.append("sourceId", serie.sourceId);
-                formData.append("status", serie.status);
-                formData.append("logo", serie.logo.file);
-                formData.append("banner", serie.banner.file);
-                axios.post(`${process.env.VUE_APP_API_PATH}/series`, formData, {
-                    headers: {
-                        "content-type": "multipart/form-data"
-                    },
-                    withCredentials: true
-                }).then(response => {
-                    resolve(response.data);
-                }).catch(error => {
-                    throw error;
-                });
-            }
-        });
-    }
 }
