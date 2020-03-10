@@ -4,13 +4,9 @@
 </template>
 
 <script>
-import auth from './auth';
 
 export default {
-    name: "App",
-    mounted() {
-        auth.auth();
-    }
+    name: "App"
 };
 </script>
 

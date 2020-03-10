@@ -84,4 +84,19 @@ const router = new VueRouter({
 })
 
 
+import auth from '../auth';
+
+router.beforeEach(async (to, from, next) => {
+    let authResult = await auth.auth();
+    if (!authResult && to.path !== "/login" && to.path !== "/createAccount") {
+        console.log("test");
+        next({path: "/login"});
+    } else if (authResult && (to.path === "/login" || to.path === "/createAccount")) {
+        next({path: from.path});
+    } else {
+        next();
+    }
+});
+
+
 export default router

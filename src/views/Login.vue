@@ -34,8 +34,10 @@ export default {
 		MinimalizeLabel(event) {
 			this.user[event.target.id] = true;
 		},
-		login() {
-			auth.login({login: this.user.login, password: this.user.password});
+		async login() {
+			let loginResult = await auth.login({login: this.user.login, password: this.user.password});
+			if (loginResult)
+				this.$router.push({path: "/"});
 		}
 	}
 };
