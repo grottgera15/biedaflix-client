@@ -1,46 +1,21 @@
 <template>
-    <form class="source-edit">
-        {{data.name}}
+    <form class="source-edit" v-on:submit.prevent>
         <div class="source-edit__logo">
-            <img :src="data.logo" />
+            <img :src="logo" />
         </div>
-        <input
-            type="file"
-            class="hidden-input"
-            ref="hiddenFileInput"
-            @change="changeFile($event)"
-        />
-    </form>
-    <!-- <form v-on:submit.prevent>
-        <SettingsTextInput
-            v-model="source.name"
-            :label="`Nazwa`"
-            :id="`name`"
-            :placeholder="`Wpisz nazwę źródła`"
-            :required="true"
-            :validated="validateName(source.name)"
-        />
-        <br />
-        <div class="source-edit__logo" v-show="source.logo != undefined">
-            <img :src="source.logo" />
-            <v-small-button @click="chooseFile()">Edytuj</v-small-button>
-        </div>
-        <div class="source-edit__upload" v-show="source.logo === undefined">
-            <v-small-button @click="chooseFile()">Dodaj</v-small-button>
-        </div>
-        <v-small-button @click="save()">Zapisz</v-small-button>
-
+        <v-text-input id="name" label="Nazwa" v-model="data.name" />
         <input type="file" class="hidden-input" ref="hiddenFileInput" @change="changeFile($event)" />
-    </form>-->
+        <v-small-button @click="chooseFile()">Zmień logo</v-small-button>
+        <v-small-button @click="saveSource()">Zapisz</v-small-button>
+        <v-small-button @click="deleteSource()">{{deleteSymbol}}</v-small-button>
+    </form>
 </template>
 
 <script>
 import SourceData from "@classes/SourceData.js";
-// import SettingsTextInput from "@/components/Forms/Settings/SettingsTextInput";
+import SettingsTextInput from "@/components/Forms/Settings/SettingsTextInput";
 
-// import SmallButton from "@/components/Forms/Buttons/SmallButton";
-
-import axios from "axios";
+import SmallButton from "@/components/Forms/Buttons/SmallButton";
 
 export default {
     name: "SettingsSourcesListElement",
@@ -51,37 +26,39 @@ export default {
         }
     },
     components: {
-        // SettingsTextInput,
-        // "v-small-button": SmallButton
+        "v-text-input": SettingsTextInput,
+        "v-small-button": SmallButton
+    },
+    computed: {
+        logo() {
+            return this.data.logo.file
+                ? URL.createObjectURL(this.data.logo.file)
+                : this.data.logo.path;
+        },
+        deleteSymbol() {
+            return process.env.VUE_APP_DELETE_SYMBOL;
+        }
     },
     methods: {
         chooseFile() {
             this.$refs.hiddenFileInput.click();
         },
         changeFile(event) {
-            if (event.target.files[0]) this.source.file = event.target.files[0];
+            if (event.target.files[0])
+                this.data.logo.file = event.target.files[0];
         },
         validateName(name) {
             if (name.length <= 0) return false;
             return true;
         },
-        save() {
-            let formData = new FormData();
-            formData.append("name", this.source.name);
-            formData.append("logo", this.source.file);
-            axios
-                .post(`${process.env.VUE_APP_API_PATH}/streamingSources`, formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data"
-                    },
-                    withCredentials: true
-                })
-                .then(res => {
-                    res;
-                })
-                .catch(err => {
-                    throw err;
-                });
+        async saveSource() {
+            let response = await SourceData.saveSource(this.data);
+            this.$emit("updated-data", response);
+        },
+        async deleteSource() {
+            let response = await SourceData.deleteSource(this.data.id);
+            if (response)
+                this.$emit("deleted-data");
         }
     }
 };
@@ -98,25 +75,16 @@ export default {
     font-size: 10pt
     font-weight: 300
     color: #ffffffa3
-    border-bottom: 2px solid #ffffff17
-    height: 75px
+    border-bottom: 1px solid #ffffff17
 
     &__logo
+        margin-right: 1em
         max-width: 150px
         max-height: 75px
         height: auto
-        width: auto
-        float: right
 
         img
             width: 100%
-
-        button
-            position: absolute
-            left: 4px
-            bottom: 4px 
-
-    &__upload
 
 .hidden-input
     visibility: hidden
