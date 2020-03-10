@@ -1,7 +1,13 @@
 <template>
     <div>
         <v-section-header>Źródła</v-section-header>
-        <v-list :array="sources" :component="listComponent" />
+        <v-list
+            v-if="sources"
+            :array="sources"
+            :component="listComponent"
+            @save-source="saveSource($event)"
+            @delete-source="deleteSource($event)"
+        />
         <v-normal-button @click="addSource()">Dodaj nowe źródło</v-normal-button>
     </div>
 </template>
@@ -16,43 +22,40 @@ import NormalButton from "@/components/Forms/Buttons/NormalButton";
 
 import SourceData from "@classes/SourceData.js";
 
-import loadSourcesMixin from "@mixins/loadSources.js";
-
 export default {
     name: "SettingsSources",
-    data: function(){
+    data: function() {
         return {
+            sources: undefined,
             listComponent: SettingsSourcesListElement
-        }
+        };
+    },
+    async created() {
+        this.sources = await SourceData.loadSources();
     },
     methods: {
         addSource() {
-            this.sources.push(new SourceData({name: ""}));
+            this.sources.push(new SourceData({ name: "" }));
+        },
+        async saveSource(event) {
+            const newSourceData = await SourceData.saveSource(event);
+            if (event instanceof SourceData && this.sources instanceof Array)
+                this.sources.find(sourceData => {
+                    if (sourceData === event) sourceData = newSourceData;
+                });
+        },
+        async deleteSource(event) {
+            if (!event.id)
+                this.sources.splice(this.sources.indexOf(event), 1);
+            else if (await SourceData.deleteSource(event.id) && event instanceof SourceData && this.sources instanceof Array)
+                this.sources.splice(this.sources.indexOf(event), 1);
         }
     },
     components: {
         "v-normal-button": NormalButton,
         "v-section-header": SettingsSectionHeader,
         "v-list": SettingsList
-    },
-    mixins: [
-        loadSourcesMixin
-    ]
+    }
 };
 </script>
 
-
-<style scoped lang="sass">
-@import "@styles/variables"
-.content
-
-    .sources-list
-        list-style: none
-        margin: 0
-        padding: 0
-
-
-            
-
-
-</style>

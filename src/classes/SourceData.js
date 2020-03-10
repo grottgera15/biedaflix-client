@@ -37,7 +37,7 @@ export default class SourceData {
             headers: { "content-type": "multipart/form-data" },
             withCredentials: true
         });
-        if (response === 201)
+        if (response.status === 201)
             return new SourceData({ id: response.data.id, name: response.data.name, logo: { path: response.data.path } });
         else
             throw new Error("Something went wrong on creating source!", response);
@@ -52,19 +52,19 @@ export default class SourceData {
             headers: { "content-type": "multipart/form-data" },
             withCredentials: true
         });
-        if (response === 200)
+        if (response.status === 201)
             return new SourceData({ id: response.data.id, name: response.data.name, logo: { path: response.data.path } });
         else
             throw new Error("Something went wrong on updating source!", response);
     }
 
     static async deleteSource(sourceId) {
-        const response = axios.delete(`${process.env.VUE_APP_API_PATH}/streamingSources/${sourceId}`, {
+        const response = await axios.delete(`${process.env.VUE_APP_API_PATH}/streamingSources/${sourceId}`, {
             withCredentials: true
         });
-        if (response === 204)
+        if (response.status === 204)
             return true;
-        else if (response !== 400)
+        else if (response.status !== 400)
             throw new Error("Something went wrong on deleting source!", response);
     }
 }
