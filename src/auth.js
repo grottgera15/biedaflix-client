@@ -34,6 +34,8 @@ async function refreshToken() {
         validateStatus: function (status) {
             return status >= 200 && status <= 401;
         }
+    }).catch(() => {
+        return false;
     });
     if (response.status === 200) {
         updateUser();
