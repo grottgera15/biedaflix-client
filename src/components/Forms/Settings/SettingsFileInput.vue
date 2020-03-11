@@ -5,9 +5,11 @@
         :value="value"
         :required="required"
         :validated="validated"
+        :name="name"
     >
         <v-small-button class="input-wrapper__file" :id="id" @click="chooseFile()">Wybierz plik</v-small-button>
         <input
+            :name="name"
             type="file"
             style="display: none"
             ref="hiddenFileInput"

@@ -1,15 +1,16 @@
 <template>
-	<SettingsTemplateInput
-		:id="id"
-		:label="label"
-		:value="value"
-		:required="required"
-		:validated="validated"
-	>
-		<select :value="value" @input="$emit('input', $event.target.value)">
-			<option v-for="(option, i) in options" :key="i" :value="i">{{option}}</option>
-		</select>
-	</SettingsTemplateInput>
+    <SettingsTemplateInput
+        :id="id"
+        :label="label"
+        :value="value"
+        :required="required"
+        :validated="validated"
+        :name="name"
+    >
+        <select :name="name" :value="value" @input="$emit('input', $event.target.value)">
+            <option v-for="option in options" :key="option[0]" :value="option[0]">{{option[1]}}</option>
+        </select>
+    </SettingsTemplateInput>
 </template>
 
 <script>
@@ -17,21 +18,21 @@ import SettingsTemplateInput from "./_SettingsTemplateInput";
 import SettingsTemplateInputMixin from "@mixins/_SettingsTemplateInputMixin.js";
 
 export default {
-	name: "SettingsSelect",
-	components: {
-		SettingsTemplateInput
+    name: "SettingsSelect",
+    components: {
+        SettingsTemplateInput
     },
     props: {
-		value: {
+        value: {
             type: String,
             required: false
-		},
+        },
         options: {
-            type: Object,
+            type: Map,
             required: true
         }
     },
-	mixins: [SettingsTemplateInputMixin]
+    mixins: [SettingsTemplateInputMixin]
 };
 </script>
 

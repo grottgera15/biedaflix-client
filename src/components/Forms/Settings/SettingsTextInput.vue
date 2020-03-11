@@ -5,12 +5,14 @@
 		:value="value"
 		:required="required"
         :validated="validated"
+		:name="name"
 	>
 		<input class = "input-wrapper__input"
 			:id="id"
 			type="text"
 			:placeholder="placeholder"
 			:value="value"
+			:name="name"
 			@input="$emit('input', $event.target.value)"
 		/>
 	</SettingsTemplateInput>
@@ -27,7 +29,7 @@ export default {
 	},
 	props: {		
 		value: {
-            type: String,
+            type: [String, Number],
             required: true
 		},
 		placeholder: {

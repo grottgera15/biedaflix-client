@@ -5,10 +5,12 @@
 		:value="value"
 		:required="required"
 		:validated="validated"
+		:name="name"
 	>
 		<textarea
 			class="input-wrapper__textarea"
 			:id="id"
+			:name="name"
 			:placeholder="placeholder"
 			:value="value"
 			@input="$emit('input', $event.target.value)"
@@ -27,8 +29,7 @@ export default {
 	},
 	props: { 
 		value: {
-            type: String,
-            required: true
+            type: String
 		},
 		placeholder: {
 			type: String,
