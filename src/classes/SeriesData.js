@@ -64,7 +64,7 @@ export default class SeriesData {
 
     }
 
-    static async saveSeries(form, { seriesId }) {
+    static async saveSeries(form, seriesId = null ) {
         if (!seriesId)
             return await this._createSeries(form);
         else
