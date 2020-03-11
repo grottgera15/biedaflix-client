@@ -9,8 +9,8 @@ import Home from '@/views/Home'
 import Login from '@/views/Login'
 import CreateAccount from '@/views/CreateAccount'
 
+import SettingsSeriesList from "@/views/Settings/SettingsSeriesList";
 import SettingsSeries from "@/views/Settings/SettingsSeries";
-import SettingsSerie from "@/views/Settings/SettingsSerie";
 import SettingsEpisode from "@/views/Settings/SettingsEpisode";
 import SettingsSources from "@/views/Settings/SettingsSources";
 import SettingsRoles from "@/views/Settings/SettingsRoles";
@@ -55,17 +55,17 @@ const routes = [
                 component: SettingsUsers
             },
             {
-                path: 'settings/series',
+                path: 'settings/seriesList',
+                name: 'SettingsSeriesList',
+                component: SettingsSeriesList
+            },
+            {
+                path: 'settings/series/:id?',
                 name: 'SettingsSeries',
                 component: SettingsSeries
             },
             {
-                path: 'settings/serie',
-                name: 'SettingsSerie',
-                component: SettingsSerie
-            },
-            {
-                path: 'settings/episode',
+                path: 'settings/series/:seriesId/episode/:id?',
                 name: 'SettingsEpisode',
                 component: SettingsEpisode
             },
@@ -88,12 +88,12 @@ import auth from '../auth';
 
 router.beforeEach(async (to, from, next) => {
     let authResult = await auth.auth();
+    console.log(authResult);
     if (!authResult && to.path !== "/login" && to.path !== "/createAccount") {
-        console.log("test");
         next({path: "/login"});
     } else if (authResult && (to.path === "/login" || to.path === "/createAccount")) {
         next({path: from.path});
-    } else {
+    } else { 
         next();
     }
 });

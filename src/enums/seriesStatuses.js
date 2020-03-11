@@ -1,14 +1,6 @@
-export default {
-    ANNOUNCED: {
-        name: "Zapowiedziany"
-    },
-    ONGOING: {
-        name: "Trwa"
-    },
-    FINISHED: {
-        name: "Zakończony"
-    },
-    NEW_EPISODES: {
-        name: "Nowe odcinki"
-    }
-}
+export default new Map([
+    ['ANNOUNCED', 'Zapowiedziany'],
+    ['ONGOING', 'Trwa'],
+    ['FINISHED', 'Zakończony'],
+    ['NEW_EPISODES', 'Nowe odcinki']
+]);

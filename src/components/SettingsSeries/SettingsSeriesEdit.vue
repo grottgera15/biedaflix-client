@@ -1,6 +1,7 @@
 <template>
-    <form v-on:submit.prevent>
+    <form ref="seriesform" v-on:submit.prevent @submit="saveSeries()">
         <v-text-input
+            name="name"
             :id="`name`"
             :label="`Tytuł`"
             v-model="seriesData.name"
@@ -10,6 +11,7 @@
         />
         <v-serie-banner :seriesData="seriesData" />
         <v-text-area
+            name="description"
             :id="`description`"
             :label="`Opis serialu`"
             v-model="seriesData.description"
@@ -19,6 +21,7 @@
         />
         <v-inline>
             <v-file-input
+                name="logo"
                 :id="`logoFile`"
                 :label="`Logo serialu`"
                 v-model="seriesData.logo.file"
@@ -26,6 +29,7 @@
                 :validated="fileTypeValidation(`logo`, seriesData.logo.file, `image`)"
             />
             <v-file-input
+                name="banner"
                 :id="`bannerFile`"
                 :label="`Wideo okładka serialu`"
                 v-model="seriesData.banner.file"
@@ -35,35 +39,22 @@
         </v-inline>
         <v-inline>
             <v-select
+                name="sourceId"
                 :id="`source`"
                 :label="`Źródło`"
                 :options="sourcesSelect"
                 v-model="seriesData.sourceId"
             />
             <v-select
+                name="status"
                 :id="`visibility`"
                 :label="`Widoczność`"
                 v-model="seriesData.status"
                 :required="true"
-                :options="{
-					ANNOUNCED: `Zapowiedziany`,
-					ONGOING: `Trwa`,
-					FINISHED: `Zakończony`,
-					NEW_EPISODES: `Nowe odcinki`
-				}"
+                :options="seriesStatuses"
             />
         </v-inline>
-        <v-normal-button :disabled="fullValidation()" @click="saveSerie()">Dodaj</v-normal-button>
-        <!-- <v-select
-            :id="`status`"
-            :label="`Status`"
-            :options="{
-					announced: `Zapowiedziany`,
-					ongoing: `Trwający`,
-					ended: 'Zakończony'
-				}"
-            v-model="SeriesData.status"
-        />-->
+        <v-full-width-button :disabled="fullValidation()">Dodaj</v-full-width-button>
     </form>
 </template>
 
@@ -77,28 +68,21 @@ import SettingsSelect from "@/components/Forms/Settings/SettingsSelect";
 
 import SettingsInline from "@/components/Settings/SettingsInline";
 
-import SeriesData from "@classes/SeriesData";
 import SourceData from "@classes/SourceData";
+import SeriesData from "@classes/SeriesData";
 
-import NormalButton from "@/components/Forms/Buttons/NormalButton";
+import FullWidthButton from "@/components/Forms/Buttons/FullWidthButton";
 
 import validationMixin from "@mixins/validationMixin";
 
 export default {
-    name: "SettingsSerieEdit",
-    data() {
-        return {
-            sources: []
-        }
-    },
-    async created() {
-        this.sources = await SourceData.loadSources();
-    },
+    name: "SettingsSeriesEdit",
     computed: {
         sourcesSelect() {
-            let sources = {};
-            for (let source of this.sources)
-                sources[source.id] = source.name;
+            const sources = new Map();
+            this.sourcesData.forEach(source =>
+                sources.set(source.id, source.name)
+            );
             return sources;
         }
     },
@@ -106,16 +90,26 @@ export default {
         seriesData: {
             type: SeriesData,
             required: true
+        },
+        sourcesData: {
+            type: Array,
+            required: true,
+            validator: sources =>
+                sources.every(element => element instanceof SourceData)
+        },
+        seriesStatuses: {
+            type: Map,
+            required: true
         }
     },
     methods: {
-        saveSerie() {
-            SeriesData.saveSerie(this.seriesData);
+        saveSeries() {
+            this.$emit("save-series", document.querySelector("form"));
         }
     },
     components: {
         "v-inline": SettingsInline,
-        "v-normal-button": NormalButton,
+        "v-full-width-button": FullWidthButton,
         "v-serie-banner": SerieBanner,
         "v-text-input": SettingsTextInput,
         "v-file-input": SettingsFileInput,

@@ -1,63 +1,48 @@
 <template>
-	<div class="content">
-		<form v-on:submit.prevent spellcheck="false">
-			<h2>Wyświetlanie</h2>
-			<br />Tytuł odcinka
-			<input type="text" :placeholder="`Odcinek 1`" v-model="episodeData.name"/>
-			<br />Data premiery
-			<input type="date" v-model="episodeData.releaseDate"/>
-			<br />Sezon
-			<input type="number" min="1" max="99" v-model="episodeData.seasonNumber"/>
-			<br />Numer odcinka
-			<input type="number" min="1" max="99" v-model="episodeData.episodeNumber"/>
-			<br />Widoczność
-			<br />
-			<h2>Plik wideo</h2>
-            Magnet link
-			<br/><textarea placeholder = "Wklej magnet link" v-model="episodeData.magnetLink"></textarea>
-			<h2>Napisy</h2>
-            <div v-show="Object.keys(availableLanguages).length > 0">
-            <select ref="availableLanguages">
-				<option v-for="(language, key) in availableLanguages" :key="key" :value="key">{{language}}</option>
-			</select>
-            <button @click="addSubtitles()">Dodaj napisy</button>
-            </div>
-            <ul>
-                <li v-for="(language, key) in episodeData.subtitles" :key="key">    
-                    {{languages[key]}}
-                    <br/>{{language}}
-                    <input type="file" id="file" ref="background" />
-                </li>
-            </ul>
-			<v-normal-button @click="saveEpisode()">Zapisz zmiany</v-normal-button>
-		</form>
-	</div>
+    <div class="content">
+        <v-section-header>Szczegóły odcinka</v-section-header>
+        <v-episode-edit :episodeData="episodeData" @save-episode="saveEpisode($event)" />
+    </div>
 </template>
 
 <script>
 import EpisodeData from "@classes/EpisodeData";
 
-import NormalButton from "@/components/Forms/Buttons/NormalButton";
+import SettingsEpisodeEdit from "@/components/SettingsEpisode/SettingsEpisodeEdit";
 
+import SettingsSectionHeader from "@/components/Settings/SettingsSectionHeader";
 
 export default {
-	name: "SettingsEpisodeEdit",
-	data: function() {
-		return {
-            languages: {
-                PL: "Polski",
-                ENG: "Angielski"
-            },
-            episodeData: new EpisodeData({name: "Chapter 1: The Mandalorian", seasonNumber: 1, episodeNumber: 1, releaseDate: "2019-11-12", seriesId: this.$route.query.seriesId})
+    name: "SettingsEpisodeEdit",
+    data: function() {
+        return {
+            episodeData: new EpisodeData({
+                name: "Chapter 1: The Mandalorian",
+                seasonNumber: 1,
+                episodeNumber: 1,
+                releaseDate: "2019-11-12",
+                seriesId: this.$route.query.seriesId
+            })
         };
     },
+    async created() {
+        if (this.$route.params.id)
+            this.episodeData = await EpisodeData.loadEpisode(this.$route.params.id);
+    },
     methods: {
-        saveEpisode() {
-            EpisodeData.saveEpisode(this.episodeData);
+        async saveEpisode(form) {
+            const formData = new FormData(form);
+            if (formData.get("magnetLink").length === 0)
+                formData.delete("magnetLink");
+            formData.append("seriesId", this.$route.params.seriesId);
+            this.episodeData = await EpisodeData.saveEpisode(formData, this.episodeData.id);
+
         },
         addSubtitles() {
             let subtitleIndex = this.$refs.availableLanguages.selectedIndex;
-            let subtitleHash = this.$refs.availableLanguages.options[subtitleIndex].value;
+            let subtitleHash = this.$refs.availableLanguages.options[
+                subtitleIndex
+            ].value;
             this.episodeData.addSubtitles({
                 [subtitleHash]: null
             });
@@ -74,9 +59,10 @@ export default {
             return availableLanguages;
         }
     },
-	components: {
-		"v-normal-button": NormalButton
-	}
+    components: {
+        "v-section-header": SettingsSectionHeader,
+        "v-episode-edit": SettingsEpisodeEdit
+    }
 };
 </script>
 

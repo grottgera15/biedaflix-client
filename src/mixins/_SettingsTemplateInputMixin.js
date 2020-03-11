@@ -17,6 +17,10 @@ export default {
             type: Boolean,
             required: false,
             default: true
+        },
+        name: {
+            type: String,
+            required: true
         }
     }
 }

@@ -1,7 +1,5 @@
 <template>
     <div>
-
-        <v-small-button @click="loadFromIMDB()">Załaduj odcinki z IMDB</v-small-button>
         <div class="serie-episodes">
             <ol class="serie-episodes__list">
                 <header class="serie-episodes__list__header serie-episodes__list--grid">
@@ -10,9 +8,10 @@
                     <span>Data</span>
                 </header>
                 <li
-                    v-for="episode in SeriesData.getEpisodes(currentSeason)"
+                    v-for="episode in seriesData.getEpisodes(currentSeason)"
                     :key="episode.episodeNumber"
                     class="serie-episodes__list__episode serie-episodes__list--grid"
+                    @click="editEpisode(episode.id)"
                 >
                     <span>{{episode.episodeNumber}}</span>
                     <span>{{episode.name}}</span>
@@ -20,7 +19,6 @@
                     <span>{{episode.releaseDate}}</span>
                 </li>
             </ol>
-            <v-normal-button>Dodaj nowy odcinek</v-normal-button>
         </div>
     </div>
 </template>
@@ -30,8 +28,17 @@ import SeriesData from "@classes/SeriesData.js";
 
 export default {
     name: "SettingsSerieEpisodesList",
+    methods: {
+        editEpisode(episodeId) {
+            this.$router.push({path: `/settings/series/${this.seriesData.id}/episode/${episodeId}`});
+        }
+    },
     props: {
-        SeriesData: {
+        currentSeason: {
+            type: Number,
+            required: true
+        },
+        seriesData: {
             type: SeriesData,
             required: true
         }
