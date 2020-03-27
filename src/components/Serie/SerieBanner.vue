@@ -25,10 +25,10 @@ export default {
     },
     computed: {
         logo: function() {
-            return this.seriesData.logo.file ? this.seriesData.logo.file : this.seriesData.logo.path;
+            return this.seriesData.logo.file ? URL.createObjectURL(this.seriesData.logo.file) : this.seriesData.logo.path;
         },
         banner: function() {
-            return this.seriesData.banner.file ? this.seriesData.banner.file : this.seriesData.banner.path;
+            return this.seriesData.banner.file ? URL.createObjectURL(this.seriesData.banner.file) : this.seriesData.banner.path;
         }
     }
 };

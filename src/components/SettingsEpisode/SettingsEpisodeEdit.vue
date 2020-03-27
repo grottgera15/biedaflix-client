@@ -65,8 +65,8 @@ export default {
     },
     methods: {
         saveEpisode() {
-            this.$emit("save-episode", document.querySelector("form"));
-        }
+            this.$emit("save-episode", this.episodeData);
+        }   
     },
     components: {
         "v-full-width-button": FullWidthButton,

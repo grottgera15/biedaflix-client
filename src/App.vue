@@ -17,7 +17,7 @@ body
     margin: 0
     position: relative
     height: 100% 
-    background-color: #151515
+    background-color: $dark-color
     font-family: 'Roboto', sans-serif
     color: $white-color
 

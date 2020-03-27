@@ -65,9 +65,7 @@ export default {
 	},
 	computed: {
 		ThumbnailURL: function() {
-
             let time = Math.round(this.mouseTime / 10).toString();
-            console.log(time);
             return this.episodeData.thumbs[time].path;
         },
         CurrentTime: function() {

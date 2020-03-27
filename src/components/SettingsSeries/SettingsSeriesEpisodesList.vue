@@ -35,7 +35,7 @@ export default {
     },
     props: {
         currentSeason: {
-            type: Number,
+            type: [String, Number],
             required: true
         },
         seriesData: {

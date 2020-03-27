@@ -1,14 +1,14 @@
 import axios from "axios";
 
 export default class EpisodeData {
-    constructor({ id, seasonNumber, episodeNumber, name, status, releaseDate, videoSources, subtitles, thumbs }) {
+    constructor({ id, seasonNumber, episodeNumber, name, status, releaseDate, videoSources = {}, subtitles = {}, thumbs = [] }) {
         //Episode information
         this.id = id;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.name = name;
         this.status = status;
-        this.releaseDate = releaseDate;
+        this.releaseDate = new Date(releaseDate);
 
         //Episode files
         this.videoSources = videoSources;
@@ -30,15 +30,16 @@ export default class EpisodeData {
         return false;
     }
 
-    static async saveEpisode(form, episodeId = null) {
-        if (!episodeId)
-            this._createEpisode(form);
+    static async saveEpisode(episodeData) {
+        episodeData.releaseDate = new Date(episodeData.releaseDate).valueOf();
+        if (!episodeData.id)
+            this._createEpisode(episodeData);
         else
-            this._saveEpisode(form, episodeId);
+            this._saveEpisode(episodeData);
     }
 
-    static async _createEpisode(form) {
-        const response = await axios.post(`${process.env.VUE_APP_API_PATH}/episodes`, form, {
+    static async _createEpisode(episodeData) {
+        const response = await axios.post(`${process.env.VUE_APP_API_PATH}/episodes`, episodeData, {
             headers: {
                 "content-type": "application/json"
             },
@@ -50,8 +51,8 @@ export default class EpisodeData {
             throw new Error('Something went wrong on creating new Episode!', response);
     }
 
-    static async _saveEpisode(form, episodeId) {
-        const response = await axios.patch(`${process.env.VUE_APP_API_PATH}/episodes/${episodeId}`, form, {
+    static async _saveEpisode(episodeData) {
+        const response = await axios.patch(`${process.env.VUE_APP_API_PATH}/episodes/${episodeData.id}`, episodeData, {
             headers: {
                 "content-type": "application/json"
             },
@@ -60,7 +61,24 @@ export default class EpisodeData {
         if (response.status === 200)
             return new EpisodeData(response.data);
         else
-            throw new Error(`Something went wrong on saving Episode ${episodeId}!`, response);
+            throw new Error(`Something went wrong on saving Episode ${episodeData.id}!`, response);
+    }
+
+
+    static async saveSubtitles(episodeData) {
+        let subtitlesFormData = new FormData();
+        subtitlesFormData.append("language", "PL");
+        subtitlesFormData.append("file", episodeData.subtitles["pl"]);
+        const response = await axios.post(`${process.env.VUE_APP_API_PATH}/episodes/${episodeData.id}/subtitles`, subtitlesFormData, {
+            headers: {
+                "content-type": "multipart/form-data"
+            },
+            withCredentials: true
+        });
+        if (response.status === 201)
+            return true;
+        else
+            return false;
     }
 
     static async loadEpisode(episodeId) {

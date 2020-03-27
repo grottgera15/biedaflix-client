@@ -88,7 +88,6 @@ import auth from '../auth';
 
 router.beforeEach(async (to, from, next) => {
     let authResult = await auth.auth();
-    console.log(authResult);
     if (!authResult && to.path !== "/login" && to.path !== "/createAccount") {
         next({path: "/login"});
     } else if (authResult && (to.path === "/login" || to.path === "/createAccount")) {

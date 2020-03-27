@@ -1,99 +1,147 @@
 <template>
-	<div id="wrapper">
-		<div id="series-wrapper">
-			<div class="series">
-				<div class="serie">
-                    <HomeSeriesBar :seriesData="serieNew"/>
-					<transition name="fade">
-						<div class="info">
-							<v-serie-banner :seriesData="serieNew"/>
-							<div class="episodes">
-								<HomeEpisodeData :episodeData="episode" />
-							</div>
-						</div>
-					</transition>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div>
+        <ul class="series-list" v-if="seriesList">
+            <li class="series-list__element" v-for="series in seriesList" :key="series.id">
+                <header class="series-list__element__header" @click="setActive(series.id)">
+                    <div>{{series.name}}</div>
+                    <div>{{seriesStatuses.get(series.name)}}</div>
+                </header>
+                <transition name="display-half">
+                    <div v-show="series.id === activeSeries" class="series-list__element__content">
+                        <v-serie-banner :seriesData="series" />
+                        <ol
+                            class="series-list__element__season"
+                            v-for="(season, i) in series.seasons"
+                            :key="i"
+                        >
+                            {{`Sezon ${i}`}}
+                            <li
+                                class="series-list__element__season__episodes"
+                                v-for="episode in season"
+                                :key="episode.id"
+                                :episodeData="episode"
+                                @click="play(episode.id)"
+                            >
+                                <span class="series-list__element__season__episodes__number">{{`S${i}:O${episode.episodeNumber}`}}</span>
+                                <span>{{episode.name}}</span>
+                                <span class="series-list__element__season__episodes__status">{{episodeStatuses.get(episode.status)}}</span>
+                            </li>
+                        </ol>
+                    </div>
+                </transition>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script>
+import seriesStatuses from "@/enums/seriesStatuses";
+import episodeStatuses from "@/enums/episodeStatuses";
 
-import HomeSeriesBar from "@/components/Home/HomeSeriesBar";
 import SerieBanner from "@/components/Serie/SerieBanner";
+
 import SeriesData from "@classes/SeriesData";
 
-import HomeEpisodeData from "@/components/Home/HomeEpisodeData";
-import EpisodeData from "@classes/EpisodeData";
-
-import series from "@/files/series";
-
 export default {
-	data: function() {
-		return {
-			series: series,
-			activeSerie: -1,
-			episode: new EpisodeData("Rozdział 1", 1, 1, "12.11.2019", true),
-			serieNew: new SeriesData(
-				"Mandalorian",
-                "Samotny łowca głów przemierza najdalsze zakątki galaktyki, z dala od władzy Nowej Republiki.",
-                true,
-                require("@files/images/logos/theMandalorian.png"),
-                require("@files/images/theMandalorian.mp4")
-			)
-		};
-	},
-	components: {
-        HomeSeriesBar,
-		"v-serie-banner": SerieBanner,
-		HomeEpisodeData
-	},
-	methods: {
-		setActive: function(id) {
-			if (this.activeSerie == id) {
-				this.activeSerie = -1;
-				return;
-			}
-			this.activeSerie = id;
-		}
-	}
+    name: "Home",
+    data() {
+        return {
+            seriesList: [],
+            seriesStatuses: seriesStatuses,
+            episodeStatuses: episodeStatuses,
+            activeSeries: undefined
+        };
+    },
+    async created() {
+        this.seriesList = await SeriesData.loadAllSeries({
+            apiParams: {
+                showSeasons: true
+            }
+        });
+    },
+    components: {
+        "v-serie-banner": SerieBanner
+    },
+    methods: {
+        setActive: function(id) {
+            id === this.activeSeries
+                ? (this.activeSeries = undefined)
+                : (this.activeSeries = id);
+        },
+        play(id) {
+            this.$router.push({
+                path: "/player",
+                query: {
+                    id: id
+                }
+            });
+        }
+    }
 };
 </script>
 
 
 <style lang="sass" scoped>
 @import "@styles/fonts"
-    
-$episodes-column-padding: 4px
-a
-    color: unset
-    text-decoration: unset
+@import "@styles/variables"
 
-#wrapper
-    display: flex
-    flex-direction: column
-    min-width: 33.33%
-    
-    #series-wrapper
-        grid-area: main
-        .series
-            display: grid
-            .serie
-                .info
-                    position: relative
-                    overflow: hidden
-                    transition-duration: 1s 
-                    transition-timing-function: linear
-                    background-color: inherit
-                    z-index: 999
-                    
-.fade-enter-to, .fade-leave 
-    max-height: 1000px
-    opacity: 1
+.series-list
+    list-style: none
+    margin: 0
+    padding: 0
 
-.fade-enter, .fade-leave-to 
-    max-height: 0px
-    opacity: 0
+    &__element
+        position: relative
+        z-index: 0
+
+        &__header
+            display: flex
+            justify-content: space-between
+            cursor: pointer
+            padding: 1em
+            border-bottom: 1px solid $bright-dark-color
+            background-color: $dark-color
+            position: relative
+            z-index: 1
+
+        &__content
+            z-index: -1
+
+        &__season
+            padding: 1em
+            margin: 0
+
+            &__episodes
+                display: flex
+                padding: .5em 0
+                list-style: none
+                opacity: 0.7
+                transition-duration: .2s
+                cursor: pointer
+
+                &__number
+                    margin-right: .5em
+
+                &__status
+                    margin-left: auto
+
+                &:hover
+                    opacity: 1
+                
+.display-half-enter-to, .display-half-leave
+    animation: displaySeries .4s
+
+.display-half-enter, .display-half-leave-to
+    display: none
+
+@keyframes displaySeries
+    0%
+        opacity: 0
+        margin-top: -1.5em
+        padding-bottom: 0em
+    100%
+        opacity: 1
+        margin-top: 0
+        padding-bottom: 1.5em
 
 </style>

@@ -64,18 +64,17 @@ export default class SeriesData {
 
     }
 
-    static async saveSeries(form, seriesId = null ) {
-        if (!seriesId)
-            return await this._createSeries(form);
+    static async saveSeries(seriesData) {
+        if (!seriesData.id)
+            return await this._createSeries(seriesData);
         else
-            return await this._saveSeries(form, seriesId);
+            return await this._saveSeries(seriesData);
     }
 
-    static async _createSeries(form) {
-        const formData = new FormData(form);
-        const response = await axios.post(`${process.env.VUE_APP_API_PATH}/series`, formData, {
+    static async _createSeries(seriesData) {
+        const response = await axios.post(`${process.env.VUE_APP_API_PATH}/series`, seriesData, {
             headers: {
-                'content-type': 'multiplart/form-data'
+                'content-type': 'application/json'
             },
             withCredentials: true
         });
@@ -85,18 +84,17 @@ export default class SeriesData {
             throw new Error('Something went wrong on creating series!', response);
     }
 
-    static async _saveSeries(form, seriesId) {
-        const formData = new FormData(form);
-        const response = await axios.patch(`${process.env.VUE_APP_API_PATH}/series/${seriesId}`, formData, {
+    static async _saveSeries(seriesData) {
+        const response = await axios.patch(`${process.env.VUE_APP_API_PATH}/series/${seriesData.id}`, seriesData, {
             headers: {
-                'content-type': 'multiplart/form-data'
+                'content-type': 'application/json'
             },
             withCredentials: true
         });
         if (response.status === 200)
             return this.createSeriesFromJSON(response.data);
         else
-            throw new Error(`Something went wrong on updating series ${seriesId}!`, response);
+            throw new Error(`Something went wrong on updating series ${seriesData.id}!`, response);
     }
 
     static async deleteSeries(seriesId) {

@@ -1,7 +1,9 @@
 <template>
     <div class="content">
         <v-section-header>Szczegóły odcinka</v-section-header>
-        <v-episode-edit :episodeData="episodeData" @save-episode="saveEpisode($event)" />
+        <v-episode-edit v-if="episodeData" :episodeData="episodeData" @save-episode="saveEpisode($event)" />
+        <v-section-header>Napisy</v-section-header>
+        <v-episode-subtitles @save-subtitles="saveSubtitles($event)" :episodeData="episodeData" />
     </div>
 </template>
 
@@ -9,34 +11,33 @@
 import EpisodeData from "@classes/EpisodeData";
 
 import SettingsEpisodeEdit from "@/components/SettingsEpisode/SettingsEpisodeEdit";
+import SettingsEpisodeSubtitles from "@/components/SettingsEpisode/SettingsEpisodeSubtitles";
 
 import SettingsSectionHeader from "@/components/Settings/SettingsSectionHeader";
 
 export default {
-    name: "SettingsEpisodeEdit",
-    data: function() {
+    name: "SettingsEpisode",
+    data() {
         return {
-            episodeData: new EpisodeData({
-                name: "Chapter 1: The Mandalorian",
-                seasonNumber: 1,
-                episodeNumber: 1,
-                releaseDate: "2019-11-12",
-                seriesId: this.$route.query.seriesId
-            })
-        };
+            episodeData: new EpisodeData({})
+        }
     },
     async created() {
         if (this.$route.params.id)
             this.episodeData = await EpisodeData.loadEpisode(this.$route.params.id);
     },
     methods: {
-        async saveEpisode(form) {
-            const formData = new FormData(form);
-            if (formData.get("magnetLink").length === 0)
-                formData.delete("magnetLink");
-            formData.append("seriesId", this.$route.params.seriesId);
-            this.episodeData = await EpisodeData.saveEpisode(formData, this.episodeData.id);
-
+        async saveEpisode(episodeData) {
+            if (this.$route.params.seriesId)
+                this.episodeData.seriesId = this.$route.params.seriesId;
+            const result = await EpisodeData.saveEpisode(episodeData);
+            if (result) {
+                this.episodeData = result;
+                this.$router.push(`${episodeData.id}`);
+            }
+        },
+        async saveSubtitles(episodeData) {
+            await EpisodeData.saveSubtitles(episodeData);
         },
         addSubtitles() {
             let subtitleIndex = this.$refs.availableLanguages.selectedIndex;
@@ -61,7 +62,8 @@ export default {
     },
     components: {
         "v-section-header": SettingsSectionHeader,
-        "v-episode-edit": SettingsEpisodeEdit
+        "v-episode-edit": SettingsEpisodeEdit,
+        "v-episode-subtitles": SettingsEpisodeSubtitles
     }
 };
 </script>
